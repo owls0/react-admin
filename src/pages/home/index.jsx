@@ -1,36 +1,39 @@
 import React, {Component} from 'react';
-import {Button, DatePicker} from 'antd';
 import config from '@/commons/config-hoc';
+import PageContent from '@/layouts/page-content';
 import './style.less';
-
-const {MonthPicker} = DatePicker;
 
 @config({
     path: '/',
-    header: false,
-    side: false,
-    sideCollapsed: true,
     connect(state) {
-        return {i18n: state.system.i18n};
+        return {
+            menus: state.menu.menus,
+        };
     },
 })
 export default class Home extends Component {
-    state = {};
+    constructor(...props) {
+        super(...props);
 
-    componentDidMount() {
-        // console.log(this.props);
+        // 如果不需要首页，可以直接跳转到系统第一个可用菜单页面
+        const {menus} = this.props;
+        if (menus && menus.length) {
+            let path;
+            for (let i = 0; i < menus.length; i++) {
+                const m = menus[i];
+                if (m.path) {
+                    path = m.path;
+                    break;
+                }
+            }
+            if (path) {
+                console.log(path);
+                this.props.history.replace(path);
+            }
+        }
     }
 
     render() {
-        const {i18n} = this.props;
-        console.log('home render', i18n);
-        return (
-            <div styleName="root">
-                {i18n.menu.example}
-                <DatePicker/>
-                <MonthPicker placeholder="请选择月份"/>
-                <Button type="primary">OK</Button>
-            </div>
-        );
+        return <PageContent/>;
     }
 }

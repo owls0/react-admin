@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button} from 'antd';
-import PageContent from '../../layouts/page-content';
-import FixBottom from '../../layouts/fix-bottom';
+import PageContent from '@/layouts/page-content';
+import FixBottom from '@/layouts/fix-bottom';
 
 export const PAGE_ROUTE = '/user-center';
 

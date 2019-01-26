@@ -87,7 +87,7 @@ export default class Settings extends Component {
             <PageContent>
                 <Row>
                     <Col span={12} style={colStyle}>
-                        <Card title={local.navigationLayout}>
+                        <Card title={local.navigationLayout} style={{height: 272}}>
                             <Radio.Group onChange={this.handlePageFrameLayoutChange} value={pageFrameLayout}>
                                 <Radio style={radioStyle} value="top-side-menu">{local.topSideMenu}</Radio>
                                 <Radio style={radioStyle} value="top-menu">{local.topMenu}</Radio>
@@ -97,7 +97,7 @@ export default class Settings extends Component {
                     </Col>
 
                     <Col span={12} style={colStyle}>
-                        <Card title={local.pageHeadSetting}>
+                        <Card title={local.pageHeadSetting} style={{marginBottom: 16}}>
                             <Checkbox
                                 onChange={this.handlePageHeadShowChange}
                                 checked={pageHeadShow}
@@ -110,9 +110,6 @@ export default class Settings extends Component {
                                 >{local.fixedHead}</Checkbox>
                             ) : null}
                         </Card>
-                    </Col>
-
-                    <Col span={12} style={colStyle}>
                         <Card title={local.menuSetting}>
                             <Checkbox
                                 onChange={this.handleKeepOtherMenuOpenChange}
