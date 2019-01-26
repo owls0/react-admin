@@ -26,6 +26,8 @@ css 文件没启用css module
 antd 主题 https://ant-design.gitee.io/docs/react/customize-theme-cn
 每次修改了theme.js 需要重新yarn start 才能生效
 
+自定义的颜色元素，如果参与主题，不能使用css module 同时需要修改/public/color.less  
+
 sx-antd 引入会导致antd的主题失效
 
 

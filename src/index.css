@@ -21,7 +21,7 @@ body {
 }
 
 .ant-message {
-    z-index: 9999;
+    z-index: 9999!important;
 }
 
 .ant-menu-submenu-popup {

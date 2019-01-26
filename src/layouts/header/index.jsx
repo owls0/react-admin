@@ -6,6 +6,7 @@ import Logo from '../logo';
 import HeaderUser from '../header-user';
 import HeaderMenu from '../header-menu';
 import HeaderI18n from '../header-i18n';
+import ThemeColorPicker from '../theme-color-picker';
 import {connect} from '../../models/index';
 import Breadcrumb from '../breadcrumb';
 import './style.less';
@@ -92,6 +93,7 @@ export default class Header extends Component {
                 {
                     showToggle ? (
                         <Icon
+                            className="header-trigger"
                             styleName="trigger"
                             type={sideCollapsed ? 'menu-unfold' : 'menu-fold'}
                             onClick={this.handleToggle}
@@ -110,6 +112,7 @@ export default class Header extends Component {
                 </div>
 
                 <div styleName="right">
+                    <ThemeColorPicker/>
                     <HeaderI18n styleName="action" theme={theme}/>
                     <HeaderUser styleName="action" theme={theme}/>
                 </div>

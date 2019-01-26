@@ -9,11 +9,15 @@ export default {
         permissions: [],
         local: void 0, // en_GB 英语
         i18n: zh_CN, // 语言集 默认中文
+        primaryColor: void 0,
     },
 
     syncState: {
         local: true,
+        primaryColor: true,
     },
+
+    setPrimaryColor: (state, {payload}) => ({primaryColor: payload}),
 
     /**
      * 获取系统菜单
