@@ -46,6 +46,7 @@ sx-antd 引入会导致antd的主题失效
 
 ## 组件
 通用组件不使用css module
+example/antd 下文件时通过脚本 src/library/antd/generator-demos.js生成的
 
 ## ESLint 说明
 如果前端项目，不是git根目录，在提交的时候，会报错 `Not a git repository`
@@ -71,6 +72,6 @@ sx-antd 引入会导致antd的主题失效
     - [ ] Logo
 - [ ] 框架中所有相关内容，切换到当前项目中
 - [ ] 页面上选择主体颜色，改变主题
-- [ ] 
+- [ ] antd 组件整理
 
 

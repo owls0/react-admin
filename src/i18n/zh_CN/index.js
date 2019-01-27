@@ -22,6 +22,7 @@ export default {
         setting: '设置',
         logout: '退出登录',
         ajax: 'ajax请求',
+        antd: 'antd 组件扩展',
     },
     login: {
         title: '欢迎登录',

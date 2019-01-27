@@ -22,6 +22,7 @@ export default {
         setting: 'Setting',
         logout: 'LogOut',
         ajax: 'Ajax',
+        antd: 'Ant Design Extend',
     },
     login: {
         title: 'Welcome Login',
