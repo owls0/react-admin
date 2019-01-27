@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Menu, Icon} from 'antd';
 import {FontIcon} from 'sx-antd';
-import {renderNode} from 'sx-utils/lib/tree-utils';
+import {renderNode} from '@/library/utils/tree-utils';
 import Link from '../page-link';
 import './style.less';
 

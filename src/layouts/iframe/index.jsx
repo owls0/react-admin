@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import domEvent from 'sx-utils/lib/dom-event-hoc';
+import domEvent from '@/library/utils/dom-event-hoc';
 import {connect} from "../../models/index";
 import './style.less';
 

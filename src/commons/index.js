@@ -1,5 +1,5 @@
-import {session} from 'sx-utils/lib/storage';
-import {getNodeByPropertyAndValue, convertToTree, renderNode} from 'sx-utils/lib/tree-utils';
+import {session} from '@/library/utils/storage';
+import {getNodeByPropertyAndValue, convertToTree, renderNode} from '@/library/utils/tree-utils';
 import pathToRegexp from "path-to-regexp/index";
 
 const CURRENT_USER_KEY = 'current-user';

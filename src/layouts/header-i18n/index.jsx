@@ -29,7 +29,7 @@ export default class HeaderUser extends Component {
                 {i18n.map(item => (<Item key={item.local}>{item.label}</Item>))}
             </Menu>
         );
-        const localI1n8 = i18n.find(item => item.local === local);
+        const localI1n8 = i18n.find(item => item.local === local) || {};
 
         return (
             <div

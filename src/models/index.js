@@ -8,7 +8,7 @@ import {
     getActionsAndReducers,
     middlewareAsyncActionCallback,
     middlewareSyncReducerToLocalStorage,
-} from 'sx-redux';
+} from '@/library/redux';
 import * as models from './all-models';
 
 const {actions, reducers} = getActionsAndReducers({models});
@@ -25,7 +25,7 @@ export function configureStore(initialState) {
 }
 
 // 与redux进行连接 函数
-export const connectComponent = _connect({actions, options: {withRef: true}});
+export const connectComponent = _connect({actions, options: {ref: true}});
 
 // 与redux进行连接 装饰器
 export const connect = createConnectHOC(connectComponent);

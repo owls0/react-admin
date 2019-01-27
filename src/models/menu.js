@@ -1,6 +1,6 @@
 import {createAction} from 'redux-actions';
-import {getTopNodeByNode} from 'sx-utils/lib/tree-utils';
-import {uniqueArray} from 'sx-utils';
+import {getTopNodeByNode} from '@/library/utils/tree-utils';
+import {uniqueArray} from '@/library/utils';
 import {getSelectedMenuByPath} from '../commons';
 
 export const types = {

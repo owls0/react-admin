@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {getScrollBarWidth} from 'sx-utils';
+import {getScrollBarWidth} from '@/library/utils';
 import SideMenu from '../side-menu';
 import {connect} from '../../models/index';
 import DragBar from './DragBar';

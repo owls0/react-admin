@@ -4,8 +4,8 @@ import {compose} from './index'
 import queryHoc from './query-hoc';
 import {connect as reduxConnect} from '../models';
 import {ajaxHoc} from './ajax';
-import pubSubHoc from 'sx-utils/lib/event-hoc'
-import eventHoc from 'sx-utils/lib/dom-event-hoc';
+import pubSubHoc from '@/library/utils/event-hoc'
+import eventHoc from '@/library/utils/dom-event-hoc';
 
 /**
  * 页面配置高阶组件，整合了多个高阶组件
