@@ -49,6 +49,7 @@ export default class Ajax extends Component {
     };
 
     render() {
+        console.log('Ajax Demo Render');
         return (
             <PageContent>
                 <Button onClick={this.handleSendGet}>Get Request</Button>
