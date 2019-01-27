@@ -30,7 +30,6 @@ export default class HeaderUser extends Component {
             </Menu>
         );
         const localI1n8 = i18n.find(item => item.local === local) || {};
-
         return (
             <div
                 styleName="i18n-select"
@@ -41,7 +40,7 @@ export default class HeaderUser extends Component {
                     getPopupContainer={() => (this.root || document.body)}
                 >
                     <span styleName="i18n-label" className={className}>
-                        {localI1n8.name}
+                        <span>{localI1n8.name}</span>
                         <Icon type="caret-down"/>
                     </span>
                 </Dropdown>

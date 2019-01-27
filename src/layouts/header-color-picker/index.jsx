@@ -24,7 +24,7 @@ import './style.less';
 export default class ThemeColorPicker extends Component {
     componentDidMount() {
         // 开发模式下，要等待其他style注入head，否则样式不能覆盖
-        const time = process?.env?.NODE_ENV === 'development' ? 1000 : 0;
+        const time = process?.env?.NODE_ENV === 'development' ? 1000 * 2 : 0;
 
         setTimeout(() => {
             const {primaryColor} = this.props;
@@ -66,9 +66,9 @@ export default class ThemeColorPicker extends Component {
     };
 
     render() {
-        const {primaryColor: color = theme['@primary-color']} = this.props;
+        const {primaryColor: color = theme['@primary-color'], className} = this.props;
         return (
-            <div styleName="root" className="theme-color-picker">
+            <div styleName="root" className={`theme-color-picker ${className}`}>
                 <div styleName="picker">
                     <ColorPicker
                         type="sketch"
