@@ -23,11 +23,14 @@ import './style.less';
 })
 export default class ThemeColorPicker extends Component {
     componentDidMount() {
+        // 开发模式下，要等待其他style注入head，否则样式不能覆盖
+        const time = process?.env?.NODE_ENV === 'development' ? 1000 : 0;
 
         setTimeout(() => {
             const {primaryColor} = this.props;
+
             if (primaryColor) this.handleColorChange(primaryColor);
-        }, 1000);
+        }, time);
     }
 
     handleColorChange = color => {
@@ -46,7 +49,7 @@ export default class ThemeColorPicker extends Component {
                 });
         };
 
-        const lessUrl = 'https://gw.alipayobjects.com/os/lib/less.js/3.8.1/less.min.js';
+        const lessUrl = '/less.min.js';
 
         if (this.lessLoaded) {
             changeColor();

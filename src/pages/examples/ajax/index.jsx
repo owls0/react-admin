@@ -13,8 +13,6 @@ export default class Ajax extends Component {
     };
 
     componentDidMount() {
-        console.log(this.props.ajax);
-
     }
 
     handleSendGet = () => {

@@ -6,7 +6,7 @@ import AuthRoute from './AuthRoute';
 import {isAuthenticated} from '../commons';
 import PageFrame from '../layouts/frame';
 import routes, {noFrameRoutes, noAuthRoutes} from './routes';
-import PageLoading from "../layouts/loading/PageLoading";
+import PageLoading from "../layouts/page-loading";
 import Error404 from '../pages/error/error404';
 
 const history = createBrowserHistory();
@@ -23,7 +23,7 @@ export default class AppRouter extends Component {
     render() {
         return (
             <Router history={history}>
-                <div style={{display: 'flex', flexDirection: 'column', minHeight: '100vh'}}>
+                <div style={{display: 'flex', flexDirection: 'column', position: 'relative', minHeight: '100vh'}}>
                     <Route path="/" render={props => {
                         // 框架组件单独渲染，与其他页面成为兄弟节点，框架组件和具体页面组件渲染互不影响
 
