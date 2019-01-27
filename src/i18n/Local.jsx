@@ -11,6 +11,7 @@ import allI18n, {setCurrentLocal} from './index';
 @connect(state => {
     return {
         local: state.system.local,
+        autoLocal: state.system.autoLocal,
         i18n: state.system.i18n,
         menus: state.menu.menus,
         title: state.page.title,
@@ -20,10 +21,13 @@ import allI18n, {setCurrentLocal} from './index';
 export default class App extends React.Component {
     constructor(...props) {
         super(...props);
-        let local = this.props.local;
+        let {local, autoLocal} = this.props;
+
+        // 不基于浏览器自动获取，将语言设置为中文
+        if (!autoLocal) local = 'en_CN';
 
         // 如果没有选择过语言，通过浏览器获取语言
-        if (!local) {
+        if (!local && autoLocal) {
             const type = navigator.appName;
             let lang;
 

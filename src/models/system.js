@@ -8,7 +8,8 @@ export default {
         loginUser: null,
         permissions: [],
         local: void 0, // en_GB 英语
-        i18n: zh_CN, // 语言集 默认中文
+        i18n: zh_CN, // 语言集 默认简体中文
+        autoLocal: false, // 是否根据浏览器自动获取语言，如果false，将默认简体中文
         primaryColor: void 0,
     },
 
