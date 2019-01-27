@@ -22,8 +22,8 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin-alt');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
-const ConfigGrabWebpackPlugin = require('./config-grab-webpack-plugin');
-const ModelGrabWebpackPlugin = require('sx-model-grab-webpack-plugin');
+const ConfigGrabWebpackPlugin = require('./webpack-plugin/config-grab-webpack-plugin');
+const ModelGrabWebpackPlugin = require('./webpack-plugin/model-grab-webpack-plugin');
 
 const theme = require('../src/theme');
 

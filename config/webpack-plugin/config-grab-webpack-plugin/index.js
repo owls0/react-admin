@@ -1,9 +1,9 @@
 const path = require('path');
 const fs = require('fs');
-const GrabFiles = require('sx-grab-files');
+const GrabFiles = require('../utils/grab-files');
 const ejs = require('ejs');
 
-function ConfigGrabWebpackPlugin(options) {
+function Index(options) {
     // 处理默认值
     const {
         hyphen = false,
@@ -37,7 +37,7 @@ function ConfigGrabWebpackPlugin(options) {
     }
 }
 
-ConfigGrabWebpackPlugin.prototype.apply = function (compiler) {
+Index.prototype.apply = function (compiler) {
     const options = this.options;
 
     compiler.plugin('entry-option', function (/* params */) {
@@ -45,7 +45,7 @@ ConfigGrabWebpackPlugin.prototype.apply = function (compiler) {
     });
 };
 
-ConfigGrabWebpackPlugin.prototype.routeConfigGrab = function () {
+Index.prototype.routeConfigGrab = function () {
     doGrab(this.options);
 };
 
@@ -177,4 +177,4 @@ function getConfigFromContent(content) {
     return result;
 }
 
-module.exports = ConfigGrabWebpackPlugin;
+module.exports = Index;

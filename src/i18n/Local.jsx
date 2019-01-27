@@ -4,8 +4,8 @@ import zhCN from 'antd/lib/locale-provider/zh_CN';
 import enGB from 'antd/lib/locale-provider/en_GB';
 import moment from 'moment';
 import 'moment/locale/zh-cn'; // 解决 antd 日期组件国际化问题
-import {connect} from '../models';
-import {setMenuI18n} from '../commons'
+import {connect} from '@/models';
+import {setMenuI18n} from '@/commons';
 import allI18n, {setCurrentLocal} from './index';
 
 @connect(state => {
