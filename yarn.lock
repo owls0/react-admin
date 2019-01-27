@@ -1554,17 +1554,17 @@ aws4@^1.8.0:
 
 axios-mock-adapter@^1.16.0:
   version "1.16.0"
-  resolved "http://172.16.132.188:4873/axios-mock-adapter/-/axios-mock-adapter-1.16.0.tgz#cdd55bb60d8cb3fcd77fdb9cbb269e47b8b95180"
-  integrity sha1-zdVbtg2Ms/zXf9ucuyaeR7i5UYA=
+  resolved "https://registry.npmjs.org/axios-mock-adapter/-/axios-mock-adapter-1.16.0.tgz#cdd55bb60d8cb3fcd77fdb9cbb269e47b8b95180"
+  integrity sha512-m2D8ngMTQ5p4zZNBsPKoENgwz5rDfd0pZmXI/spdE2eeeKIcR3jquk+NRiBVFtb9UJlciBYplNzSUmgQ6X385Q==
   dependencies:
     deep-equal "^1.0.1"
 
-axios@^0.17.1:
-  version "0.17.1"
-  resolved "http://172.16.132.188:4873/axios/-/axios-0.17.1.tgz#2d8e3e5d0bdbd7327f91bc814f5c57660f81824d"
-  integrity sha1-LY4+XQvb1zJ/kbyBT1xXZg+Bgk0=
+axios@^0.18.0:
+  version "0.18.0"
+  resolved "https://registry.npmjs.org/axios/-/axios-0.18.0.tgz#32d53e4851efdc0a11993b6cd000789d70c05102"
+  integrity sha1-MtU+SFHv3AoRmTts0AB4nXDAUQI=
   dependencies:
-    follow-redirects "^1.2.5"
+    follow-redirects "^1.3.0"
     is-buffer "^1.1.5"
 
 axobject-query@^2.0.1:
@@ -4213,7 +4213,7 @@ flux-standard-action@^2.0.0:
   dependencies:
     lodash "^4.0.0"
 
-follow-redirects@^1.0.0, follow-redirects@^1.2.5:
+follow-redirects@^1.0.0, follow-redirects@^1.3.0:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.6.1.tgz#514973c44b5757368bad8bddfe52f81f015c94cb"
   integrity sha512-t2JCjbzxQpWvbhts3l6SH1DKzSrx8a+SsaVf4h6bG4kOXUuPYS/kg2Lr4gQSb7eemaHqJkOThF1BGyjlUkO1GQ==
@@ -8517,7 +8517,7 @@ qs@6.5.2, qs@~6.5.2:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
-qs@^6.5.0, qs@^6.6.0:
+qs@^6.6.0:
   version "6.6.0"
   resolved "http://172.16.132.188:4873/qs/-/qs-6.6.0.tgz#a99c0f69a8d26bf7ef012f871cdabb0aee4424c2"
   integrity sha1-qZwPaajSa/fvAS+HHNq7Cu5EJMI=
@@ -10388,14 +10388,6 @@ svgo@^1.0.0, svgo@^1.0.5:
     stable "~0.1.6"
     unquote "~1.1.1"
     util.promisify "~1.0.0"
-
-sx-ajax@^1.0.5:
-  version "1.0.5"
-  resolved "http://172.16.132.188:4873/sx-ajax/-/sx-ajax-1.0.5.tgz#b73d44aeb2ba3074b83382562804a6f573472ba7"
-  integrity sha512-FLy6V7xOb3ojJvX5hEDWykn3cuG/LiEZJtt9I40JlcRRatETfEnzQZoTs0ApkB3MoDlpUdFqQkeOAS7KjkAOfQ==
-  dependencies:
-    axios "^0.17.1"
-    qs "^6.5.0"
 
 sx-antd@^3.2.12:
   version "3.2.12"

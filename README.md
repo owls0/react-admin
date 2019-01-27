@@ -44,6 +44,23 @@ sx-antd 引入会导致antd的主题失效
 
 ## 页面打印
 
+## 组件
+通用组件不使用css module
+
+## ESLint 说明
+如果前端项目，不是git根目录，在提交的时候，会报错 `Not a git repository`
+
+修改package.json，lint-staged 如下即可
+```
+"lint-staged": {
+    "gitDir": "../",
+    "linters": {
+        "**/*.{js,jsx}": "lint-staged:js",
+        "**/*.less": "stylelint --syntax less"
+    }
+},
+```
+
 
 ## TODO 
 - [ ] ]model Redux 相关引用问题

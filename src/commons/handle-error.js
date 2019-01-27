@@ -1,4 +1,5 @@
 import {notification} from 'antd';
+import {getCurrentLocal} from '@/i18n';
 import {toLogin} from './index';
 
 /**
@@ -9,47 +10,53 @@ import {toLogin} from './index';
  * @returns {*}
  */
 function getErrorTip({error, errorTip}) {
+    const ajaxTip = getCurrentLocal()?.ajaxTip || {};
 
-    if (errorTip) return errorTip;
+    if (errorTip && errorTip !== true) return errorTip;
 
     if (error && error.response) {
         const {status, message} = error.response;
-
-        // 后端自定义信息
-        if (message) return message;
 
         if (status === 401) { // 需要登录
             return toLogin();
         }
 
+        // 后端自定义信息
+        if (message) return message;
+
         if (status === 403) {
-            return '您无权访问此资源！';
+            return ajaxTip.noAccess;
         }
 
         if (status === 404) {
-            return '您访问的资源不存在！';
+            return ajaxTip.notFound;
         }
 
         if (status === 504) {
-            return '无法访问服务器！';
+            return ajaxTip.serverBusy;
         }
 
+        if (status === 500) {
+            return ajaxTip.serverBusy;
+        }
     }
 
-    if (error && error.message && error.message.startsWith('timeout of')) return '请求超时！';
+    if (error && error.message && error.message.startsWith('timeout of')) return ajaxTip.timeOut;
 
     if (error) return error.message;
 
-    return '未知系统错误';
+    return ajaxTip.serverBusy;
 }
 
 export default function handleError({error, errorTip}) {
+    const ajaxTip = getCurrentLocal()?.ajaxTip || {};
+
     if (errorTip === false) return;
 
     const description = getErrorTip({error, errorTip});
 
     notification.error({
-        message: '错误！',
+        message: ajaxTip.error,
         description,
     });
 }

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Icon, message} from 'antd';
+import {Icon} from 'antd';
 import config from '@/commons/config-hoc';
 import {loadScript} from '@/commons';
 import ColorPicker from '@/components/color-picker';
@@ -39,7 +39,6 @@ export default class ThemeColorPicker extends Component {
                 })
                 .then((...args) => {
                     Icon.setTwoToneColor({primaryColor: color});
-                    message.success('修改颜色成功');
                     this.props.action.system.setPrimaryColor(color);
 
                     const lessColor = document.getElementById('less:color');

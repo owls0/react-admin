@@ -1,4 +1,4 @@
-import SXAjax, {createAjaxHoc} from 'sx-ajax';
+import SXAjax, {createAjaxHoc} from '@/library/ajax';
 import mockUrls from '../mock/url-config';
 import handleError from './handle-error';
 import handleSuccess from './handle-success';

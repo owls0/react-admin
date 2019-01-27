@@ -5,6 +5,14 @@ export default {
         name: 'Admin Manager',
         logo,
     },
+    ajaxTip: {
+        success: 'Success',
+        error: 'Error',
+        noAccess: 'Not authorized to access the resource',
+        notFound: 'The resource not found',
+        serverBusy: 'The server is busy, Try latter',
+        timeOut: 'Time out',
+    },
     menu: {
         home: 'Home',
         example: 'Example',
@@ -13,6 +21,7 @@ export default {
         roles: 'Role List',
         setting: 'Setting',
         logout: 'LogOut',
+        ajax: 'Ajax',
     },
     login: {
         title: 'Welcome Login',

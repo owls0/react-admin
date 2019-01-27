@@ -6,7 +6,7 @@ import moment from 'moment';
 import 'moment/locale/zh-cn'; // 解决 antd 日期组件国际化问题
 import {connect} from '../models';
 import {setMenuI18n} from '../commons'
-import allI18n from './index';
+import allI18n, {setCurrentLocal} from './index';
 
 @connect(state => {
     return {
@@ -52,6 +52,7 @@ export default class App extends React.Component {
 
         this.state.local = local;
         this.props.action.system.setLocal(local);
+        setCurrentLocal(allI18n.find(item => item.local === local)?.i18n || {});
     }
 
     state = {
@@ -128,6 +129,7 @@ export default class App extends React.Component {
             menuI18n();
             titleI18n();
             breadcrumbsI18n();
+            setCurrentLocal(allI18n.find(item => item.local === nextLocal)?.i18n || {});
         }
 
         return {

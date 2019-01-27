@@ -5,6 +5,14 @@ export default {
         name: '管理系统架构',
         logo,
     },
+    ajaxTip: {
+        success: '成功',
+        error: '失败',
+        noAccess: '无权访问此资源',
+        notFound: '访问资源不存在',
+        serverBusy: '服务器繁忙',
+        timeOut: '超时',
+    },
     menu: {
         home: '首页',
         example: '示例',
@@ -13,6 +21,7 @@ export default {
         roles: '角色列表',
         setting: '设置',
         logout: '退出登录',
+        ajax: 'ajax请求',
     },
     login: {
         title: '欢迎登录',
