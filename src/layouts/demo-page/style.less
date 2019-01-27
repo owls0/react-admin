@@ -14,31 +14,37 @@
     .left {
         margin-right: 200px;
     }
+
     .right {
         position: fixed;
-        top: 70px;
+        top: 130px;
         right: 0;
         width: 260px;
         list-style: none;
         overflow: auto;
     }
+
     .box {
         margin: 0 0 24px 0;
         border: 1px solid #ebedf0;
         background: #fff;
         color: rgba(0, 0, 0, 0.65);
     }
+
     .live-demo {
         border-bottom: 1px solid #ebedf0;
         padding: 42px 24px 50px;
     }
+
     .markdown {
         position: relative;
         padding: 18px 0;
+
         &.description {
             padding: 18px;
         }
     }
+
     .title {
         display: inline-block;
         position: absolute;
@@ -50,23 +56,28 @@
         line-height: 30px;
         font-weight: bold;
     }
+
     .code-icon {
         display: inline-block;
         position: absolute;
         bottom: 16px;
         right: 16px;
         cursor: pointer;
+
         img {
             opacity: 0.55;
             width: 16px;
+
             &:hover {
                 opacity: 0.7;
             }
         }
     }
+
     .code {
         padding: 16px 32px 20px 32px;
         border-top: 1px dashed #ebedf0;
+
         code {
             background: #fff;
         }
@@ -156,6 +167,7 @@
     list-style-type: circle;
     margin-left: 20px;
     padding-left: 4px;
+
     &:empty {
         display: none;
     }
@@ -288,16 +300,19 @@
 .markdown table {
     font-size: @font-size-base;
     line-height: @line-height-base;
+
     td:first-child {
         font-weight: 500;
         width: 20%;
         font-family: "Lucida Console", Consolas, Menlo, Courier, monospace;
     }
+
     td:nth-child(3) {
         width: 22%;
         font-size: 12px;
         font-family: "Lucida Console", Consolas, Menlo, Courier, monospace;
     }
+
     td:last-child {
         width: 13%;
         font-size: 12px;
@@ -313,10 +328,12 @@
         overflow: hidden;
         margin-bottom: 8px;
     }
+
     .ant-row-flex,
     .code-box-demo .ant-row-flex {
         background: #f5f5f5;
     }
+
     .ant-row > div,
     .code-box-demo .ant-row > div,
     .ant-row-flex > div,
@@ -329,14 +346,17 @@
         margin-bottom: 8px;
         color: #fff;
     }
+
     .code-box-demo .ant-row > div:not(.gutter-row),
     .code-box-demo .ant-row-flex > div:not(.gutter-row) {
         background: #00a0e9;
         padding: 16px 0;
+
         &:nth-child(2n+1) {
             background: fade(#00a0e9, 70%);
         }
     }
+
     .ant-row .demo-col,
     .code-box-demo .ant-row .demo-col {
         text-align: center;
@@ -347,40 +367,49 @@
         margin-top: 0;
         margin-bottom: 0;
     }
+
     .ant-row .demo-col-1,
     .ant-row .demo-col-1 {
         background: fade(#00a0e9, 70%);
     }
+
     .ant-row .demo-col-2,
     .code-box-demo .ant-row .demo-col-2 {
         background: fade(#00a0e9, 50%);
     }
+
     .ant-row .demo-col-3,
     .code-box-demo .ant-row .demo-col-3 {
         background: rgba(255, 255, 255, 0.2);
         color: #999;
     }
+
     .ant-row .demo-col-4,
     .code-box-demo .ant-row .demo-col-4 {
         background: fade(#00a0e9, 60%);
     }
+
     .ant-row .demo-col-5,
     .code-box-demo .ant-row .demo-col-5 {
         background: rgba(255, 255, 255, 0.5);
         color: #999;
     }
+
     .code-box-demo .height-100 {
         height: 100px;
         line-height: 100px;
     }
+
     .code-box-demo .height-50 {
         height: 50px;
         line-height: 50px;
     }
+
     .code-box-demo .height-120 {
         height: 120px;
         line-height: 120px;
     }
+
     .code-box-demo .height-80 {
         height: 80px;
         line-height: 80px;
@@ -390,21 +419,25 @@
 // For Changelog
 .markdown ul.ant-timeline {
     line-height: 2;
+
     li.ant-timeline-item {
         list-style: none;
         margin: 0;
         padding: 0 0 30px;
+
         .ant-timeline-item-content {
             font-size: 14px;
             padding-left: 32px;
             position: relative;
             top: -14px;
+
             > h2 {
                 margin-top: 0;
                 padding-top: 2px;
             }
         }
     }
+
     li.ant-timeline-item:first-child {
         margin-top: 40px;
     }

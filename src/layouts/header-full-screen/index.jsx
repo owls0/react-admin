@@ -3,11 +3,18 @@ import {Icon} from 'antd';
 
 export default class index extends Component {
     state = {
-        fullScreen: false
+        fullScreen: false,
     };
 
     componentDidMount() {
+        let fullScreen = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen
 
+        document.addEventListener('fullscreenchange', this.handleFullScreenChange);
+        document.addEventListener('mozfullscreenchange', this.handleFullScreenChange);
+        document.addEventListener('webkitfullscreenchange', this.handleFullScreenChange);
+        document.addEventListener('msfullscreenchange', this.handleFullScreenChange);
+
+        this.setState({fullScreen: !!fullScreen});
     }
 
     handleFullScreenClick = () => {
@@ -34,7 +41,10 @@ export default class index extends Component {
                 element.webkitRequestFullScreen();
             }
         }
+    };
 
+    handleFullScreenChange = () => {
+        const {fullScreen} = this.state;
         this.setState({fullScreen: !fullScreen});
     };
 
