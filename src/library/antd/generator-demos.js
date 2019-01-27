@@ -100,10 +100,20 @@ function writeMenus(options) {
         return `    {
         key: '/example/antd/${componentName}', 
         parentKey: 'antd', 
+        icon: 'deployment-unit',
+        local: '${firstLowerCase(componentName)}',
         text: '${firstUpperCase(componentName)} ${title}', 
         path: '/example/antd/${componentName}',
     },`;
     });
+
+    console.log(options.map(({componentName, title}) => {
+        return `${firstLowerCase(componentName)}: '${title.replace('# ', '')}',`;
+    }).join('\n'));
+    console.log(options.map(({componentName, title}) => {
+        return `${firstLowerCase(componentName)}: '${firstUpperCaseSpace(componentName)}',`;
+    }).join('\n'));
+
 
     menus.unshift('export default [');
     menus.push('];');
@@ -225,6 +235,24 @@ function deleteDir(dir) {
 function firstUpperCase(str) {
     const s = str.replace(/\b(\w)(\w*)/g, ($0, $1, $2) => $1.toUpperCase() + $2);
     return s.replace(/-/g, '');
+}
+
+
+/**
+ * 连字符(-) 命名 转 首字母大写 空格隔开
+ * @param str
+ */
+function firstUpperCaseSpace(str) {
+    const s = str.replace(/\b(\w)(\w*)/g, ($0, $1, $2) => $1.toUpperCase() + $2);
+    return s.replace(/-/g, ' ');
+}
+
+/**
+ * 连字符(-) 命名 转 首字母小写 驼峰命名
+ * @param str
+ */
+function firstLowerCase(str) {
+    return str.replace(/-(\w)/g, (a, b) => b.toUpperCase());
 }
 
 generator();

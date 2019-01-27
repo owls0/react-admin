@@ -4,6 +4,7 @@ import {Form, Icon, Input, Button} from 'antd';
 import {setLoginUser} from '@/commons';
 import config from '@/commons/config-hoc';
 import Local from '@/layouts/header-i18n';
+import Color from '@/layouts/header-color-picker';
 import './style.less'
 
 function hasErrors(fieldsError) {
@@ -51,7 +52,7 @@ export default class extends Component {
                         });
                         // 跳转页面，优先跳转上次登出页面
                         const lastHref = window.sessionStorage.getItem('last-href');
-                        window.location.href = lastHref || '/';
+                        this.props.history.push(lastHref || '/');
                     } else {
                         this.setState({message: '用户名或密码错误！'});
                     }
@@ -69,12 +70,13 @@ export default class extends Component {
         const userNameError = isFieldTouched('userName') && getFieldError('userName');
         const passwordError = isFieldTouched('password') && getFieldError('password');
         return (
-            <div styleName="root">
+            <div styleName="root" className="login-bg">
                 <Helmet>
                     <title>{local.title}</title>
                 </Helmet>
 
-                <div styleName="local">
+                <div styleName="menu">
+                    <Color/>
                     <Local/>
                 </div>
                 <div styleName="box">

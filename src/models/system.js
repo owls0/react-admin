@@ -1,6 +1,7 @@
 import getMenus from '../menus';
 import zh_CN from '../i18n/zh_CN';
 import i18n from '../i18n';
+import theme from "@/theme";
 
 export default {
     initialState: {
@@ -10,15 +11,20 @@ export default {
         local: void 0,          // en_GB 英语
         i18n: zh_CN,            // 语言集 默认简体中文
         autoLocal: true,        // 是否根据浏览器自动获取语言，如果false，将默认简体中文
-        primaryColor: void 0,   // 主题主颜色
+        primaryColor: window.localStorage.getItem('primaryColor') || theme['@primary-color'],   // 主题主颜色
     },
 
     syncState: {
         local: true,
-        primaryColor: true,
     },
 
-    setPrimaryColor: (state, {payload}) => ({primaryColor: payload}),
+    setPrimaryColor: (state, {payload}) => {
+
+        // 登录页面 和 等之后的页面 用的storage 前缀不同，这里使用原生存储
+        window.localStorage.setItem('primaryColor', payload);
+
+        return {primaryColor: payload};
+    },
 
     /**
      * 获取系统菜单

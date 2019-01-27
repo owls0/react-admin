@@ -16,7 +16,7 @@ export default class index extends Component {
 
         this.setState({fullScreen: !!fullScreen});
     }
-    
+
     componentWillUnmount() {
         document.removeEventListener('fullscreenchange', this.handleFullScreenChange);
         document.removeEventListener('mozfullscreenchange', this.handleFullScreenChange);

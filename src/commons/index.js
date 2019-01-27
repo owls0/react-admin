@@ -53,7 +53,7 @@ export function toLogin() {
     // 清除相关数据
     session.clear();
     window.sessionStorage.clear();
-    window.sessionStorage.setItem('last-href', window.location.href);
+    window.sessionStorage.setItem('last-href', window.location.pathname);
 
     // 强制跳转，让浏览器刷新，重置数据
     window.location.href = loginPath;
