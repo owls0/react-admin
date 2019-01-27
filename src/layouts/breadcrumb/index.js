@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Breadcrumb} from 'antd';
-import {FontIcon} from 'sx-antd';
+import {FontIcon} from '@/library/antd';
 import Link from '../page-link';
 import './style.less';
 
