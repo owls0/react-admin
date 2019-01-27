@@ -40,7 +40,7 @@ export default class HeaderUser extends Component {
                     overlay={menu}
                     getPopupContainer={() => (this.root || document.body)}
                 >
-                    <span styleName="i18n-label" className={`i18n-label ${className}`}>
+                    <span styleName="i18n-label" className={className}>
                         {localI1n8.name}
                         <Icon type="caret-down"/>
                     </span>

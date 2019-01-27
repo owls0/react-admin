@@ -31,18 +31,6 @@ export default class ThemeColorPicker extends Component {
     }
 
     handleColorChange = color => {
-        const colorLess = document.getElementById('color-less')
-        if (!colorLess) {
-            // <link rel="stylesheet/less" type="text/css" href="/color.less">
-            const colorLink = document.createElement('link');
-            colorLink.id = 'color-less';
-            colorLink.rel = 'stylesheet/less';
-            colorLink.type = 'text/css';
-            colorLink.href = '/color.less';
-
-            document.querySelector('head').appendChild(colorLink);
-        }
-
         const changeColor = () => {
             window.less
                 .modifyVars({
@@ -50,11 +38,12 @@ export default class ThemeColorPicker extends Component {
                     '@primary-color': color,
                 })
                 .then((...args) => {
-                    console.log(args);
                     Icon.setTwoToneColor({primaryColor: color});
                     message.success('修改颜色成功');
-                    console.log(color);
                     this.props.action.system.setPrimaryColor(color);
+
+                    const lessColor = document.getElementById('less:color');
+                    document.head.appendChild(lessColor);
                 });
         };
 
@@ -77,28 +66,30 @@ export default class ThemeColorPicker extends Component {
     render() {
         const {primaryColor: color = theme['@primary-color']} = this.props;
         return (
-            <div styleName="root">
-                <ColorPicker
-                    type="sketch"
-                    small
-                    color={color}
-                    position="bottom"
-                    presetColors={[
-                        '#F5222D',
-                        '#FA541C',
-                        '#FA8C16',
-                        '#FAAD14',
-                        '#FADB14',
-                        '#A0D911',
-                        '#52C41A',
-                        '#13C2C2',
-                        '#1890FF',
-                        '#2F54EB',
-                        '#722ED1',
-                        '#EB2F96',
-                    ]}
-                    onChangeComplete={this.handleColorChange}
-                />
+            <div styleName="root" className="theme-color-picker">
+                <div styleName="picker">
+                    <ColorPicker
+                        type="sketch"
+                        small
+                        color={color}
+                        position="bottom"
+                        presetColors={[
+                            '#F5222D',
+                            '#FA541C',
+                            '#FA8C16',
+                            '#FAAD14',
+                            '#FADB14',
+                            '#A0D911',
+                            '#52C41A',
+                            '#13C2C2',
+                            '#1890FF',
+                            '#2F54EB',
+                            '#722ED1',
+                            '#EB2F96',
+                        ]}
+                        onChangeComplete={this.handleColorChange}
+                    />
+                </div>
                 <Icon style={{marginLeft: 4}} type="caret-down"/>
             </div>
         );

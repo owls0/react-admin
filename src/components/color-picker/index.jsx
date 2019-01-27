@@ -56,7 +56,7 @@ export default class Index extends Component {
         const Picker = pickers[type];
         const styles = {
             color: {
-                width: small ? '20px' : '120px',
+                width: small ? '30px' : '120px',
                 height: small ? '16px' : '24px',
                 borderRadius: '2px',
                 background: color,
