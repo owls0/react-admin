@@ -24,7 +24,7 @@ export default class App extends React.Component {
         let {local, autoLocal} = this.props;
 
         // 不基于浏览器自动获取，将语言设置为中文
-        if (!autoLocal) local = 'en_CN';
+        if (!autoLocal) local = 'zh_CN';
 
         // 如果没有选择过语言，通过浏览器获取语言
         if (!local && autoLocal) {
@@ -56,7 +56,6 @@ export default class App extends React.Component {
 
         this.state.local = local;
         this.props.action.system.setLocal(local);
-        setCurrentLocal(allI18n.find(item => item.local === local)?.i18n || {});
     }
 
     state = {
@@ -148,17 +147,20 @@ export default class App extends React.Component {
         const {children} = this.props;
         const {local} = this.state;
 
-        let antLan;
+        // FIXME 更多语言支持
+        const momentLocalMap = {
+            'zh_CN': 'zh-cn',
+            'en_GB': 'en-gb',
+        };
+        const antLocalMap = {
+            'zh_CN': zhCN,
+            'en_GB': enGB,
+        };
 
-        if (local === 'zh_CN') {
-            moment.locale('zh-cn');
-            antLan = zhCN;
-        }
+        const momentLocal = momentLocalMap[local];
+        if (momentLocal) moment.locale(momentLocal);
 
-        if (local === 'en_GB') {
-            moment.locale('en-gb');
-            antLan = enGB;
-        }
+        const antLan = antLocalMap[local];
 
         return (
             <LocaleProvider locale={antLan}>

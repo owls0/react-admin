@@ -1,7 +1,7 @@
 import en_GB from './en_GB';
 import zh_CN from './zh_CN';
 
-let _currentLocal = {};
+let _currentLocal = zh_CN;
 
 /**
  * 设置当前语言集
