@@ -476,7 +476,7 @@ module.exports = function (webpackEnv) {
             new ConfigGrabWebpackPlugin({
                 // mode: 'dir',
                 mode: 'variable',
-                codeSplitting: false,
+                codeSplitting: true,
                 paths: [
                     path.resolve(__dirname, '../src/pages/**/*.jsx'),
                 ],
@@ -484,7 +484,6 @@ module.exports = function (webpackEnv) {
                 ignored: [],
                 output: path.resolve(__dirname, '../src/pages/page-routes.js'),
                 watch: isEnvDevelopment,
-                template: path.resolve(__dirname, '../src/page-route-template.ejs'),
             }),
             // Generates an `index.html` file with the <script> injected.
             new HtmlWebpackPlugin(

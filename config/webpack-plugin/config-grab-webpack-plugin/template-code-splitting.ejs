@@ -13,7 +13,7 @@ export const noAuths = [<% for(let i = 0; i < noAuths.length; i++){ %>
 // 页面路由配置
 export default [<% for(let i = 0; i < routes.length; i++){ %>
     {
-    path: '<%= routes[i].routePath %>',
-    component: () => import('<%= routes[i].path %>'),
+        path: '<%= routes[i].routePath %>',
+        component: () => import('<%= routes[i].path %>'),
     },<% } %>
 ];
