@@ -29,23 +29,11 @@ export default class ThemeColorPicker extends Component {
             document.body.insertBefore(themeStyle, document.body.firstChild);
         }
 
-        this.props.ajax.get('/color.less', null, {baseURL: ''})
-            .then(res => {
-                const lessLink = document.createElement('link');
-                lessLink.rel = 'stylesheet/less';
-                lessLink.type = 'text/css';
-                lessLink.href = '/color.less';
-                lessLink.innerHTML = res;
-                document.head.appendChild(lessLink);
+        // 登录页面 和 等之后的页面 用的storage 前缀不同，这里使用原生存储
+        const primaryColor = window.localStorage.getItem('primaryColor');
 
-                // 开发模式下，要等待其他style注入head，否则样式不能覆盖
-                // 登录页面 和 等之后的页面 用的storage 前缀不同，这里使用原生存储
-                const primaryColor = window.localStorage.getItem('primaryColor');
-
-                if (primaryColor) {
-                    this.handleColorChange(primaryColor);
-                }
-            });
+        // .less文件加载完成之后，生成主题，localStorage中的主题有可能过时，需要覆盖
+        if (primaryColor) this.handleColorChange(primaryColor);
     }
 
     handleColorChange = color => {
@@ -55,16 +43,19 @@ export default class ThemeColorPicker extends Component {
                     ...theme,
                     '@primary-color': color,
                 })
-                .then((...args) => {
+                .then(() => {
                     Icon.setTwoToneColor({primaryColor: color});
                     this.props.action.system.setPrimaryColor(color);
 
-                    // 将生成之后的style标签插入body首部
-                    // 由于每个页面的css也是异步加载（无论开发、还是生产），会导致样式插入在生成的style标签之后，导致主题失效
+                    // 先清除缓存样式
                     const oldStyle = document.getElementById('less:color:old');
                     if (oldStyle) oldStyle.remove();
 
+                    // 将生成之后的style标签插入body首部
+                    // 由于每个页面的css也是异步加载（无论开发、还是生产），会导致样式插入在生成的style标签之后，导致主题失效
                     const lessColor = document.getElementById('less:color');
+                    if (!lessColor) return;
+
                     // document.head.appendChild(lessColor);
                     document.body.insertBefore(lessColor, document.body.firstChild);
                     window.localStorage.setItem('theme-style-content', lessColor.innerHTML);
@@ -77,10 +68,14 @@ export default class ThemeColorPicker extends Component {
             changeColor();
         } else {
             window.less = {
-                // onReady: false,
                 async: true,
                 javascriptEnabled: true,
+                modifyVars: { // less.js加载完成就会触发一次转换，需要传入变量
+                    ...theme,
+                    '@primary-color': color,
+                },
             };
+
             loadScript(lessUrl).then(() => {
                 this.lessLoaded = true;
                 changeColor();

@@ -13,6 +13,7 @@ export default class App extends React.Component {
 
         const {system, menu} = this.props.action;
         const loginUser = getLoginUser() || {};
+
         // 设置当前登录的用户到model中
         system.setLoginUser(loginUser);
 

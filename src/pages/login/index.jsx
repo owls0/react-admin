@@ -52,7 +52,10 @@ export default class extends Component {
                         });
                         // 跳转页面，优先跳转上次登出页面
                         const lastHref = window.sessionStorage.getItem('last-href');
-                        this.props.history.push(lastHref || '/');
+
+                        // 强制跳转 进入系统之后，需要一些初始化工作，需要所有的js重新加载
+                        window.location.href = lastHref || '/';
+                        // this.props.history.push(lastHref || '/');
                     } else {
                         this.setState({message: '用户名或密码错误！'});
                     }

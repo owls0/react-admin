@@ -24,7 +24,6 @@ storage.init({
     keyPrefix: currentUser.id,
 });
 
-
 sxRedux.init({storage, handleError, handleSuccess});
 
 // models store
