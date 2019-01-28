@@ -7,14 +7,16 @@ import Error401 from '@/pages/error/Error401';
 /**
  * 验证登录路由组件，如果未登录，跳转到登录页面
  * @param Component
+ * @param noAuth
  * @param rest
+ * @returns {*}
  */
-export default ({component: Component, ...rest}) => {
+export default ({component: Component, noAuth, ...rest}) => {
     return (
         <Route
             {...rest}
             render={props => {
-                if (isAuthenticated()) return <Component {...props}/>;
+                if (noAuth || isAuthenticated()) return <Component {...props}/>;
                 return <Error401/>;
             }}
         />

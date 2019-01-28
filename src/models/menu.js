@@ -1,4 +1,3 @@
-import {createAction} from 'redux-actions';
 import {getTopNodeByNode} from '@/library/utils/tree-utils';
 import {uniqueArray} from '@/library/utils';
 import {getSelectedMenuByPath} from '../commons';

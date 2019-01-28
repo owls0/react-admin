@@ -53,17 +53,22 @@ export default class AppRouter extends Component {
                     <Switch>
                         {allRoutes.map(item => {
                             const {path, component} = item;
-
-                            const noAuthRoute = <Route key={path} exact path={path} component={component}/>;
+                            let isNoAuthRoute = false;
 
                             // 不需要登录的页面
-                            if (noAuthRoutes.includes(path)) return noAuthRoute;
+                            if (noAuthRoutes.includes(path)) isNoAuthRoute = true;
 
                             // 如果浏览器url中携带了noAuthor=true参数，不需要登录即可访问
-                            if (noAuth === 'true') return noAuthRoute;
+                            if (noAuth === 'true') isNoAuthRoute = true;
 
                             return (
-                                <AuthRoute key={path} exact path={path} component={component}/>
+                                <AuthRoute
+                                    key={path}
+                                    exact
+                                    path={path}
+                                    noAuth={isNoAuthRoute}
+                                    component={component}
+                                />
                             );
                         })}
                         <Route component={Error404}/>
