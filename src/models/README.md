@@ -1,21 +1,20 @@
 # models(redux) 封装
 > 基于redux进行封装，不改变redux源码，可以结合使用redux社区中其他解决方案
 
-models用于管理数据，要解决的问题：
-
+## models用于管理数据，解决的问题：
 1. 命名空间（防止数据、方法命名冲突）：数据与方法，都归属于具体model，比如：state.userCenter.xxx，this.props.action.userCenter.xxx();
-1. 如何方便的获取数据：connect与组件连接；
+1. 如何方便的获取数据：connect与组件连接；@connect(state => ({name: state.user.name}));
 1. 如何方便的修改数据：this.props.action中方法；
 1. 客户端数据持久化（保存到LocalStorage中）：syncState配置；
 1. 异步数据处理：基于promise异步封装；
 1. 请求错误提示：error处理封装，errorTip配置，自动提示；
 1. 请求成功提示：successTip配置，自动提示；
-1. 简化写法：types actions reducers 可以在一个文件中编写，较少冲突，方便多人协作，参见`models/side.js` `models/page-head.js`;
-1. 业务代码可集中归类，在models目录中统一编写，或者在具体业务目录中，模块化方式。
+1. 简化写法：types actions reducers 可以在一个文件中编写，较少冲突，方便多人协作，参见[`models/page.js`](./page.js)中的写法;
+1. 业务代码可集中归类：在models目录中统一编写，或者在具体业务目录中，模块化方式。
 
 
 ## all-models.js
-此文件通过脚本自动生成，必要直接编辑，生成规则如下：
+此文件通过脚本自动生成，不要直接编辑，生成规则如下：
 
 ```
 /path/to/models/user-center.js --> export userCenter from '/path/to/models/user-center';
@@ -25,8 +24,6 @@ models用于管理数据，要解决的问题：
 
 ## 组件与redux进行连接
 提供了两种方式，装饰器方式、函数调用方式；
-
-注：连接路由的组件已经自动`connect`，但是没有给组件传入任何redux中的数据，只可以使用`this.props.action`调用redux中的方法；非路由直接组件，需要显示connect；
 
 ### 装饰器
 推荐使用装饰器方式
@@ -60,53 +57,85 @@ function mapStateToProps(state) {
 export default connectComponent({LayoutComponent: Demo, mapStateToProps});
 ```
 
-## 简化写法：action reducer 二合一
-一个model中，除了initialState syncState actions reducers 等关键字之外的属性，都视为action reducer合并写法;
+## 简化写法
+action reducer 二合一，省去了actionType，简化写法；
+
+注：所有的reducer方法，无论是什么写法中的，都可以直接返回新数据，不必关心与原数据合并（...state），封装内部做了合并；
+
+注：一个model中，除了initialState syncState actions reducers 等关键字之外的属性，都视为action reducer合并写法;
 
 缺陷:
-- 一个action只能被一个reducer处理，但是也同时保证了代码的简介性，一般情况下action与reducer都是一一对应的；
-- 函数写法，只能接受一个参数，多个参数需要通过对象方式传递
+- 一个action只能被一个reducer处理，但同时也保证了代码的简介性，一般情况下action与reducer都是一对一的；
+- 函数写法，只能接受一个参数，多个参数需要通过对象方式传递；
+
+### 一个函数
+一个函数，即可作为action方法，也作为reduce使用
+
+- 调用action方法传递的数据将不会做任何处理，会直接传递给 reducer
+- action只能接受一个参数，如果多个数据，通过对象方式传递
+- 第二个参数固定为state，第三个参数固定为action，不需要可以缺省（一般都是缺省的）
 
 ```js
+// page.model.js
+export default {
+    initialState: {
+        title: void 0,
+        name: void 0,
+        user: {},
+    },
+    
+    setTitle: title => ({title}),
+    setName: (name, state, action) => {
+        const {name: prevName} = state;
+        if(name !== prevName) return {name: 'Different Name'};
+    },
+    setUser: ({name, age} = {}) => ({user: {name, age}});
+}
 
-const types = {
-    GET_MENU_STATUS: 'MENU:GET_MENU_STATUS', // 防止各个模块冲突，最好模块名开头
-};
+// 使用
+this.props.action.page.setTitle('my title');
+```
 
+### 数据同步
+通过配置的方式，可以让redux中的数据自动与localStorage同步
 
+```js
 export default {
     initialState: {
         title: '',
         show: true,
-        users: [], 
+        user: {}, 
         total: 0,
         loading: false,
         ...
     },
-    // syncState: true, // initialState会全部同步到localStorage中
-    syncState: { // 配置部分存储到localStorage中
+    
+    // initialState会全部同步到localStorage中
+    // syncState: true,
+     
+    // 配置部分存数据储到localStorage中 
+    syncState: { 
         titel: true,
         user: {
             name: true,
+            address: {
+                city: true,
+            },
         },
     },
-    
-    // 单独action定义，需要使用actionType与reducer进行关联
-    actions: {
-        getMenuStatus: createAction(types.GET_MENU_STATUS),
-    },
-    // 单独reducer定义，使用了actionType，不仅可以处理当前model中的action，也可以处理其他任意action（只要actionType能对应）
-    reducers: {
-        [types.GET_MENU_STATUS](state) {
-            ...
-            return {
-                ...
-            };
-        }
+}
+```
+
+### action reducer 合并写法
+如果action有额外的数据处理，并且一个action 只对应一个reducer，这种写法不需要指定actionType，可以有效简化代码；
+
+```js
+export default {
+    initialState: {
+        title: '',
+        ...
     },
     
-    // action reducer 合并写法，如果一个action 只对应一个reducer，这种写法不需要指定actionType，可以有效简化代码；
-    // 如果action有额外的数据处理，请使用这种结构
     arDemo: {
         // 如果是函数返回值将作为action.payload 传递给reducer，如果非函数，直接将payload的值，作为action.payload;
         payload(options) {...},
@@ -114,31 +143,22 @@ export default {
         // 如果是函数返回值将作为action.meta 传递给reducer，如果非函数，直接将meta的值，作为action.meta;
         meta(options) {...},
         reducer(state, action) {
-            // return {...state};
             returtn {...newState}; // 可以直接返回要修改的数据，内部封装会与原state合并`{...state, ...newState}`;
         },
     },
-    
-    // action 数据不需要特殊处理，会直接传递给 reducer
-    // action只能接受一个参数，如果多个数据，通过对象方式传递，第二个参数固定为state，第三个参数固定为action
-    // state action 如果不需要，可以缺省，一般都是缺省的
-    setBreadcrumbs: (breadcrumbs) => ({breadcrumbs}),
-    setTitle: (title, state, action) => ({title}),
-    setUser: ({name, age} = {}, state, action) => ({name, age}), 
-    show: () => ({show: true}),
-    
-    
-    // 异步action写法
+};
+```
+
+### 异步action写法
+
+```js
+
+export default {
+    initialState: {
+        title: '',
+        ...
+    },
     fetchUser: {
-        // 调用时（`this.props.action.user.fetchUser({params, options, successTip, errorTip, onResolve, onReject, onComplete})`）参数约定为一个对象，对象各个属性说明如下:
-        // params: 请求参数
-        // options: 请求配置
-        // successTip: 成功提示信息
-        // errorTip: 错误提示信息
-        // onResolve: 成功回调
-        // onReject: 失败回调
-        // onComplete: 完成回调，无论成功、失败都会调用
-        
         // 异步action payload 返回promise     
         payload: ({params, options}) => axios.get('/mock/users', params, options),
         
@@ -163,6 +183,62 @@ export default {
         }
     },
 };
-
 ```
-注：所有的reducer方法，无论是什么写法中的，都可以直接返回新数据，不必关心与原数据合并（...state），封装内部做了合并；
+调用方式：
+```js
+this.props.action.user
+    .fetchUser({
+        params, 
+        options, 
+        successTip, 
+        errorTip,
+        onResolve, 
+        onReject, 
+        onComplete
+    });
+```
+
+参数约定为一个对象，对象各个属性说明如下:
+
+参数|说明
+---|---
+params|请求参数
+options|请求配置
+successTip|成功提示信息
+errorTip|错误提示信息
+onResolve|成功回调
+onReject|失败回调
+onComplete|完成回调，无论成功、失败都会调用
+
+### 单独定义action 和 reducer
+支持这种比较传统的写法，一般也不会太用到
+
+```js
+
+export const types = {
+    GET_MENU_STATUS: 'MENU:GET_MENU_STATUS', // 防止各个模块冲突，最好模块名开头
+};
+
+export default {
+    initialState: {
+        title: '',
+        ...
+    },
+    
+    // 单独action定义，需要使用actionType与reducer进行关联
+    actions: {
+        getMenuStatus: createAction(types.GET_MENU_STATUS),
+    },
+    
+    // 单独reducer定义，使用了actionType，不仅可以处理当前model中的action
+    // 也可以处理其他任意action（只要actionType能对应）
+    reducers: {
+        [types.GET_MENU_STATUS](state) {
+            ...
+            return {
+                ...
+            };
+        }
+    },
+}    
+```
