@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {getScrollBarWidth} from '@/library/utils';
 import SideMenu from '../side-menu';
 import {connect} from '../../models/index';
+import {PAGE_FRAME_LAYOUT} from '@/models/settings';
 import DragBar from './DragBar';
 import './style.less';
 
@@ -31,7 +32,7 @@ export default class Side extends Component {
     };
 
     static defaultProps = {
-        layout: 'top-side-menu', // top-menu side-menu
+        layout: PAGE_FRAME_LAYOUT.SIDE_MENU, // top-menu side-menu
     };
 
     handleMenuOpenChange = (openKeys) => {
@@ -74,8 +75,8 @@ export default class Side extends Component {
         const innerOverFlow = sideCollapsed ? 'visible' : '';
         let transitionDuration = sideDragging ? '0ms' : `300ms`;
 
-        const isTopSideMenu = layout === 'top-side-menu';
-        const isSideMenu = layout === 'side-menu';
+        const isTopSideMenu = layout === PAGE_FRAME_LAYOUT.TOP_SIDE_MENU;
+        const isSideMenu = layout === PAGE_FRAME_LAYOUT.SIDE_MENU;
         const hasSide = isTopSideMenu || isSideMenu;
 
         // 左侧菜单数据，与顶部菜单配合显示顶部菜单的子菜单；

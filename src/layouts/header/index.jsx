@@ -9,6 +9,7 @@ import HeaderI18n from '../header-i18n';
 import HeaderFullScreen from '../header-full-screen';
 import ThemeColorPicker from '../header-color-picker';
 import {connect} from '../../models/index';
+import {PAGE_FRAME_LAYOUT} from '@/models/settings';
 import Breadcrumb from '../breadcrumb';
 import './style.less';
 
@@ -39,7 +40,7 @@ export default class Header extends Component {
     };
 
     static defaultProps = {
-        layout: 'top-side-menu',    // top-side-menu top-menu side-menu
+        layout: PAGE_FRAME_LAYOUT.SIDE_MENU,    // top-side-menu top-menu side-menu
         theme: 'default',           // default dark
     };
 
@@ -64,9 +65,9 @@ export default class Header extends Component {
 
         sideWidth = sideCollapsed ? sideCollapsedWidth : sideWidth;
 
-        const isTopSideMenu = layout === 'top-side-menu';
-        const isTopMenu = layout === 'top-menu';
-        const isSideMenu = layout === 'side-menu';
+        const isTopSideMenu = layout === PAGE_FRAME_LAYOUT.TOP_SIDE_MENU;
+        const isTopMenu = layout === PAGE_FRAME_LAYOUT.TOP_MENU;
+        const isSideMenu = layout === PAGE_FRAME_LAYOUT.SIDE_MENU;
         const showToggle = isTopSideMenu || isSideMenu;
         const showMenu = isTopSideMenu || isTopMenu;
 

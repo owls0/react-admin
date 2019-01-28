@@ -8,6 +8,7 @@ import Header from '../header';
 import Side from '../side';
 import {connect} from '../../models/index';
 import {getSelectedMenuByPath} from '../../commons';
+import {PAGE_FRAME_LAYOUT} from '@/models/settings';
 import './style.less';
 
 
@@ -43,7 +44,7 @@ export default class FrameTopSideMenu extends Component {
     };
 
     static defaultProps = {
-        layout: 'top-side-menu',    // top-menu side-menu
+        layout: PAGE_FRAME_LAYOUT.SIDE_MENU,    // top-menu side-menu
         pageHeadFixed: true,        // 页面头部是否固定
     };
 
@@ -149,8 +150,8 @@ export default class FrameTopSideMenu extends Component {
 
         let transitionDuration = sideDragging ? '0ms' : `300ms`;
 
-        const isTopSideMenu = layout === 'top-side-menu';
-        const isSideMenu = layout === 'side-menu';
+        const isTopSideMenu = layout === PAGE_FRAME_LAYOUT.TOP_SIDE_MENU;
+        const isSideMenu = layout === PAGE_FRAME_LAYOUT.SIDE_MENU;
         const hasSide = isTopSideMenu || isSideMenu;
 
         if (!hasSide) {

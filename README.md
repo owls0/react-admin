@@ -62,6 +62,14 @@ example/antd 下文件时通过脚本 src/library/antd/generator-demos.js生成�
 },
 ```
 
+## 页面布局
+
+提供三种方式
+
+通过/src/models/settings.js pageFrameLayout 进行默认修改
+
+通过 设置页面，进行修改
+
 
 ## TODO 
 - [x] ]model Redux 相关引用问题
