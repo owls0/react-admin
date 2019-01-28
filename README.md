@@ -48,6 +48,10 @@ sx-antd 引入会导致antd的主题失效
 通用组件不使用css module
 example/antd 下文件时通过脚本 src/library/antd/generator-demos.js生成的
 
+## 页面配置
+[config装饰器](./src/commons/config-hoc/README.md);
+
+
 ## ESLint 说明
 如果前端项目，不是git根目录，在提交的时候，会报错 `Not a git repository`
 
@@ -69,6 +73,21 @@ example/antd 下文件时通过脚本 src/library/antd/generator-demos.js生成�
 通过/src/models/settings.js pageFrameLayout 进行默认修改
 
 通过 设置页面，进行修改
+
+@config({
+    noFrame: true,
+})
+
+浏览器url中noFrame=true参数
+
+## 登录
+由于是管理系统架构，绝大部分页面都需要登录，个别不需要登录的页面可以通过如下两种方式进行配置：
+@config({
+    noAuth: true,
+})
+
+浏览器url中携带noAuth=true参数
+
 
 
 ## TODO 

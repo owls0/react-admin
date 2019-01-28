@@ -2,12 +2,13 @@ import React, {Component} from 'react';
 import {Router, Route, Switch} from 'react-router-dom'
 import createBrowserHistory from 'history/createBrowserHistory'
 import ReactLoadable from 'react-loadable';
+import {isAuthenticated} from '@/commons';
+import PageFrame from '@/layouts/frame';
+import PageLoading from "@/layouts/page-loading";
+import Error404 from '@/pages/error/Error404';
+import config from '@/commons/config-hoc';
 import AuthRoute from './AuthRoute';
-import {isAuthenticated} from '../commons';
-import PageFrame from '../layouts/frame';
 import routes, {noFrameRoutes, noAuthRoutes} from './routes';
-import PageLoading from "../layouts/page-loading";
-import Error404 from '../pages/error/Error404';
 
 const history = createBrowserHistory();
 
@@ -19,8 +20,12 @@ const allRoutes = routes.map(item => {
     };
 });
 
+@config({
+    query: true,
+})
 export default class AppRouter extends Component {
     render() {
+        const {noFrame, noAuth} = this.props.query;
         return (
             <Router history={history}>
                 <div style={{display: 'flex', flexDirection: 'column', position: 'relative', minHeight: '100vh'}}>
@@ -37,6 +42,11 @@ export default class AppRouter extends Component {
                             return null;
                         }
 
+                        // 如果浏览器url中携带了noFrame=true参数，不显示框架
+                        if (noFrame === 'true') {
+                            return null;
+                        }
+
                         return <PageFrame {...props}/>;
                     }}/>
 
@@ -44,12 +54,14 @@ export default class AppRouter extends Component {
                         {allRoutes.map(item => {
                             const {path, component} = item;
 
+                            const noAuthRoute = <Route key={path} exact path={path} component={component}/>;
+
                             // 不需要登录的页面
-                            if (noAuthRoutes.includes(path)) {
-                                return (
-                                    <Route key={path} exact path={path} component={component}/>
-                                );
-                            }
+                            if (noAuthRoutes.includes(path)) return noAuthRoute;
+
+                            // 如果浏览器url中携带了noAuthor=true参数，不需要登录即可访问
+                            if (noAuth === 'true') return noAuthRoute;
+
                             return (
                                 <AuthRoute key={path} exact path={path} component={component}/>
                             );
