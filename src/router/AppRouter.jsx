@@ -7,7 +7,7 @@ import {isAuthenticated} from '../commons';
 import PageFrame from '../layouts/frame';
 import routes, {noFrameRoutes, noAuthRoutes} from './routes';
 import PageLoading from "../layouts/page-loading";
-import Error404 from '../pages/error/error404';
+import Error404 from '../pages/error/Error404';
 
 const history = createBrowserHistory();
 

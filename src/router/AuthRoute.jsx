@@ -1,7 +1,8 @@
 import React from 'react';
 import {Route} from 'react-router-dom';
+import {isAuthenticated} from '../commons';
+import Error401 from '@/pages/error/Error401';
 
-import {isAuthenticated, toLogin} from '../commons';
 
 /**
  * 验证登录路由组件，如果未登录，跳转到登录页面
@@ -14,7 +15,7 @@ export default ({component: Component, ...rest}) => {
             {...rest}
             render={props => {
                 if (isAuthenticated()) return <Component {...props}/>;
-                return toLogin();
+                return <Error401/>;
             }}
         />
     );

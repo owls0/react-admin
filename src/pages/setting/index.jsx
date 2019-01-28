@@ -87,16 +87,6 @@ export default class Settings extends Component {
             <PageContent>
                 <Row>
                     <Col span={12} style={colStyle}>
-                        <Card title={local.navigationLayout} style={{height: 272}}>
-                            <Radio.Group onChange={this.handlePageFrameLayoutChange} value={pageFrameLayout}>
-                                <Radio style={radioStyle} value="top-side-menu">{local.topSideMenu}</Radio>
-                                <Radio style={radioStyle} value="top-menu">{local.topMenu}</Radio>
-                                <Radio style={radioStyle} value="side-menu">{local.sideMenu}</Radio>
-                            </Radio.Group>
-                        </Card>
-                    </Col>
-
-                    <Col span={12} style={colStyle}>
                         <Card title={local.pageHeadSetting} style={{marginBottom: 16}}>
                             <Checkbox
                                 onChange={this.handlePageHeadShowChange}
@@ -115,6 +105,15 @@ export default class Settings extends Component {
                                 onChange={this.handleKeepOtherMenuOpenChange}
                                 checked={keepOtherMenuOpen}
                             >{local.keepMenuOpen}</Checkbox>
+                        </Card>
+                    </Col>
+                    <Col span={12} style={colStyle}>
+                        <Card title={local.navigationLayout} style={{height: 272}}>
+                            <Radio.Group onChange={this.handlePageFrameLayoutChange} value={pageFrameLayout}>
+                                <Radio style={radioStyle} value="top-side-menu">{local.topSideMenu}</Radio>
+                                <Radio style={radioStyle} value="top-menu">{local.topMenu}</Radio>
+                                <Radio style={radioStyle} value="side-menu">{local.sideMenu}</Radio>
+                            </Radio.Group>
                         </Card>
                     </Col>
                 </Row>
