@@ -4,7 +4,7 @@ import config from '@/commons/config-hoc';
 import PageContent from '@/layouts/page-content';
 
 @config({
-    path: '/ajax',
+    path: '/example/ajax',
     ajax: true,
 })
 export default class Ajax extends Component {

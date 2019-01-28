@@ -1,7 +1,7 @@
 {
-    "name": "suixingpay-fe-admin",
-    "version": "2.0.0",
-    "private": true,
+    "name": "react-admin",
+    "version": "0.0.1",
+    "license": "MIT",
     "scripts": {
         "start": "node scripts/start.js",
         "build": "node scripts/build.js",

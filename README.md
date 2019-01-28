@@ -1,6 +1,6 @@
 
 ## 环境
-yarn v1.12.1
+yarn v1.13.0
 node v10.13.0
 
 ## Webpack
@@ -10,8 +10,10 @@ Preference... -> Languages & Frameworks -> JavaScript -> Webpack
 ```
 
 ## 样式
-less 文件启用了css module
-css 文件没启用css module
+src目录下的less 文件启用了css module
+src/library中less不启用css module 基础组件，不要使用css module
+所有的css 文件没启用css module
+
 
 ## 路由
 使用 react-router
@@ -101,5 +103,6 @@ example/antd 下文件时通过脚本 src/library/antd/generator-demos.js生成�
 - [x] 框架中所有相关内容，切换到当前项目中
 - [x] 页面上选择主体颜色，改变主题
 - [ ] antd 组件整理
+- [ ] library 目录中要使用less，但不进行css模块化处理
 
 

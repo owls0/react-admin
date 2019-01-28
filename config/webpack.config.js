@@ -27,7 +27,6 @@ const ModelGrabWebpackPlugin = require('./webpack-plugin/model-grab-webpack-plug
 
 const theme = require('../src/theme');
 
-
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 // Some apps do not need the benefits of saving a web request, so not inlining the chunk
@@ -41,6 +40,7 @@ const useTypeScript = fs.existsSync(paths.appTsConfig);
 const cssRegex = /\.css$/;
 const lessModuleRegex = /\.less$/;
 const lessRegex = /\.less$/;
+const lessModulePaths = require('globby').sync(`${paths.appSrc}/*`, {ignore: [path.resolve(paths.appSrc, 'library'), '**/**.*'], absolute: true});
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -410,7 +410,7 @@ module.exports = function (webpackEnv) {
                         // using the extension .less
                         {
                             test: lessModuleRegex,
-                            include: paths.appSrc,
+                            include: lessModulePaths,
                             use: getStyleLoaders(
                                 {
                                     importLoaders: 2,
@@ -425,7 +425,7 @@ module.exports = function (webpackEnv) {
                         // using the extension .less
                         {
                             test: lessRegex,
-                            exclude: paths.appSrc,
+                            exclude: lessModulePaths,
                             use: getStyleLoaders(
                                 {
                                     importLoaders: 2,
