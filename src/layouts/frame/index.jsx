@@ -79,7 +79,7 @@ export default class FrameTopSideMenu extends Component {
         let title = '';
         if (selectedMenu) {
             title = {
-                label: selectedMenu.text,
+                text: selectedMenu.text,
                 local: selectedMenu.local,
             };
             if (selectedMenu.parentNodes) {
@@ -184,7 +184,7 @@ export default class FrameTopSideMenu extends Component {
 
         return (
             <div styleName="base-frame" className="no-print">
-                <Helmet><title>{title?.label || title}</title></Helmet>
+                <Helmet><title>{title?.text || title}</title></Helmet>
                 <BackTop/>
                 <Header theme={(isTopSideMenu || isSideMenu) ? 'default' : 'dark'} layout={layout}/>
                 <Side layout={layout} theme={theme}/>

@@ -16,7 +16,7 @@ export default class index extends Component {
     render() {
         let {title, breadcrumbs} = this.props;
 
-        if (typeof title === 'object' && title.label) title = title.label;
+        if (typeof title === 'object' && title.text) title = title.text;
         return (
             <div styleName="page-header">
                 <h1>{title}</h1>

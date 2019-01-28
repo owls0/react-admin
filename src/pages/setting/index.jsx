@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {Radio, Card, Row, Col, Checkbox} from 'antd';
 import PageContent from '../../layouts/page-content';
-import config from '../../commons/config-hoc';
+import config from '@/commons/config-hoc';
 
 @config({
     path: '/settings',
-    title: {local: 'setting', label: '设置'},
+    title: {local: 'setting', text: '设置'},
     breadcrumbs: [
         {
             key: '1',
