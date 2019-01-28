@@ -5,7 +5,7 @@ import config from '@/commons/config-hoc';
 
 @config({
     path: '/settings',
-    title: {local: 'setting', text: '设置'},
+    title: <span style={{color: 'red'}}>设置</span>,
     breadcrumbs: [
         {
             key: '1',
