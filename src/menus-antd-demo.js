@@ -1,7 +1,7 @@
 export default [
     {
         key: '/example/antd/async-select', 
-        parentKey: 'antd', 
+        parentKey: 'antDesign', 
         icon: 'deployment-unit',
         local: 'asyncSelect',
         text: 'AsyncSelect # 异步下拉', 
@@ -9,7 +9,7 @@ export default [
     },
     {
         key: '/example/antd/font-icon', 
-        parentKey: 'antd', 
+        parentKey: 'antDesign', 
         icon: 'deployment-unit',
         local: 'fontIcon',
         text: 'FontIcon # 图标', 
@@ -17,7 +17,7 @@ export default [
     },
     {
         key: '/example/antd/form-item-layout', 
-        parentKey: 'antd', 
+        parentKey: 'antDesign', 
         icon: 'deployment-unit',
         local: 'formItemLayout',
         text: 'FormItemLayout # 表单布局', 
@@ -25,7 +25,7 @@ export default [
     },
     {
         key: '/example/antd/form-util', 
-        parentKey: 'antd', 
+        parentKey: 'antDesign', 
         icon: 'deployment-unit',
         local: 'formUtil',
         text: 'FormUtil # 表单相关工具', 
@@ -33,7 +33,7 @@ export default [
     },
     {
         key: '/example/antd/input-clear', 
-        parentKey: 'antd', 
+        parentKey: 'antDesign', 
         icon: 'deployment-unit',
         local: 'inputClear',
         text: 'InputClear # 可清空Input', 
@@ -41,7 +41,7 @@ export default [
     },
     {
         key: '/example/antd/list-page', 
-        parentKey: 'antd', 
+        parentKey: 'antDesign', 
         icon: 'deployment-unit',
         local: 'listPage',
         text: 'ListPage # 列表页', 
@@ -49,7 +49,7 @@ export default [
     },
     {
         key: '/example/antd/modal', 
-        parentKey: 'antd', 
+        parentKey: 'antDesign', 
         icon: 'deployment-unit',
         local: 'modal',
         text: 'Modal # 弹框', 
@@ -57,7 +57,7 @@ export default [
     },
     {
         key: '/example/antd/no-data', 
-        parentKey: 'antd', 
+        parentKey: 'antDesign', 
         icon: 'deployment-unit',
         local: 'noData',
         text: 'NoData # 暂无数据', 
@@ -65,7 +65,7 @@ export default [
     },
     {
         key: '/example/antd/operator', 
-        parentKey: 'antd', 
+        parentKey: 'antDesign', 
         icon: 'deployment-unit',
         local: 'operator',
         text: 'Operator # 操作', 
@@ -73,7 +73,7 @@ export default [
     },
     {
         key: '/example/antd/pagination', 
-        parentKey: 'antd', 
+        parentKey: 'antDesign', 
         icon: 'deployment-unit',
         local: 'pagination',
         text: 'Pagination # 分页组件', 
@@ -81,7 +81,7 @@ export default [
     },
     {
         key: '/example/antd/permission', 
-        parentKey: 'antd', 
+        parentKey: 'antDesign', 
         icon: 'deployment-unit',
         local: 'permission',
         text: 'Permission # 权限', 
@@ -89,7 +89,7 @@ export default [
     },
     {
         key: '/example/antd/pop-prompt', 
-        parentKey: 'antd', 
+        parentKey: 'antDesign', 
         icon: 'deployment-unit',
         local: 'popPrompt',
         text: 'PopPrompt # 弹框输入', 
@@ -97,7 +97,7 @@ export default [
     },
     {
         key: '/example/antd/query-bar', 
-        parentKey: 'antd', 
+        parentKey: 'antDesign', 
         icon: 'deployment-unit',
         local: 'queryBar',
         text: 'QueryBar # 查询条', 
@@ -105,7 +105,7 @@ export default [
     },
     {
         key: '/example/antd/query-item', 
-        parentKey: 'antd', 
+        parentKey: 'antDesign', 
         icon: 'deployment-unit',
         local: 'queryItem',
         text: 'QueryItem # 查询条件', 
@@ -113,7 +113,7 @@ export default [
     },
     {
         key: '/example/antd/table-animate', 
-        parentKey: 'antd', 
+        parentKey: 'antDesign', 
         icon: 'deployment-unit',
         local: 'tableAnimate',
         text: 'TableAnimate # 表格动画高阶组件', 
@@ -121,7 +121,7 @@ export default [
     },
     {
         key: '/example/antd/table-drag-column', 
-        parentKey: 'antd', 
+        parentKey: 'antDesign', 
         icon: 'deployment-unit',
         local: 'tableDragColumn',
         text: 'TableDragColumn # 表头拖拽高阶组件', 
@@ -129,7 +129,7 @@ export default [
     },
     {
         key: '/example/antd/table-drag-row', 
-        parentKey: 'antd', 
+        parentKey: 'antDesign', 
         icon: 'deployment-unit',
         local: 'tableDragRow',
         text: 'TableDragRow # 表格行可拖拽高阶组件', 
@@ -137,7 +137,7 @@ export default [
     },
     {
         key: '/example/antd/table-editable', 
-        parentKey: 'antd', 
+        parentKey: 'antDesign', 
         icon: 'deployment-unit',
         local: 'tableEditable',
         text: 'TableEditable # 可编辑表格', 
@@ -145,7 +145,7 @@ export default [
     },
     {
         key: '/example/antd/table-right-click', 
-        parentKey: 'antd', 
+        parentKey: 'antDesign', 
         icon: 'deployment-unit',
         local: 'tableRightClick',
         text: 'TableRightClick # 表格行右键高阶组件', 
@@ -153,7 +153,7 @@ export default [
     },
     {
         key: '/example/antd/tool-bar', 
-        parentKey: 'antd', 
+        parentKey: 'antDesign', 
         icon: 'deployment-unit',
         local: 'toolBar',
         text: 'ToolBar # 工具条容器', 
@@ -161,7 +161,7 @@ export default [
     },
     {
         key: '/example/antd/tool-item', 
-        parentKey: 'antd', 
+        parentKey: 'antDesign', 
         icon: 'deployment-unit',
         local: 'toolItem',
         text: 'ToolItem # 工具项', 
@@ -169,7 +169,7 @@ export default [
     },
     {
         key: '/example/antd/user-avatar', 
-        parentKey: 'antd', 
+        parentKey: 'antDesign', 
         icon: 'deployment-unit',
         local: 'userAvatar',
         text: 'UserAvatar # 用户头像', 

@@ -22,7 +22,7 @@ export default {
         setting: 'Setting',
         logout: 'LogOut',
         ajax: 'Ajax',
-        antd: 'Ant Design Extend',
+        antDesign: 'Ant Design Extend',
         asyncSelect: 'Async Select',
         fontIcon: 'Font Icon',
         formItemLayout: 'Form Item Layout',
