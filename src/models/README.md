@@ -60,20 +60,17 @@ export default connectComponent({LayoutComponent: Demo, mapStateToProps});
 ## 简化写法
 action reducer 二合一，省去了actionType，简化写法；
 
-注：所有的reducer方法，无论是什么写法中的，都可以直接返回新数据，不必关心与原数据合并（...state），封装内部做了合并；
-
-注：一个model中，除了initialState syncState actions reducers 等关键字之外的属性，都视为action reducer合并写法;
-
-缺陷:
-- 一个action只能被一个reducer处理，但同时也保证了代码的简介性，一般情况下action与reducer都是一对一的；
-- 函数写法，只能接受一个参数，多个参数需要通过对象方式传递；
+注意：
+- 所有的reducer方法，无论是什么写法中的，都可以直接返回新数据，不必关心与原数据合并（...state），封装内部做了合并；
+- 一个model中，除了initialState syncState actions reducers 等关键字之外的属性，都视为action reducer合并写法;
 
 ### 一个函数
 一个函数，即可作为action方法，也作为reduce使用
 
 - 调用action方法传递的数据将不会做任何处理，会直接传递给 reducer
-- action只能接受一个参数，如果多个数据，通过对象方式传递
+- 只能用第一个参数接收传递过来的数据，如果多个数据，需要通过对象方式传递
 - 第二个参数固定为state，第三个参数固定为action，不需要可以缺省（一般都是缺省的）
+- 函数的返回值为一个对象或者undefined，将于原state合并，作为store新的state
 
 ```js
 // page.model.js
@@ -164,9 +161,12 @@ export default {
         
         // 异步action 默认使用通用异步meta配置 commonAsyncMeta，对successTip errorTip onResolve onReject onComplete 进行了合理的默认值处理，需要action以对象形式传参调用
         // meta: commonAsyncMeta, 
-        // meta: { // 可以是函数，可以是对象
+        // meta: {
         //     successTip: '查询成功！欧耶~',
         //     errorTip: '自定义errorTip！马丹~',
+        // },
+        // meta: () => {
+        //    return {...};
         // },
         
         // 基于promise 异步reducer写法；
@@ -198,7 +198,7 @@ this.props.action.user
     });
 ```
 
-参数约定为一个对象，对象各个属性说明如下:
+参数约定为一个对象，各个属性说明如下:
 
 参数|说明
 ---|---
