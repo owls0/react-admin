@@ -1,6 +1,6 @@
 import React from 'react';
 import {Route} from 'react-router-dom';
-import {isAuthenticated} from '@/commons';
+import {isAuthenticated} from '../commons';
 import Error401 from '@/pages/error/Error401';
 
 

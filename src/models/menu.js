@@ -26,38 +26,31 @@ export default {
     setKeepOtherOpen: (keepOtherOpen) => ({keepOtherOpen}),
     setOpenKeys: (openKeys) => ({openKeys}),
     setMenus: (menus) => ({menus}),
-    actions: {
-        // 获取菜单状态，openKeys selectedMenu topMenu
-        getMenuStatus: createAction(types.GET_MENU_STATUS),
-    },
-    reducers: {
-        // 根据url 获取菜单状态 openKeys selectedMenu topMenu
-        [types.GET_MENU_STATUS](state) {
-            const path = window.location.pathname;
-            const {keepOtherOpen} = state;
-            let openKeys = [...state.openKeys];
-            let selectedMenu = getSelectedMenuByPath(path, state.menus);
-            let topMenu = {};
+    getMenuStatus: (arg, state) => {
+        const path = window.location.pathname;
+        const {keepOtherOpen} = state;
+        let openKeys = [...state.openKeys];
+        let selectedMenu = getSelectedMenuByPath(path, state.menus);
+        let topMenu = {};
 
-            // 如果没有匹配到，使用上一次菜单
-            if (!selectedMenu && path !== '/') { // 首页除外
-                selectedMenu = state.selectedMenu;
-            }
-
-            if (selectedMenu) {
-                topMenu = getTopNodeByNode(state.menus, selectedMenu);
-                const parentKeys = selectedMenu.parentKeys || [];
-
-                openKeys = keepOtherOpen ? openKeys.concat(parentKeys) : [...parentKeys];
-
-                openKeys = uniqueArray(openKeys);
-            }
-            return {
-                topMenu,
-                selectedMenu,
-                openKeys,
-            };
+        // 如果没有匹配到，使用上一次菜单
+        if (!selectedMenu && path !== '/') { // 首页除外
+            selectedMenu = state.selectedMenu;
         }
-    }
+
+        if (selectedMenu) {
+            topMenu = getTopNodeByNode(state.menus, selectedMenu);
+            const parentKeys = selectedMenu.parentKeys || [];
+
+            openKeys = keepOtherOpen ? openKeys.concat(parentKeys) : [...parentKeys];
+
+            openKeys = uniqueArray(openKeys);
+        }
+        return {
+            topMenu,
+            selectedMenu,
+            openKeys,
+        };
+    },
 }
 

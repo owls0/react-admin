@@ -68,7 +68,7 @@ action reducer 二合一，省去了actionType，简化写法；
 一个函数，即可作为action方法，也作为reduce使用
 
 - 调用action方法传递的数据将不会做任何处理，会直接传递给 reducer
-- 只能用第一个参数接收传递过来的数据，如果多个数据，需要通过对象方式传递
+- 只能用第一个参数接收传递过来的数据，如果多个数据，需要通过对象方式传递，如果不需要传递数据，但是要使用state，也需要定义一个参数占位
 - 第二个参数固定为state，第三个参数固定为action，不需要可以缺省（一般都是缺省的）
 - 函数的返回值为一个对象或者undefined，将于原state合并，作为store新的state
 
@@ -79,6 +79,7 @@ export default {
         title: void 0,
         name: void 0,
         user: {},
+        toggle: true,
     },
     
     setTitle: title => ({title}),
@@ -86,7 +87,8 @@ export default {
         const {name: prevName} = state;
         if(name !== prevName) return {name: 'Different Name'};
     },
-    setUser: ({name, age} = {}) => ({user: {name, age}});
+    setUser: ({name, age} = {}) => ({user: {name, age}}),
+    setToggle: (arg, state) => ({toggle: !state.toggle}),
 }
 
 // 使用
