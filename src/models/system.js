@@ -21,50 +21,52 @@ export default {
         primaryColor,           // 主题主颜色
     },
 
-    setPrimaryColor: (state, {payload}) => {
-        setItem('primaryColor', payload);
+    /**
+     * 设置主题颜色
+     * @param primaryColor
+     * @returns {{primaryColor: *}}
+     */
+    setPrimaryColor: (primaryColor) => {
+        setItem('primaryColor', primaryColor);
 
-        return {primaryColor: payload};
+        return {primaryColor};
     },
 
     /**
      * 获取系统菜单
      */
     getMenus: {
-        payload: ({params, options} = {}) => {
+        payload: ({params} = {}) => {
             return getMenus(params.userId);
         },
     },
 
     /**
      * 设置语言
-     * @param state
-     * @param payload
-     * @returns {{local: *}}
+     * @param local
+     * @returns {{local: *, i18n: {application, ajaxTip, menu, login, setting}}}
      */
-    setLocal: (state, {payload}) => {
-        const localI18n = i18n.find(item => item.local === payload).i18n;
+    setLocal: (local) => {
+        const localI18n = i18n.find(item => item.local === local).i18n;
 
-        setItem('system-local', payload);
+        setItem('system-local', local);
 
-        return {local: payload, i18n: localI18n}
+        return {local: local, i18n: localI18n}
     },
 
     /**
      * 设置当前用户
-     * @param state
-     * @param payload
+     * @param loginUser
      * @returns {{loginUser: *}}
      */
-    setLoginUser: (state, {payload}) => ({loginUser: payload}),
+    setLoginUser: (loginUser) => ({loginUser}),
 
     /**
      * 设置当前用户权限
-     * @param state
-     * @param payload
+     * @param permissions
      * @returns {{permissions: *}}
      */
-    setPermissions: (state, {payload}) => ({permissions: payload}),
+    setPermissions: (permissions) => ({permissions}),
 
     /**
      * 显示全局loading

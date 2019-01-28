@@ -23,9 +23,9 @@ export default {
         keepOtherOpen: true,
     },
 
-    setKeepOtherOpen: (state, {payload}) => ({keepOtherOpen: payload}),
-    setOpenKeys: (state, {payload}) => ({openKeys: payload}),
-    setMenus: (state, {payload}) => ({menus: payload}),
+    setKeepOtherOpen: (keepOtherOpen) => ({keepOtherOpen}),
+    setOpenKeys: (openKeys) => ({openKeys}),
+    setMenus: (menus) => ({menus}),
     actions: {
         // 获取菜单状态，openKeys selectedMenu topMenu
         getMenuStatus: createAction(types.GET_MENU_STATUS),

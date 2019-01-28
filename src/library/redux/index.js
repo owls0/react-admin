@@ -99,11 +99,11 @@ export function getActionsAndReducers({models}) {
 
             if (typeof arValue === 'function') { // ar 函数写法
                 arActions[actionName] = createAction(type);
-                arReducers[type] = ar[actionName];
-                // arReducers[type] = (state, action) => {
-                //     const {payload} = action;
-                //     return arValue(...payload, state, action);
-                // };
+                // arReducers[type] = arValue;
+                arReducers[type] = (state, action) => {
+                    const {payload} = action;
+                    return arValue(payload, state, action);
+                };
             } else { // ar 对象写法
                 let {payload = identity, meta, reducer = (state) => ({...state})} = arValue;
 

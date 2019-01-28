@@ -20,19 +20,25 @@ src/library中less不启用css module 基础组件，不要使用css module
 路由配置自动抓取 同时支持 config PAGE_ROUTE 两种方式
 页面跳转 page-link 组件，如果link所指已经是当前页面，点击无效
 
+## 判断运算符
+尤其在判断后端返回数据的时候，额外简洁
+
+```
+const name = res?.data?.user?.name || '匿名';
+```
 
 ## modal
+对redux进行封装 [文档](./src/models/README.md);
 
 ## 主题
+通过样式覆盖来实现的
+
 编写 theme.js 通过 less-loader 的 modifyVars 来进行主题配置
 antd 主题 https://ant-design.gitee.io/docs/react/customize-theme-cn
 每次修改了theme.js 需要重新yarn start 才能生效
 
 自定义的颜色元素，如果参与主题，不能使用css module 同时需要修改/public/color.less
 color.less 来自于 https://ant-design.gitee.io/color.less 里面的代码有点乱，大量重复，大量未使用到less变量的代码，需要整理  
-
-sx-antd 引入会导致antd的主题失效
-
 
 ## 菜单
 /src/menus.js 中配置菜单数据，支持异步

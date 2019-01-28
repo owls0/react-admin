@@ -13,7 +13,7 @@ const ignore = [
     // path.resolve(__dirname, '../src/components/index.less'),
     // path.resolve(__dirname, '../src/components/README.md'),
 ];
-const menusFilePath = path.resolve(__dirname, '../../menus-antd-demo.js');
+const menusFilePath = path.resolve(__dirname, '../../menus-ant-design-example.js');
 const demoPath = path.resolve(__dirname, '../../pages/examples/antd');
 const template = path.resolve(__dirname, './template.ejs');
 

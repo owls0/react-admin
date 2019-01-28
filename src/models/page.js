@@ -9,12 +9,14 @@ export default {
     showHead: () => ({showHead: true}),
     hideHead: () => ({showHead: false}),
 
-    setTitle: (state, {payload}) => ({title: payload}),
+    setTitle: (title) => {
+        return {title};
+    },
 
-    setBreadcrumbs: (state, {payload}) => ({breadcrumbs: payload}),
-    appendBreadcrumbs: (state, {payload}) => {
+    setBreadcrumbs: (breadcrumbs) => ({breadcrumbs}),
+    appendBreadcrumbs: (appendBreadcrumbs, state) => {
         let {breadcrumbs = []} = state;
-        breadcrumbs = breadcrumbs.concat(payload);
+        breadcrumbs = breadcrumbs.concat(appendBreadcrumbs);
         return {breadcrumbs};
     },
 

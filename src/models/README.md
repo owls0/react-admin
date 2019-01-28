@@ -63,7 +63,9 @@ export default connectComponent({LayoutComponent: Demo, mapStateToProps});
 ## 简化写法：action reducer 二合一
 一个model中，除了initialState syncState actions reducers 等关键字之外的属性，都视为action reducer合并写法;
 
-缺陷是一个action只能被一个reducer处理，但是也同时保证了代码的简介性，一般情况下action与reducer都是一一对应的；
+缺陷:
+- 一个action只能被一个reducer处理，但是也同时保证了代码的简介性，一般情况下action与reducer都是一一对应的；
+- 函数写法，只能接受一个参数，多个参数需要通过对象方式传递
 
 ```js
 
@@ -106,18 +108,23 @@ export default {
     // action reducer 合并写法，如果一个action 只对应一个reducer，这种写法不需要指定actionType，可以有效简化代码；
     // 如果action有额外的数据处理，请使用这种结构
     arDemo: {
-        payload() { // 如果是函数返回值将作为action.payload 传递给reducer，如果非函数，直接将payload的值，作为action.payload;
-        },
-        meta() { // 如果是函数返回值将作为action.meta 传递给reducer，如果非函数，直接将meta的值，作为action.meta;
-        },
+        // 如果是函数返回值将作为action.payload 传递给reducer，如果非函数，直接将payload的值，作为action.payload;
+        payload(options) {...},
+        
+        // 如果是函数返回值将作为action.meta 传递给reducer，如果非函数，直接将meta的值，作为action.meta;
+        meta(options) {...},
         reducer(state, action) {
             // return {...state};
             returtn {...newState}; // 可以直接返回要修改的数据，内部封装会与原state合并`{...state, ...newState}`;
         },
     },
     
-    // action 数据不需要特殊处理，会直接传递给 reducer的action.payload
-    setBreadcrumbs: (state, {payload}) => ({breadcrumbs: payload}),
+    // action 数据不需要特殊处理，会直接传递给 reducer
+    // action只能接受一个参数，如果多个数据，通过对象方式传递，第二个参数固定为state，第三个参数固定为action
+    // state action 如果不需要，可以缺省，一般都是缺省的
+    setBreadcrumbs: (breadcrumbs) => ({breadcrumbs}),
+    setTitle: (title, state, action) => ({title}),
+    setUser: ({name, age} = {}, state, action) => ({name, age}), 
     show: () => ({show: true}),
     
     
@@ -144,7 +151,7 @@ export default {
         
         // 基于promise 异步reducer写法；
         reducer: {
-            pending: () => ({loading: true}),
+            pending: (state, action) => ({loading: true}),
             resolve(state, {payload = {}}) {
                 const {total = 0, list = []} = payload;
                 return {
@@ -152,7 +159,7 @@ export default {
                     total,
                 }
             },
-            complete: () => ({loading: false}),
+            complete: (state, action) => ({loading: false}),
         }
     },
 };

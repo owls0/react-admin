@@ -13,10 +13,10 @@ export default {
         collapsed: true,
     },
 
-    setDragging: (state, {payload}) => ({dragging: payload}),
+    setDragging: (dragging) => ({dragging}),
     hide: () => ({show: false}),
     show: () => ({show: true}),
-    setWidth: (state, {payload}) => ({width: payload}),
+    setWidth: (width) => ({width}),
     initWidth: () => ({width: INIT_WIDTH}),
-    setCollapsed: (state, {payload}) => ({collapsed: payload}),
+    setCollapsed: (collapsed) => ({collapsed}),
 }

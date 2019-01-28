@@ -36,7 +36,6 @@ import config from '@/commons/config-hoc';
     },
 })
 export default class Settings extends Component {
-
     handlePageFrameLayoutChange = (e) => {
         const {value} = e.target;
         const {action} = this.props;

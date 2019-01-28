@@ -13,7 +13,7 @@ export default {
 
     syncState: true, // 全部同步到localStorage中
 
-    setPageFrameLayout: (state, {payload}) => ({pageFrameLayout: payload}),
-    setPageHeadFixed: (state, {payload}) => ({pageHeadFixed: !!payload}),
-    showPageHead: (state, {payload}) => ({pageHeadShow: !!payload, pageHeadFixed: payload ? state.pageHeadFixed : false}),
+    setPageFrameLayout: (pageFrameLayout) => ({pageFrameLayout}),
+    setPageHeadFixed: (pageHeadFixed) => ({pageHeadFixed: !!pageHeadFixed}),
+    showPageHead: (pageHeadShow, state) => ({pageHeadShow: !!pageHeadShow, pageHeadFixed: pageHeadShow ? state.pageHeadFixed : false}),
 }
