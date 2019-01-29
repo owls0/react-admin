@@ -16,7 +16,11 @@ export default ({component: Component, noAuth, ...rest}) => {
         <Route
             {...rest}
             render={props => {
+                // 页面滚动条滚动到顶部
+                document.body.scrollTop = document.documentElement.scrollTop = 0;
+
                 if (noAuth || isAuthenticated()) return <Component {...props}/>;
+
                 return <Error401/>;
             }}
         />
