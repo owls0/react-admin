@@ -6,7 +6,6 @@ import PageContent from '@/layouts/page-content';
 @config({
     path: '/example/ajax',
     ajax: true,
-    title: {local: 'users', text: 'ajax请求'},
 })
 export default class Ajax extends Component {
     state = {

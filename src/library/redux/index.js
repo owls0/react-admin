@@ -100,6 +100,7 @@ export function getActionsAndReducers({models}) {
         Object.keys(ar).forEach((actionName, index) => {
             const type = `type-${actionName}-${modelName}-${index}`.toUpperCase(); // 保证唯一并增强type可读性，方便调试；
             __actionTypes[actionName] = type;
+
             const arValue = ar[actionName];
 
             if (typeof arValue === 'function') { // ar 函数写法
@@ -150,6 +151,22 @@ export function getActionsAndReducers({models}) {
                 // 函数视为普通reducer, 进行新、旧state合并，model中的reducer只返回新数据即可
                 __reducers[key] = (state, action) => {
                     const newState = reducer(state, action) || {}; // 允许reducer不返回数据
+
+                    // 检测 newState是否为对象
+                    const isObject = typeof newState === 'object' && !Array.isArray(newState);
+                    if (!isObject) {
+                        console.error(`model method must return an object! check '${modelName}' method`);
+                    }
+                    // 检测新数据是否存在未在初始化state中定义的数据
+                    const newStateKeys = Object.keys(newState);
+
+                    const initialStateKeys = Object.keys(initialState);
+
+                    newStateKeys.forEach(newKey => {
+                        if (!initialStateKeys.includes(newKey)) {
+                            console.error(`model method return {${newKey}} is not in ${modelName}.initialState! please define '${newKey}' in ${modelName}.initialState!`);
+                        }
+                    });
 
                     return {
                         ...state,
