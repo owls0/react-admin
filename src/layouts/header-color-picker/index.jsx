@@ -68,6 +68,7 @@ export default class ThemeColorPicker extends Component {
             changeColor();
         } else {
             window.less = {
+                logLevel: 2,
                 async: true,
                 javascriptEnabled: true,
                 modifyVars: { // less.js加载完成就会触发一次转换，需要传入变量
