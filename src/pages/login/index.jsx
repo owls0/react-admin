@@ -74,9 +74,9 @@ export default class extends Component {
         const passwordError = isFieldTouched('password') && getFieldError('password');
         return (
             <div styleName="root" className="login-bg">
-                <Helmet>
-                    <title>{local.title}</title>
-                </Helmet>
+                <Helmet
+                    title={local.title}
+                />
 
                 <div styleName="menu">
                     <Color/>

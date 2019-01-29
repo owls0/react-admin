@@ -187,7 +187,9 @@ export default class FrameTopSideMenu extends Component {
 
         return (
             <div styleName="base-frame" className="no-print">
-                {titleIsString ? <Helmet><title>{titleText}</title></Helmet> : null}
+                <Helmet
+                    title={titleIsString ? titleText : ''}
+                />
                 <BackTop/>
                 <Header theme={(isTopSideMenu || isSideMenu) ? 'default' : 'dark'} layout={layout}/>
                 <Side layout={layout} theme={theme}/>
