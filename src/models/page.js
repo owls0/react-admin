@@ -22,7 +22,20 @@ export default {
         return {title};
     },
 
-    setBreadcrumbs: (breadcrumbs) => ({breadcrumbs}),
+    setBreadcrumbs: (breadcrumbs) => {
+        const local = getCurrentLocal();
+
+        if (breadcrumbs && breadcrumbs.length) {
+            breadcrumbs.forEach(item => {
+                if (item.local) {
+                    const text = local.menu[item.local];
+                    if (text) item.text = text;
+                }
+            })
+        }
+
+        return {breadcrumbs};
+    },
     appendBreadcrumbs: (appendBreadcrumbs, state) => {
         let {breadcrumbs = []} = state;
         breadcrumbs = breadcrumbs.concat(appendBreadcrumbs);
