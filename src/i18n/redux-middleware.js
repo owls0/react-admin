@@ -25,7 +25,7 @@ export default store => next => action => {
 
     if (action.type === setLocalActionType) {
         setCurrentLocal(allI18n.find(item => item.local === nextLocal)?.i18n || {});
-        // setMenuLocal();
+        setMenuLocal();
         setTitleLocal();
         setBreadcrumbsLocal();
     }
