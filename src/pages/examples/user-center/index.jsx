@@ -18,6 +18,7 @@ export default class index extends Component {
     }
 
     render() {
+        console.log('user center render');
         return (
             <PageContent>
                 测试一下library中的less是否使用了css module

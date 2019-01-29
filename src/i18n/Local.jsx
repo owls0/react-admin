@@ -18,7 +18,7 @@ import allI18n, {setCurrentLocal} from './index';
         breadcrumbs: state.page.breadcrumbs,
     }
 })
-export default class App extends React.Component {
+export default class Local extends React.Component {
     constructor(...props) {
         super(...props);
         let {local, autoLocal} = this.props;
@@ -74,22 +74,24 @@ export default class App extends React.Component {
         const {
             local,
             menus,
-            title,
-            breadcrumbs = [],
         } = prevState;
+
+        const newState = {};
 
         // 菜单国际化处理
         const menuI18n = () => {
             const menus = setMenuI18n(nextMenus, i18n.menu);
             nextProps.action.menu.setMenus(menus);
+
+            newState.menus = nextMenus;
         };
 
         // 标题国际化处理
         const titleI18n = () => {
             if (!nextTitle.local) return;
 
-            const label = i18n.menu[nextTitle.local] || i18n[nextTitle.local];
-            if (label) nextProps.action.page.setTitle({...nextTitle, label});
+            const text = i18n.menu[nextTitle.local] || i18n[nextTitle.local];
+            if (text) nextProps.action.page.setTitle({...nextTitle, text});
         };
 
         // 面包屑国际化
@@ -113,34 +115,17 @@ export default class App extends React.Component {
             menuI18n();
         }
 
-        // title国际化处理
-        if (nextTitle && nextTitle.local) {
-            if (!title) {
-                titleI18n();
-            }
-            if (title && title.local && title.local !== nextTitle.local) {
-                titleI18n();
-            }
-        }
-
-        // 面包屑导航国际化处理
-        if (nextBreadcrumbs.length !== breadcrumbs.length) {
-            breadcrumbsI18n();
-        }
-
         if (nextLocal !== local) {
+            // setCurrentLocal一定要放在最前面，后续的方法中有可能会用到 getCurrentLocal
+            setCurrentLocal(allI18n.find(item => item.local === nextLocal)?.i18n || {});
+
             menuI18n();
             titleI18n();
             breadcrumbsI18n();
-            setCurrentLocal(allI18n.find(item => item.local === nextLocal)?.i18n || {});
-        }
 
-        return {
-            local: nextLocal,
-            menus: nextMenus,
-            title: nextTitle,
-            breadcrumbs: nextBreadcrumbs,
-        };
+            newState.local = nextLocal;
+        }
+        return newState;
     }
 
     render() {

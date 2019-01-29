@@ -19,8 +19,10 @@ export default {
         i18n: zh_CN,            // 语言集 默认简体中文
         autoLocal: true,        // 是否根据浏览器自动获取语言，如果false，将默认简体中文
         primaryColor,           // 主题主颜色
+        tabs: [],
     },
 
+    setTabs: (tabs) => ({tabs}),
     /**
      * 设置主题颜色
      * @param primaryColor
