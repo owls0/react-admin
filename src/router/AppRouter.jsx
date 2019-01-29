@@ -8,6 +8,8 @@ import PageLoading from "@/layouts/page-loading";
 import Error404 from '@/pages/error/Error404';
 import config from '@/commons/config-hoc';
 import AuthRoute from './AuthRoute';
+import KeepAuthRoute from './KeepAuthRoute';
+import KeepPage from './KeepPage';
 import routes, {noFrameRoutes, noAuthRoutes} from './routes';
 
 const history = createBrowserHistory();
@@ -22,9 +24,11 @@ const allRoutes = routes.map(item => {
 
 @config({
     query: true,
+    connect: (state) => ({keepPage: state.system.keepPage}),
 })
 export default class AppRouter extends Component {
     render() {
+        const {keepPage} = this.props;
         const {noFrame, noAuth} = this.props.query;
         return (
             <Router history={history}>
@@ -50,6 +54,8 @@ export default class AppRouter extends Component {
                         return <PageFrame {...props}/>;
                     }}/>
 
+                    {keepPage ? <KeepPage/> : null}
+
                     <Switch>
                         {allRoutes.map(item => {
                             const {path, component} = item;
@@ -61,8 +67,10 @@ export default class AppRouter extends Component {
                             // 如果浏览器url中携带了noAuthor=true参数，不需要登录即可访问
                             if (noAuth === 'true') isNoAuthRoute = true;
 
+                            const MyRoute = keepPage ? KeepAuthRoute : AuthRoute;
+
                             return (
-                                <AuthRoute
+                                <MyRoute
                                     key={path}
                                     exact
                                     path={path}

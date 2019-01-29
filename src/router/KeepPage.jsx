@@ -2,9 +2,7 @@ import React, {Component} from 'react';
 import config from '@/commons/config-hoc';
 
 /**
- * Tab页使用的路由
- * @param Component
- * @param rest
+ * 通过div的显示隐藏，来保存tab页面状态
  */
 @config({
     connect(state) {
@@ -13,7 +11,7 @@ import config from '@/commons/config-hoc';
         };
     },
 })
-export default class TabPages extends Component {
+export default class KeepPage extends Component {
     tabs = {};
 
     render() {
@@ -24,14 +22,15 @@ export default class TabPages extends Component {
         const {pathname, search} = window.location;
         const path = `${pathname}${search}`;
 
+        // FIXME 每次tab切换，都会导致所有的tab页面组件render一次
         return (
             <div>
                 {tabs.map(item => {
-                    const {id, component} = item;
-                    const active = id === path;
+                    const {path: tabPath, component} = item;
+                    const active = tabPath === path;
 
                     return (
-                        <div key={id} style={{display: active ? 'block' : 'none'}}>
+                        <div key={tabPath} id={tabPath} style={{display: active ? 'block' : 'none'}}>
                             {component}
                         </div>
                     );

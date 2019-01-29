@@ -44,7 +44,6 @@ export default store => next => action => {
             const text = i18n.menu[title.local];
             if (text) {
                 title.text = text;
-                console.log('title:', text);
                 store.dispatch({
                     type: setTitleActionType,
                     payload: title,
