@@ -14,7 +14,7 @@ export default {
         loading: false,         // 全局loading
         loginUser: null,        // 当前登录用户
         permissions: [],        // 当前登录用户权限
-        local: void 0,                  // en_GB 英语
+        local: void 0,          // 语言 'en_GB' 英语
         i18n: zh_CN,            // 语言集 默认简体中文
         autoLocal: true,        // 是否根据浏览器自动获取语言，如果false，将默认简体中文
         primaryColor,           // 主题主颜色
