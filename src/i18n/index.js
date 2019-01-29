@@ -1,7 +1,14 @@
 import en_GB from './en_GB';
 import zh_CN from './zh_CN';
 
-let _currentLocal = zh_CN;
+const _defaultLang = {
+    name: '语言',
+    label: '简体中文',
+    local: 'zh_CN',
+    i18n: zh_CN,
+};
+
+let _currentLocal = _defaultLang.i18n;
 
 /**
  * 设置当前语言集
@@ -17,6 +24,12 @@ export function setCurrentLocal(current) {
 export function getCurrentLocal() {
     return _currentLocal;
 }
+
+/**
+ * 系统默认语言
+ * @type {{name: string, label: string, local: string, i18n: {application, ajaxTip, menu, login, setting}}}
+ */
+export const defaultLang = _defaultLang;
 
 /**
  * 默认导出所有语言集

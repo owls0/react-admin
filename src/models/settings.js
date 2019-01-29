@@ -11,7 +11,7 @@ export default {
         pageHeadShow: true,
     },
 
-    syncState: true, // 全部同步到localStorage中
+    syncStorage: true, // 全部同步到localStorage中
 
     setPageFrameLayout: (pageFrameLayout) => ({pageFrameLayout}),
     setPageHeadFixed: (pageHeadFixed) => ({pageHeadFixed: !!pageHeadFixed}),

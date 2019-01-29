@@ -6,8 +6,7 @@ import PageContent from '@/layouts/page-content';
 @config({
     path: '/example/ajax',
     ajax: true,
-    title: {local: 'ajax', text: 'ajax请求'},
-    breadcrumbs: [{key: 'ajax', local: 'ajax', text: 'ajax请求'}],
+    title: {local: 'users', text: 'ajax请求'},
 })
 export default class Ajax extends Component {
     state = {
@@ -52,6 +51,7 @@ export default class Ajax extends Component {
 
     render() {
         console.log('Ajax Demo Render');
+        console.log(this.props);
         return (
             <PageContent>
                 <Button onClick={this.handleSendGet}>Get Request</Button>

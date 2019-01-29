@@ -29,13 +29,13 @@ function filterObjectByObject(originObj, mapObj = {}, result = {}) {
  * 比如通过data.syncType标记，区分同步到local、session、server等
  *
  * @param key
- * @param syncState
+ * @param syncStorage
  * @param state
  */
-function syncToStorage(key, syncState, state) {
+function syncToStorage(key, syncStorage, state) {
     const Storage = getStorage();
-    // 根据 syncState 结构 获取 state中对应的数据，syncState === true 获取state中所有数据
-    const data = syncState === true ? state : filterObjectByObject(state, syncState);
+    // 根据 syncStorage 结构 获取 state中对应的数据，syncStorage === true 获取state中所有数据
+    const data = syncStorage === true ? state : filterObjectByObject(state, syncStorage);
     Storage.setItem(key, data);
 }
 
@@ -45,8 +45,8 @@ export default ({dispatch, getState}) => next => action => {
         if (pageState) {
             Object.keys(pageState).forEach(key => {
                 const state = pageState[key];
-                if (state && state.syncState) {
-                    syncToStorage(key, state.syncState, state);
+                if (state && state.syncStorage) {
+                    syncToStorage(key, state.syncStorage, state);
                 }
             });
         }

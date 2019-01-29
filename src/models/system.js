@@ -1,6 +1,4 @@
-import getMenus from '../menus';
-import zh_CN from '../i18n/zh_CN';
-import i18n from '../i18n';
+import i18n, {defaultLang} from '../i18n';
 import theme from "@/theme";
 
 // 进行本地存储同步，syncState中的同步是区分用户的，会导致未登录的页面与登录的页面有差异
@@ -11,13 +9,13 @@ const primaryColor = getItem('primaryColor') || theme['@primary-color'];
 
 export default {
     initialState: {
-        loading: false,         // 全局loading
-        loginUser: null,        // 当前登录用户
-        permissions: [],        // 当前登录用户权限
-        local: void 0,          // 语言 'en_GB' 英语
-        i18n: zh_CN,            // 语言集 默认简体中文
-        autoLocal: true,        // 是否根据浏览器自动获取语言，如果false，将默认简体中文
-        primaryColor,           // 主题主颜色
+        loading: false,             // 全局loading
+        loginUser: null,            // 当前登录用户
+        permissions: [],            // 当前登录用户权限
+        local: defaultLang.local,   // 默认语言
+        i18n: defaultLang.i18n,     // 默认语言集
+        autoLocal: true,            // 是否根据浏览器自动获取语言，如果false，将默认简体中文
+        primaryColor,               // 主题主颜色
         tabs: [],
     },
 
@@ -31,15 +29,6 @@ export default {
         setItem('primaryColor', primaryColor);
 
         return {primaryColor};
-    },
-
-    /**
-     * 获取系统菜单
-     */
-    getMenus: {
-        payload: ({params} = {}) => {
-            return getMenus(params.userId);
-        },
     },
 
     /**

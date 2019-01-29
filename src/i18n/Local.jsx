@@ -5,17 +5,12 @@ import enGB from 'antd/lib/locale-provider/en_GB';
 import moment from 'moment';
 import 'moment/locale/zh-cn'; // 解决 antd 日期组件国际化问题
 import {connect} from '@/models';
-import {setMenuI18n} from '@/commons';
-import allI18n, {setCurrentLocal} from './index';
+import allI18n, {defaultLang} from './index';
 
 @connect(state => {
     return {
         local: state.system.local,
         autoLocal: state.system.autoLocal,
-        i18n: state.system.i18n,
-        menus: state.menu.menus,
-        title: state.page.title,
-        breadcrumbs: state.page.breadcrumbs,
     }
 })
 export default class Local extends React.Component {
@@ -23,12 +18,24 @@ export default class Local extends React.Component {
         super(...props);
         let {local, autoLocal} = this.props;
 
-        // 不基于浏览器自动获取，将语言设置为中文
-        if (!autoLocal) local = 'zh_CN';
+        // 不基于浏览器自动获取，将语言设置为默认
+        if (!autoLocal) local = defaultLang.local;
+
+        // 从浏览器存储中恢复语言
+        const storeLocal = window.localStorage.getItem('system-local');
+
+        if (storeLocal) local = storeLocal;
 
         // 如果没有选择过语言，通过浏览器获取语言
         if (!local && autoLocal) {
+            local = getLocalByBrowser();
+        }
+
+        this.props.action.system.setLocal(local);
+
+        function getLocalByBrowser() {
             const type = navigator.appName;
+            const defaultLocal = 'en_GB'; // 如果未获取到，默认语言为英文
             let lang;
 
             if (type === 'Netscape') {
@@ -37,100 +44,27 @@ export default class Local extends React.Component {
                 lang = navigator.userLanguage; // 获取浏览器配置语言，支持IE5+ == navigator.systemLanguage
             }
 
-            // 浏览器语言对应
+            if (!lang) return defaultLocal;
+
             lang = lang.replace('-', '_');
-            const lang2 = lang.substr(0, 2);
-            const l2 = allI18n.find(item => item.local.substr(0, 2) === lang2);
 
-            if (allI18n.find(item => item.local === lang)) {
-                // 完全匹配了
-                local = lang;
-            } else if (l2) {
-                // 前两位匹配
-                local = l2.local;
-            } else {
-                // 未查找到匹配的语言，设置成英语
-                local = 'en_GB';
-            }
+            const exactLang = allI18n.find(item => item.local === lang);
+            const firstTowCharLang = allI18n.find(item => item.local.substr(0, 2) === lang.substr(0, 2));
+
+            // 完全匹配了
+            if (exactLang) return exactLang.local;
+
+            // 前两位匹配
+            if (firstTowCharLang) return firstTowCharLang.local;
+
+            // 未查找到匹配的语言，设置成默认语言
+            return defaultLocal;
         }
-
-        this.state.local = local;
-        this.props.action.system.setLocal(local);
     }
 
-    state = {
-        menus: [],
-    };
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        const {
-            i18n,
-            local: nextLocal,
-            menus: nextMenus,
-            title: nextTitle,
-            breadcrumbs: nextBreadcrumbs = [],
-        } = nextProps;
-
-        const {
-            local,
-            menus,
-        } = prevState;
-
-        const newState = {};
-
-        // 菜单国际化处理
-        const menuI18n = () => {
-            const menus = setMenuI18n(nextMenus, i18n.menu);
-            nextProps.action.menu.setMenus(menus);
-
-            newState.menus = nextMenus;
-        };
-
-        // 标题国际化处理
-        const titleI18n = () => {
-            if (!nextTitle.local) return;
-
-            const text = i18n.menu[nextTitle.local] || i18n[nextTitle.local];
-            if (text) nextProps.action.page.setTitle({...nextTitle, text});
-        };
-
-        // 面包屑国际化
-        const breadcrumbsI18n = () => {
-            if (!nextBreadcrumbs || !nextBreadcrumbs.length) return;
-
-            const breadcrumbs = nextBreadcrumbs.map(item => {
-                const {local} = item;
-                const text = i18n.menu[local] || i18n[local];
-
-                if (text) return {...item, text};
-
-                return {...item}
-            });
-
-            nextProps.action.page.setBreadcrumbs(breadcrumbs);
-        };
-
-        // 如果menus数据变化，FIXME 这里只是简单的对比了长度
-        if (nextMenus.length !== menus.length) {
-            menuI18n();
-        }
-
-        if (nextLocal !== local) {
-            // setCurrentLocal一定要放在最前面，后续的方法中有可能会用到 getCurrentLocal
-            setCurrentLocal(allI18n.find(item => item.local === nextLocal)?.i18n || {});
-
-            menuI18n();
-            titleI18n();
-            breadcrumbsI18n();
-
-            newState.local = nextLocal;
-        }
-        return newState;
-    }
 
     render() {
-        const {children} = this.props;
-        const {local} = this.state;
+        const {children, local} = this.props;
 
         // FIXME 更多语言支持
         const momentLocalMap = {

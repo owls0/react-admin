@@ -65,8 +65,8 @@ export function getStorage() {
  */
 export function getActionsAndReducers({models}) {
     const syncKeys = Object.keys(models).filter(key => {
-        const {syncState} = models[key];
-        return !!syncState;
+        const {syncStorage} = models[key];
+        return !!syncStorage;
     });
 
     const utils = actionUtils({syncKeys});
@@ -77,16 +77,20 @@ export function getActionsAndReducers({models}) {
         const model = models[modelName];
         let {
             initialState = {},
-            syncState,
+            syncStorage,
             actions = {},
             reducers = {},
         } = model;
 
+        const __actionTypes = {};
+
+        initialState.__actionTypes = __actionTypes;
+
         // 处理action reducer 合并写法
-        // 除去'initialState', 'syncState', 'actions', 'reducers'等约定属性，其他都视为actions与reducers合并写法
+        // 除去'initialState', 'syncStorage', 'actions', 'reducers'等约定属性，其他都视为actions与reducers合并写法
         const ar = {};
         Object.keys(model).forEach(item => {
-            if (['initialState', 'syncState', 'actions', 'reducers'].indexOf(item) === -1) {
+            if (['initialState', 'syncStorage', 'actions', 'reducers'].indexOf(item) === -1) {
                 ar[item] = model[item];
             }
         });
@@ -94,7 +98,8 @@ export function getActionsAndReducers({models}) {
         const arActions = {};
         const arReducers = {};
         Object.keys(ar).forEach((actionName, index) => {
-            const type = `${modelName}-${index}-${actionName}-type`.toUpperCase(); // 保证唯一并增强type可读性，方便调试；
+            const type = `type-${actionName}-${modelName}-${index}`.toUpperCase(); // 保证唯一并增强type可读性，方便调试；
+            __actionTypes[actionName] = type;
             const arValue = ar[actionName];
 
             if (typeof arValue === 'function') { // ar 函数写法
@@ -154,17 +159,17 @@ export function getActionsAndReducers({models}) {
             }
         });
 
-        if (syncState) {
+        if (syncStorage) {
             // 为meta添加__model_sync_name 和 __model_sync_state 属性，同步中间件会用到
             Object.keys(actions).forEach(item => {
                 const actionCreator = actions[item];
                 actions[item] = (...args) => {
                     const action = actionCreator(...args);
                     action.meta = action.meta === void 0 ? {} : action.meta;
-                    if (typeof action.meta !== 'object') throw new Error(`when model has syncState property，meta must be an object! check ${modelName} ${item} action method`);
+                    if (typeof action.meta !== 'object') throw new Error(`when model has syncStorage property，meta must be an object! check ${modelName} ${item} action method`);
 
                     action.meta.__model_sync_name = modelName;
-                    action.meta.__model_sync_state = syncState;
+                    action.meta.__model_sync_state = syncStorage;
 
                     return action;
                 };

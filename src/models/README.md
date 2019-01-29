@@ -62,7 +62,7 @@ action reducer 二合一，省去了actionType，简化写法；
 
 注意：
 - 所有的reducer方法，无论是什么写法中的，都可以直接返回新数据，不必关心与原数据合并（...state），封装内部做了合并；
-- 一个model中，除了initialState syncState actions reducers 等关键字之外的属性，都视为action reducer合并写法;
+- 一个model中，除了initialState syncStorage actions reducers 等关键字之外的属性，都视为action reducer合并写法;
 
 ### 一个函数
 一个函数，即可作为action方法，也作为reduce使用
@@ -110,10 +110,10 @@ export default {
     },
     
     // initialState会全部同步到localStorage中
-    // syncState: true,
+    // syncStorage: true,
      
     // 配置部分存数据储到localStorage中 
-    syncState: { 
+    syncStorage: { 
         titel: true,
         user: {
             name: true,

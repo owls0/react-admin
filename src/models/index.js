@@ -9,10 +9,12 @@ import {
     middlewareAsyncActionCallback,
     middlewareSyncReducerToLocalStorage,
 } from '@/library/redux';
+import middlewareLocal from '@/i18n/redux-middleware';
 import * as models from './all-models';
 
 const {actions, reducers} = getActionsAndReducers({models});
 const middleware = [
+    middlewareLocal,
     thunkMiddleware,
     middlewarePromise,
     middlewareAsyncActionCallback,

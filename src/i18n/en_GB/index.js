@@ -58,7 +58,7 @@ export default {
         navigationLayout: 'Navigation Layout',
         topSideMenu: 'Top + Left',
         topMenu: 'Top',
-        sideMenu: 'Side Menu',
+        sideMenu: 'Left',
         pageHeadSetting: 'Page Head Setting',
         showHead: 'Head Show',
         fixedHead: 'Head Fixed',

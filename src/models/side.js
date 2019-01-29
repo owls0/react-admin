@@ -8,7 +8,7 @@ export default {
         collapsed: false,   // 是否展开/收起
         dragging: false,    // 是否正在拖动
     },
-    syncState: {
+    syncStorage: {
         width: true,
         collapsed: true,
     },

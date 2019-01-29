@@ -52,6 +52,8 @@ export default (options) => {
 
         const hocs = compose(hocFuncs);
 
+        const componentName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
+
         @hocs
         class WithConfig extends Component {
             constructor(...args) {
@@ -91,7 +93,7 @@ export default (options) => {
                 if (sideCollapsed !== undefined) sideAction.setCollapsed(sideCollapsed);
             }
 
-            static displayName = `WithConfig(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+            static displayName = `WithConfig(${componentName})`;
 
             render() {
                 return <WrappedComponent {...this.props}/>;
