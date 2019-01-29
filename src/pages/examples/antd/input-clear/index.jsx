@@ -1,5 +1,5 @@
 import React from 'react';
-import DemoPage from '@/layouts/demo-page';
+import DemoPage from '@/library/antd/demo-page';
 import * as Basic from '@/library/antd/components/input-clear/demo/Basic';
 import * as WithForm from '@/library/antd/components/input-clear/demo/WithForm';
 import config from '@/commons/config-hoc';

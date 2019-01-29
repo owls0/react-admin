@@ -1,5 +1,5 @@
 import React from 'react';
-import DemoPage from '@/layouts/demo-page';
+import DemoPage from '@/library/antd/demo-page';
 import * as Basic from '@/library/antd/components/table-editable/demo/Basic';
 import * as EnterNext from '@/library/antd/components/table-editable/demo/EnterNext';
 import config from '@/commons/config-hoc';

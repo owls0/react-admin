@@ -1,5 +1,5 @@
 import React from 'react';
-import DemoPage from '@/layouts/demo-page';
+import DemoPage from '@/library/antd/demo-page';
 import * as Base from '@/library/antd/components/pop-prompt/demo/Base';
 import * as Form from '@/library/antd/components/pop-prompt/demo/Form';
 import config from '@/commons/config-hoc';

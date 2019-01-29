@@ -1,5 +1,5 @@
 import React from 'react';
-import DemoPage from '@/layouts/demo-page';
+import DemoPage from '@/library/antd/demo-page';
 import * as Basic from '@/library/antd/components/form-item-layout/demo/Basic';
 import * as Float from '@/library/antd/components/form-item-layout/demo/Float';
 import * as Form from '@/library/antd/components/form-item-layout/demo/Form';

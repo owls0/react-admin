@@ -29,8 +29,7 @@ export default class ThemeColorPicker extends Component {
             document.body.insertBefore(themeStyle, document.body.firstChild);
         }
 
-        // 登录页面 和 等之后的页面 用的storage 前缀不同，这里使用原生存储
-        const primaryColor = window.localStorage.getItem('primaryColor');
+        const {primaryColor} = this.props;
 
         // .less文件加载完成之后，生成主题，localStorage中的主题有可能过时，需要覆盖
         if (primaryColor) this.handleColorChange(primaryColor);

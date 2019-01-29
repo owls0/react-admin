@@ -1,5 +1,5 @@
 import React from 'react';
-import DemoPage from '@/layouts/demo-page';<%for(let i = 0; i< demos.length; i++){%>
+import DemoPage from '@/library/antd/demo-page';<%for(let i = 0; i< demos.length; i++){%>
 import * as <%= demos[i].name%> from '@/library/antd/components/<%= componentName%>/demo/<%= demos[i].name%>';<%}%>
 import config from '@/commons/config-hoc';
 

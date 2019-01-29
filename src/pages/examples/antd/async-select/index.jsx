@@ -1,5 +1,5 @@
 import React from 'react';
-import DemoPage from '@/layouts/demo-page';
+import DemoPage from '@/library/antd/demo-page';
 import * as Base from '@/library/antd/components/async-select/demo/Base';
 import * as InputAsValue from '@/library/antd/components/async-select/demo/InputAsValue';
 import config from '@/commons/config-hoc';
