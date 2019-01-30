@@ -30,7 +30,6 @@ src/library中less不启用css module 基础组件，不要使用css module
 
 ## tab页
 没有菜单对应的页面，需要单独设置title
-二级页面，在父级tab之后打开 parentPath/_/childPath
 
 ## 判断运算符
 尤其在判断后端返回数据的时候，额外简洁

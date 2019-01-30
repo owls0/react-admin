@@ -38,11 +38,15 @@ export default class KeepAuthRoute extends React.Component {
                 {...rest}
                 render={props => {
                     if (tabsShow || keepPage) {
+                        tabs.forEach(item => item.active = false);
+
                         const {pathname, search} = props.location;
                         const path = `${pathname}${search}`;
 
                         // FIXME tab页面是否存在判断
                         const currentTab = tabs.find(item => item.path === path);
+
+                        if (currentTab) currentTab.active = true;
 
                         if (!currentTab) {
                             let component = <Error401/>;
@@ -56,6 +60,7 @@ export default class KeepAuthRoute extends React.Component {
                                 component,
                                 text: title,
                                 icon,
+                                active: true,
                             };
 
                             let newTabs;
