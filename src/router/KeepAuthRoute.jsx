@@ -50,12 +50,27 @@ export default class KeepAuthRoute extends React.Component {
                             if (noAuth || isAuthenticated()) component = <Component {...props}/>;
 
                             const icon = selectedMenu?.icon;
-                            const newTabs = [...tabs, {
+
+                            const newTab = {
                                 path,
                                 component,
                                 text: title,
                                 icon,
-                            }];
+                            };
+
+                            let newTabs;
+                            // 一个二级页面，在其父级tab之后打开
+                            if (path.indexOf('/_/') !== -1) {
+                                const parentPath = path.split('/_/')[0];
+                                const parentTabIndex = tabs.findIndex(item => item.path === parentPath);
+
+                                if (parentTabIndex !== -1) {
+                                    newTabs = [...tabs];
+                                    newTabs.splice(parentTabIndex + 1, 0, newTab);
+                                }
+                            }
+
+                            if (!newTabs) newTabs = [...tabs, newTab];
 
                             setTimeout(() => {
                                 this.props.action.system.setTabs(newTabs);
