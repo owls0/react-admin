@@ -5,7 +5,7 @@ import config from '@/commons/config-hoc';
 
 @config({
     path: '/settings',
-    title: <span style={{color: 'red'}}>设置</span>,
+    title: {local: 'setting', text: '设置', icon: 'setting'},
     breadcrumbs: [
         {
             key: '1',
@@ -25,7 +25,7 @@ import config from '@/commons/config-hoc';
     connect(state) {
         const {pageFrameLayout, pageHeadFixed, pageHeadShow, tabsShow} = state.settings;
         const {keepOtherOpen} = state.menu;
-        const {i18n} = state.system;
+        const {i18n, keepPage} = state.system;
         return {
             pageFrameLayout,
             pageHeadFixed,
@@ -33,6 +33,7 @@ import config from '@/commons/config-hoc';
             keepOtherMenuOpen: keepOtherOpen,
             tabsShow,
             i18n,
+            keepPage,
         };
     },
 })
@@ -69,6 +70,11 @@ export default class Settings extends Component {
         this.props.action.settings.showTabs(checked);
     };
 
+    handleKeepPageChange = (e) => {
+        const {checked} = e.target;
+        this.props.action.system.setKeepPage(checked);
+    };
+
     render() {
         const {
             pageFrameLayout,
@@ -77,6 +83,7 @@ export default class Settings extends Component {
             keepOtherMenuOpen,
             tabsShow,
             i18n: {setting: local},
+            keepPage,
         } = this.props;
 
         const radioStyle = {
@@ -87,6 +94,7 @@ export default class Settings extends Component {
 
         const colStyle = {
             padding: '16px',
+            height: '100%',
         };
 
         return (
@@ -94,17 +102,29 @@ export default class Settings extends Component {
                 <Row>
                     <Col span={12} style={colStyle}>
                         <Card title={local.pageSetting} style={{marginBottom: 16}}>
-                            <Checkbox
-                                onChange={this.handlePageHeadShowChange}
-                                checked={pageHeadShow}
-                            >{local.showHead}</Checkbox>
-
-                            {pageHeadShow ? (
+                            <div>
                                 <Checkbox
-                                    onChange={this.handlePageHeadFixedChange}
-                                    checked={pageHeadFixed}
-                                >{local.fixedHead}</Checkbox>
-                            ) : null}
+                                    onChange={this.handlePageHeadShowChange}
+                                    checked={pageHeadShow}
+                                >{local.showHead}</Checkbox>
+
+                                {pageHeadShow ? (
+                                    <Checkbox
+                                        onChange={this.handlePageHeadFixedChange}
+                                        checked={pageHeadFixed}
+                                    >{local.fixedHead}</Checkbox>
+                                ) : null}
+                            </div>
+
+                            <div style={{marginTop: 8}}>
+                                <Checkbox
+                                    onChange={this.handleKeepPageChange}
+                                    checked={keepPage}
+                                >
+                                    {local.keepPage}
+                                    <span style={{color: 'red'}}>(Beta)</span>
+                                </Checkbox>
+                            </div>
                         </Card>
                         <Card title={local.menuSetting}>
                             <Checkbox
@@ -114,12 +134,14 @@ export default class Settings extends Component {
                         </Card>
                     </Col>
                     <Col span={12} style={colStyle}>
-                        <Card title={local.navigationLayout} style={{height: 272}}>
+                        <Card title={local.navigationLayout} style={{height: 299}}>
                             <div style={{borderBottom: '1px solid #e8e8e8', paddingBottom: 8, marginBottom: 8}}>
                                 <Checkbox
                                     onChange={this.handleTabShowChange}
                                     checked={tabsShow}
-                                >{local.tabsShow}</Checkbox>
+                                >
+                                    {local.tabsShow}
+                                </Checkbox>
                             </div>
                             <div>
                                 <Radio.Group onChange={this.handlePageFrameLayoutChange} value={pageFrameLayout}>

@@ -7,7 +7,6 @@ import PageFrame from '@/layouts/frame';
 import PageLoading from "@/layouts/page-loading";
 import Error404 from '@/pages/error/Error404';
 import config from '@/commons/config-hoc';
-import AuthRoute from './AuthRoute';
 import KeepAuthRoute from './KeepAuthRoute';
 import KeepPage from './KeepPage';
 import routes, {noFrameRoutes, noAuthRoutes} from './routes';
@@ -24,7 +23,9 @@ const allRoutes = routes.map(item => {
 
 @config({
     query: true,
-    connect: (state) => ({keepPage: state.system.keepPage}),
+    connect: (state) => ({
+        keepPage: state.system.keepPage,
+    }),
 })
 export default class AppRouter extends Component {
     render() {
@@ -67,10 +68,8 @@ export default class AppRouter extends Component {
                             // 如果浏览器url中携带了noAuthor=true参数，不需要登录即可访问
                             if (noAuth === 'true') isNoAuthRoute = true;
 
-                            const MyRoute = keepPage ? KeepAuthRoute : AuthRoute;
-
                             return (
-                                <MyRoute
+                                <KeepAuthRoute
                                     key={path}
                                     exact
                                     path={path}

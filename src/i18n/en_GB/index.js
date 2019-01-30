@@ -66,5 +66,6 @@ export default {
         fixedHead: 'Head Fixed',
         menuSetting: 'Menu Setting',
         keepMenuOpen: 'Keep Menu Open',
+        keepPage: 'Keep Page Alive',
     },
 };

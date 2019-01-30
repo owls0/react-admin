@@ -69,14 +69,7 @@ export default (options) => {
                 if (title && title !== true) {
                     page.setTitle(title);
 
-                    const {pathname, search} = window.location;
-                    const path = `${pathname}${search}`;
-
-                    system.setTabTitle({
-                        path,
-                        text: title,
-                    })
-
+                    system.setCurrentTabTitle(title)
                 }
 
                 // 页面面包屑导航

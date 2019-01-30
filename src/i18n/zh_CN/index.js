@@ -66,5 +66,6 @@ export default {
         fixedHead: '头部固定',
         menuSetting: '菜单设置',
         keepMenuOpen: '保持菜单展开',
+        keepPage: '保持页面内容',
     },
 };

@@ -5,6 +5,7 @@ import './style.less';
 
 @config({
     path: '/',
+    title: {local: 'home', text: '首页'},
     connect(state) {
         return {
             menus: state.menu.menus,

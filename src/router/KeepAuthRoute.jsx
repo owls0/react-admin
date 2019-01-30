@@ -13,41 +13,66 @@ import config from '@/commons/config-hoc';
         return {
             tabs: state.system.tabs,
             title: state.page.title,
+            selectedMenu: state.menu.selectedMenu,
+            keepPage: state.system.keepPage,
+            tabsShow: state.settings.tabsShow,
         }
     },
 })
 export default class KeepAuthRoute extends React.Component {
 
     render() {
-        const {component: Component, noAuth, tabs, title, ...rest} = this.props;
+        const {
+            component: Component,
+            noAuth,
+            tabs,
+            title,
+            selectedMenu,
+            keepPage,
+            tabsShow,
+            ...rest
+        } = this.props;
 
         return (
             <Route
                 {...rest}
                 render={props => {
-                    const {pathname, search} = props.location;
-                    const path = `${pathname}${search}`;
+                    if (tabsShow || keepPage) {
+                        const {pathname, search} = props.location;
+                        const path = `${pathname}${search}`;
 
-                    // FIXME tab页面是否存在判断
-                    const currentTab = tabs.find(item => item.path === path);
+                        // FIXME tab页面是否存在判断
+                        const currentTab = tabs.find(item => item.path === path);
 
-                    if (!currentTab) {
-                        let component = <Error401/>;
+                        if (!currentTab) {
+                            let component = <Error401/>;
 
-                        if (noAuth || isAuthenticated()) component = <Component {...props}/>;
+                            if (noAuth || isAuthenticated()) component = <Component {...props}/>;
 
-                        const newTabs = [...tabs, {
-                            path,
-                            component,
-                            text: title,
-                        }];
+                            const icon = selectedMenu?.icon;
+                            const newTabs = [...tabs, {
+                                path,
+                                component,
+                                text: title,
+                                icon,
+                            }];
 
-                        setTimeout(() => {
-                            this.props.action.system.setTabs(newTabs);
-                        })
+                            setTimeout(() => {
+                                this.props.action.system.setTabs(newTabs);
+                            })
+                        }
                     }
 
-                    return null;
+                    if (keepPage) {
+                        return null;
+                    }
+
+                    // 页面滚动条滚动到顶部
+                    document.body.scrollTop = document.documentElement.scrollTop = 0;
+
+                    if (noAuth || isAuthenticated()) return <Component {...props}/>;
+
+                    return <Error401/>;
                 }}
             />
         );
