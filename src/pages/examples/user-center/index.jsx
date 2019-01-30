@@ -24,8 +24,8 @@ export default class index extends Component {
         return (
             <PageContent>
                 <div>
-                    <Input style={{width: 100}} placeholder="请输入"/>
-                    <Select style={{width: 100}} placeholder="请选择">
+                    <Input style={{width: 100, marginRight: 8}} placeholder="请输入"/>
+                    <Select style={{width: 200}} placeholder="请选择">
                         <Option value="java">Java</Option>
                         <Option value="javascript">Java Script</Option>
                     </Select>

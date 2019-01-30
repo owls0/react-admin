@@ -4,7 +4,12 @@ yarn v1.13.0
 node v10.13.0
 
 ## Webpack
-使用了alias @ -> /path/to/src，WebStorm 通过 配置可以支持提示和点击跳转，具体配置如下：
+使用了alias @ -> /path/to/src，
+
+- 方便路径书写，不必关心相对路径结构
+- 复制粘贴到其他文件，不必修改路径
+
+WebStorm 通过 配置可以支持提示和点击跳转：
 ```
 Preference... -> Languages & Frameworks -> JavaScript -> Webpack
 ```

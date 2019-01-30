@@ -7,6 +7,7 @@
 @borderColor: #d9d9d9;
 @transitionDuration: 300ms;
 @pageHeadHeight: 62px;
+@pageTabsHeight: 48px;
 
 body {
     margin: 0;
@@ -112,6 +113,14 @@ body {
     &.with-fixed-page-head {
         height: @contentTop + @pageHeadHeight;
     }
+
+    &.with-tabs {
+        height: @contentTop + @pageTabsHeight;
+    }
+
+    &.with-fixed-page-head.with-tabs {
+        height: @contentTop + @pageHeadHeight + @pageTabsHeight;
+    }
 }
 
 .page-head-fixed {
@@ -120,6 +129,23 @@ body {
     top: @contentTop;
     background: #fff;
     z-index: 999;
+
+    &.with-tabs {
+        top: @contentTop + @pageTabsHeight;
+    }
+}
+
+.page-tabs {
+    position: fixed;
+    right: 0;
+    top: @contentTop;
+    height: @pageTabsHeight;
+    background: #fff;
+    z-index: 999;
+
+    :global(.ant-tabs-bar) {
+        padding-top: 7px;
+    }
 }
 
 .footer {

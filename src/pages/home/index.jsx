@@ -27,7 +27,6 @@ export default class Home extends Component {
                 }
             }
             if (path) {
-                console.log(path);
                 this.props.history.replace(path);
             }
         }

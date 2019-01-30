@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Radio, Card, Row, Col, Checkbox} from 'antd';
-import PageContent from '../../layouts/page-content';
+import PageContent from '@/layouts/page-content';
 import config from '@/commons/config-hoc';
 
 @config({
@@ -23,7 +23,7 @@ import config from '@/commons/config-hoc';
         },
     ],
     connect(state) {
-        const {pageFrameLayout, pageHeadFixed, pageHeadShow} = state.settings;
+        const {pageFrameLayout, pageHeadFixed, pageHeadShow, tabsShow} = state.settings;
         const {keepOtherOpen} = state.menu;
         const {i18n} = state.system;
         return {
@@ -31,6 +31,7 @@ import config from '@/commons/config-hoc';
             pageHeadFixed,
             pageHeadShow,
             keepOtherMenuOpen: keepOtherOpen,
+            tabsShow,
             i18n,
         };
     },
@@ -63,12 +64,18 @@ export default class Settings extends Component {
         this.props.action.menu.setKeepOtherOpen(checked);
     };
 
+    handleTabShowChange = (e) => {
+        const {checked} = e.target;
+        this.props.action.settings.showTabs(checked);
+    };
+
     render() {
         const {
             pageFrameLayout,
             pageHeadFixed,
             pageHeadShow,
             keepOtherMenuOpen,
+            tabsShow,
             i18n: {setting: local},
         } = this.props;
 
@@ -86,7 +93,7 @@ export default class Settings extends Component {
             <PageContent>
                 <Row>
                     <Col span={12} style={colStyle}>
-                        <Card title={local.pageHeadSetting} style={{marginBottom: 16}}>
+                        <Card title={local.pageSetting} style={{marginBottom: 16}}>
                             <Checkbox
                                 onChange={this.handlePageHeadShowChange}
                                 checked={pageHeadShow}
@@ -108,11 +115,19 @@ export default class Settings extends Component {
                     </Col>
                     <Col span={12} style={colStyle}>
                         <Card title={local.navigationLayout} style={{height: 272}}>
-                            <Radio.Group onChange={this.handlePageFrameLayoutChange} value={pageFrameLayout}>
-                                <Radio style={radioStyle} value="top-side-menu">{local.topSideMenu}</Radio>
-                                <Radio style={radioStyle} value="top-menu">{local.topMenu}</Radio>
-                                <Radio style={radioStyle} value="side-menu">{local.sideMenu}</Radio>
-                            </Radio.Group>
+                            <div style={{borderBottom: '1px solid #e8e8e8', paddingBottom: 8, marginBottom: 8}}>
+                                <Checkbox
+                                    onChange={this.handleTabShowChange}
+                                    checked={tabsShow}
+                                >{local.tabsShow}</Checkbox>
+                            </div>
+                            <div>
+                                <Radio.Group onChange={this.handlePageFrameLayoutChange} value={pageFrameLayout}>
+                                    <Radio style={radioStyle} value="top-side-menu">{local.topSideMenu}</Radio>
+                                    <Radio style={radioStyle} value="top-menu">{local.topMenu}</Radio>
+                                    <Radio style={radioStyle} value="side-menu">{local.sideMenu}</Radio>
+                                </Radio.Group>
+                            </div>
                         </Card>
                     </Col>
                 </Row>

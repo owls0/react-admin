@@ -17,11 +17,19 @@ export default {
         autoLocal: true,            // 是否根据浏览器自动获取语言，如果false，将默认简体中文
         primaryColor,               // 主题主颜色
         tabs: [],                   // 所有的tab配置 {path, text, component}
-        keepPage: false,             // 页面切换回去之后，保持内容，通过显示隐藏div实现，不知道会有什么坑！！！性能？各个互相干扰？
+        keepPage: true,             // 页面切换回去之后，保持内容，通过显示隐藏div实现，不知道会有什么坑！！！性能？各个互相干扰？
     },
 
     setTabs: (tabs) => ({tabs}),
     setKeepPage: keepPage => ({keepPage}),
+    setTabTitle: ({path, text}, state) => {
+        const tabs = [...state.tabs];
+        const tab = tabs.find(item => item.path = path);
+
+        if (tab) tab.text = text;
+
+        return {tabs}
+    },
     /**
      * 设置主题颜色
      * @param primaryColor

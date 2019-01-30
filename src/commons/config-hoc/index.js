@@ -59,7 +59,7 @@ export default (options) => {
             constructor(...args) {
                 super(...args);
 
-                const {page, side: sideAction} = this.props.action;
+                const {page, side: sideAction, system} = this.props.action;
 
                 // 页面标题设置
                 if (title === false) {
@@ -68,6 +68,15 @@ export default (options) => {
 
                 if (title && title !== true) {
                     page.setTitle(title);
+
+                    const {pathname, search} = window.location;
+                    const path = `${pathname}${search}`;
+
+                    system.setTabTitle({
+                        path,
+                        text: title,
+                    })
+
                 }
 
                 // 页面面包屑导航

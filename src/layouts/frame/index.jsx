@@ -6,8 +6,9 @@ import {withRouter} from 'react-router-dom';
 import PageHead from '../page-head';
 import Header from '../header';
 import Side from '../side';
-import {connect} from '../../models/index';
-import {getSelectedMenuByPath} from '../../commons';
+import PageTabs from '../page-tabs';
+import {connect} from '@/models/index';
+import {getSelectedMenuByPath} from '@/commons';
 import {PAGE_FRAME_LAYOUT} from '@/models/settings';
 import './style.less';
 
@@ -18,7 +19,7 @@ import './style.less';
     const {title, breadcrumbs, showHead} = state.page;
     const {show: showSide, width, collapsed, collapsedWidth, dragging} = state.side;
     const {loading, i18n} = state.system;
-    const {pageFrameLayout, pageHeadFixed, pageHeadShow} = state.settings;
+    const {pageFrameLayout, pageHeadFixed, pageHeadShow, tabsShow} = state.settings;
     return {
         menus,
         selectedMenu,
@@ -35,6 +36,7 @@ import './style.less';
         layout: pageFrameLayout,
         pageHeadFixed,
         pageHeadShow, // 设置中统一控制的头部是否显示
+        tabsShow,
         i18n,
     };
 })
@@ -134,6 +136,7 @@ export default class FrameTopSideMenu extends Component {
             layout,
             pageHeadFixed,
             showPageHead,
+            tabsShow,
             title,
             breadcrumbs,
 
@@ -173,7 +176,7 @@ export default class FrameTopSideMenu extends Component {
 
             if (pageHeadFixed) {
                 pageHead = (
-                    <div styleName="page-head-fixed" style={{left: hasSide ? sideWidth : 0, transitionDuration}}>
+                    <div styleName={`page-head-fixed ${tabsShow ? 'with-tabs' : ''}`} style={{left: hasSide ? sideWidth : 0, transitionDuration}}>
                         {pageHead}
                     </div>
                 );
@@ -185,6 +188,12 @@ export default class FrameTopSideMenu extends Component {
         const titleText = title?.text || title;
         const titleIsString = typeof titleText === 'string';
 
+        const topSpaceClass = ['content-top-space'];
+
+        if (showPageHead && pageHead && pageHeadFixed) topSpaceClass.push('with-fixed-page-head');
+        if (tabsShow) topSpaceClass.push('with-tabs');
+
+
         return (
             <div styleName="base-frame" className="no-print">
                 <Helmet
@@ -193,8 +202,9 @@ export default class FrameTopSideMenu extends Component {
                 <BackTop/>
                 <Header theme={(isTopSideMenu || isSideMenu) ? 'default' : 'dark'} layout={layout}/>
                 <Side layout={layout} theme={theme}/>
-                <div styleName={`content-top-space ${showPageHead && pageHead && pageHeadFixed ? 'with-fixed-page-head' : ''}`}/>
+                <div styleName={topSpaceClass.join(' ')}/>
                 {pageHead}
+                {tabsShow ? <div styleName="page-tabs" style={{left: hasSide ? sideWidth : 0, transitionDuration}}><PageTabs/></div> : null}
                 <div styleName="global-loading" style={{display: globalLoading ? 'block' : 'none'}}>
                     <Spin spinning size="large"/>
                 </div>

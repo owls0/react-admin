@@ -14,11 +14,13 @@ export default store => next => action => {
     if (!i18n) return result;
 
     const setLocalActionType = systemState.__actionTypes?.setLocal;
+    const setTabsActionType = systemState.__actionTypes?.setTabs;
     const setMenusActionType = menuState.__actionTypes?.setMenus;
     const setTitleActionType = pageState.__actionTypes?.setTitle;
     const setBreadcrumbsActionType = pageState.__actionTypes?.setBreadcrumbs;
 
     const nextLocal = systemState.local;
+    const tabs = systemState.tabs;
     const menus = menuState.menus || [];
     const title = pageState.title;
     const breadcrumbs = pageState.breadcrumbs;
@@ -28,6 +30,7 @@ export default store => next => action => {
         setMenuLocal();
         setTitleLocal();
         setBreadcrumbsLocal();
+        setTabsLocal();
     }
 
     function setMenuLocal() {
@@ -50,6 +53,25 @@ export default store => next => action => {
                 });
             }
         }
+    }
+
+    function setTabsLocal() {
+        const newTabs = tabs.map(item => {
+            let {text} = item;
+            const newText = i18n.menu[text.local];
+
+            if (newText) {
+                text = {...text, text: newText};
+                return {...item, text};
+            }
+
+            return {...item};
+        });
+
+        store.dispatch({
+            type: setTabsActionType,
+            payload: newTabs,
+        });
     }
 
     function setBreadcrumbsLocal() {
