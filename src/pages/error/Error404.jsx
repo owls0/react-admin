@@ -17,12 +17,15 @@ export default class Error404 extends Component {
     };
 
     componentDidMount() {
-        this.sI = setInterval(() => {
-            const time = this.state.time - 1;
-            if (time === 0) this.handleGoBack();
-            this.setState({time});
+        if (this.props.history.length >= 2) {
+            this.sI = setInterval(() => {
+                const time = this.state.time - 1;
 
-        }, 1000);
+                if (time === 0) this.handleGoBack();
+
+                this.setState({time});
+            }, 1000);
+        }
     }
 
     componentWillUnmount() {
@@ -30,6 +33,7 @@ export default class Error404 extends Component {
     }
 
     render() {
+        const {history} = this.props;
         const {time} = this.state;
         return (
             <div styleName="root">
@@ -38,7 +42,8 @@ export default class Error404 extends Component {
                     <h3>您访问的页面不存在!</h3>
                 </div>
                 <p styleName="intro">
-                    您可以跳转到 <Link to="/">首页</Link> 或者返回 <a onClick={this.handleGoBack}>上一步（{time}）</a>
+                    您可以跳转到 <Link to="/">首页</Link>
+                    {history.length >= 2 ? <span>或者返回 <a onClick={this.handleGoBack}>上一步（{time}）</a></span> : null}
                 </p>
             </div>
         );

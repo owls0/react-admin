@@ -12,8 +12,6 @@ import config from '@/commons/config-hoc';
     },
 })
 export default class KeepPage extends Component {
-    tabs = {};
-
     render() {
         const {
             tabs,

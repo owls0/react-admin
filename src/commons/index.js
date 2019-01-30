@@ -4,6 +4,9 @@ import pathToRegexp from "path-to-regexp/index";
 
 const CURRENT_USER_KEY = 'current-user';
 
+const localStorage = window.localStorage;
+const sessionStorage = window.sessionStorage;
+
 /**
  * 设置当前用户信息
  */
@@ -11,22 +14,23 @@ export function setLoginUser(currentUser = {}) {
     // 将用户属性在这里展开，方便查看系统都用到了那些用户属性
     const {id, name, token, menus, permissions} = currentUser;
     const userStr = JSON.stringify({
-        id, // 用户id 必须
-        name, // 用户名 必须
-        token, // 登录凭证 非必须 ajax请求有可能会用到，也许是cookie
-        menus,  // 用户菜单 非必须
-        permissions, // 用户权限 非必须
+        id,             // 用户id 必须
+        name,           // 用户名 必须
+        token,          // 登录凭证 非必须 ajax请求有可能会用到，也许是cookie
+        menus,          // 用户菜单 非必须
+        permissions,    // 用户权限 非必须
     });
 
-    window.sessionStorage.setItem(CURRENT_USER_KEY, userStr);
+    sessionStorage.setItem(CURRENT_USER_KEY, userStr);
 }
 
 /**
  * 获取当前用户信息
  */
 export function getLoginUser() {
-    const currentLoginUser = window.sessionStorage.getItem(CURRENT_USER_KEY);
-    return currentLoginUser ? JSON.parse(currentLoginUser) : null;
+    const loginUser = sessionStorage.getItem(CURRENT_USER_KEY);
+
+    return loginUser ? JSON.parse(loginUser) : null;
 }
 
 
@@ -52,8 +56,9 @@ export function toLogin() {
 
     // 清除相关数据
     session.clear();
-    window.sessionStorage.clear();
-    window.sessionStorage.setItem('last-href', window.location.pathname);
+    localStorage.setItem(CURRENT_USER_KEY, null);
+    sessionStorage.clear();
+    sessionStorage.setItem('last-href', window.location.pathname);
 
     // 强制跳转，让浏览器刷新，重置数据
     window.location.href = loginPath;
