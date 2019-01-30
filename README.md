@@ -24,11 +24,13 @@ src/library中less不启用css module 基础组件，不要使用css module
 使用 react-router
 路由配置自动抓取 同时支持 config PAGE_ROUTE 两种方式
 页面跳转 page-link 组件，如果link所指已经是当前页面，点击无效
+二级页面 保持选中父级菜单 parentPath/_/childPath
 
 页面内容保持 类似 keep alive功能
 
 ## tab页
 没有菜单对应的页面，需要单独设置title
+二级页面，在父级tab之后打开 parentPath/_/childPath
 
 ## 判断运算符
 尤其在判断后端返回数据的时候，额外简洁
