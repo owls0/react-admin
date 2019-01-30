@@ -48,7 +48,7 @@ export default class ContextMenu extends Component {
         if (left >= (winWidth - contentWidth)) {
             left = winWidth - contentWidth;
         }
-        
+
         if (top > winHeight - contentHeight) {
             top = winHeight - contentHeight;
         }

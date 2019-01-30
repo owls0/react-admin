@@ -61,6 +61,19 @@ export default class KeepAuthRoute extends React.Component {
                                 this.props.action.system.setTabs(newTabs);
                             })
                         }
+
+                        if (currentTab && !currentTab.component) {
+                            const tb = tabs.find(item => item.path === currentTab.path);
+                            let component = <Error401/>;
+
+                            if (noAuth || isAuthenticated()) component = <Component {...props}/>;
+
+                            tb.component = component;
+
+                            setTimeout(() => {
+                                this.props.action.system.setTabs([...tabs]);
+                            })
+                        }
                     }
 
                     if (keepPage) {

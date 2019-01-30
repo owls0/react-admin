@@ -9,12 +9,10 @@ const TabPane = Tabs.TabPane;
 
 @config({
     router: true,
-    connect(state) {
-        return {
-            dataSource: state.system.tabs,
-            local: state.system.i18n.tabs,
-        };
-    },
+    connect: state => ({
+        dataSource: state.system.tabs,
+        local: state.system.i18n.tabs,
+    }),
 })
 export default class PageTabs extends Component {
     state = {
@@ -28,7 +26,7 @@ export default class PageTabs extends Component {
     };
 
     handleEdit = (targetKey, action) => {
-        this[action](targetKey);
+        if (action === 'remove') this.handleClose(targetKey);
     };
 
     handleRightClick = (e, tab) => {
@@ -51,14 +49,10 @@ export default class PageTabs extends Component {
         const disabledCloseLeft = tabIndex === 0;
         const disabledCloseRight = tabIndex === dataSource.length - 1;
 
-        const handleMenuClick = ({key}) => {
-            console.log(key);
-        };
-
         return (
             <Menu
                 selectable={false}
-                onClick={handleMenuClick}
+                onClick={({key: action}) => this.handleMenuClick(action, tab.path, tabIndex, tab)}
             >
                 <Menu.Item key="refresh" disabled={disabledRefresh}>
                     <Icon type="sync"/> {local.refresh}
@@ -83,14 +77,24 @@ export default class PageTabs extends Component {
         );
     };
 
-    isCurrentTab = (path) => {
-        const {pathname, search} = window.location;
-        const currentPath = `${pathname}${search}`;
-
-        return path === currentPath;
+    handleMenuClick = (action, targetKey, targetIndex, targetTab) => {
+        if (action === 'refresh') this.handleRefresh(targetKey, targetIndex, targetTab);
+        if (action === 'close') this.handleClose(targetKey, targetIndex, targetTab);
+        if (action === 'closeOthers') this.handleCloseOthers(targetKey, targetIndex, targetTab);
+        if (action === 'closeAll') this.handleCloseAll(targetKey, targetIndex, targetTab);
+        if (action === 'closeLeft') this.handleCloseLeft(targetKey, targetIndex, targetTab);
+        if (action === 'closeRight') this.handleCloseRight(targetKey, targetIndex, targetTab);
     };
 
-    remove = (targetKey) => {
+    handleRefresh = (targetKey) => {
+        const {dataSource, action: {system}} = this.props;
+        const tab = dataSource.find(item => item.path === targetKey);
+        // 将当前tab对应的组件清空即可 KeepAuthRoute.jsx 中会进行判断，从新赋值一个新的组件，相当于刷新
+        tab.component = null;
+        system.setTabs([...dataSource]);
+    };
+
+    handleClose = (targetKey) => {
         const {dataSource, action: {system}} = this.props;
 
         // 关闭当前标签
@@ -114,6 +118,44 @@ export default class PageTabs extends Component {
         const tabs = dataSource.filter(item => item.path !== targetKey);
 
         system.setTabs(tabs);
+    };
+
+    handleCloseOthers = (targetKey, targetIndex, targetTab) => {
+        const {action: {system}, history} = this.props;
+
+        if (!this.isCurrentTab(targetKey)) history.push(targetKey);
+
+        system.setTabs([targetTab]);
+    };
+
+    handleCloseAll = () => {
+        const {action: {system}, history} = this.props;
+        // 跳转到首页
+        history.push('/');
+
+        system.setTabs([]);
+    };
+
+    handleCloseLeft = (targetKey, targetIndex) => {
+        const {dataSource, action: {system}} = this.props;
+        const tabs = dataSource.slice(targetIndex);
+
+        system.setTabs(tabs);
+    };
+
+    handleCloseRight = (targetKey, targetIndex) => {
+        const {dataSource, action: {system}} = this.props;
+        const tabs = dataSource.slice(0, targetIndex + 1);
+
+        system.setTabs(tabs);
+    };
+
+
+    isCurrentTab = (path) => {
+        const {pathname, search} = window.location;
+        const currentPath = `${pathname}${search}`;
+
+        return path === currentPath;
     };
 
     render() {

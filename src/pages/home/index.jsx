@@ -5,35 +5,14 @@ import './style.less';
 
 @config({
     path: '/',
-    title: {local: 'home', text: '首页'},
-    connect(state) {
-        return {
-            menus: state.menu.menus,
-        };
-    },
+    title: {local: 'home', text: '首页', icon: 'home'},
 })
 export default class Home extends Component {
-    constructor(...props) {
-        super(...props);
-
-        // 如果不需要首页，可以直接跳转到系统第一个可用菜单页面
-        const {menus} = this.props;
-        if (menus && menus.length) {
-            let path;
-            for (let i = 0; i < menus.length; i++) {
-                const m = menus[i];
-                if (m.path) {
-                    path = m.path;
-                    break;
-                }
-            }
-            if (path) {
-                this.props.history.replace(path);
-            }
-        }
-    }
-
     render() {
-        return <PageContent/>;
+        return (
+            <PageContent>
+                需要一个优秀的首页！！！
+            </PageContent>
+        );
     }
 }
