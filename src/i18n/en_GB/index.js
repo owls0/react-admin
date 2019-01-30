@@ -18,6 +18,7 @@ export default {
         example: 'Example',
         userCenter: 'User Center',
         users: 'User List',
+        userEdit: 'User Edit',
         roles: 'Role List',
         setting: 'Setting',
         logout: 'LogOut',

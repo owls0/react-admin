@@ -93,8 +93,8 @@ export function compose(funcs) {
 export function getSelectedMenuByPath(path, menuTreeData) {
     let selectedMenu;
     if (menuTreeData) {
-        if (path.indexOf('/+') > -1) {
-            path = path.substring(0, path.indexOf('/+'));
+        if (path.indexOf('/_') > -1) {
+            path = path.substring(0, path.indexOf('/_'));
         }
 
         // 先精确匹配

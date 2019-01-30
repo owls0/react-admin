@@ -18,6 +18,7 @@ export default {
         example: '示例',
         userCenter: '用户中心',
         users: '用户列表',
+        userEdit: '用户编辑',
         roles: '角色列表',
         setting: '设置',
         logout: '退出登录',

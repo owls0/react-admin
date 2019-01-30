@@ -23,6 +23,7 @@ export default class index extends Component {
         console.log('user center render');
         return (
             <PageContent>
+                <Button onClick={() => this.props.history.push('/example/users/_/UserEdit/aaaa')}>编辑用户</Button>
                 <div>
                     <Input style={{width: 100, marginRight: 8}} placeholder="请输入"/>
                     <Select style={{width: 200}} placeholder="请选择">

@@ -69,7 +69,8 @@ export default (options) => {
                 if (title && title !== true) {
                     page.setTitle(title);
 
-                    system.setCurrentTabTitle(title)
+                    // FIXME 刷新时候，由于设置顺序问题，这个不作用
+                    setTimeout(() => system.setCurrentTabTitle(title));
                 }
 
                 // 页面面包屑导航
