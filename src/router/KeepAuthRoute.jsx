@@ -4,9 +4,8 @@ import {isAuthenticated} from '@/commons';
 import Error401 from '@/pages/error/Error401';
 import config from '@/commons/config-hoc';
 
-
 /**
- * 与KeepPage配合使用的路由，只做页面收集，不渲染具体内容
+ * 与KeepPage配合使用的路由，进行页面的收集
  */
 @config({
     connect(state) {
@@ -43,6 +42,12 @@ export default class KeepAuthRoute extends React.Component {
                     // 如果页面现实tabs，或者启用了keep page alive 需要对tabs进行操作
                     if (tabsShow || keepPage) {
                         const prevActiveIndex = tabs.findIndex(item => item.active);
+                        const prevActiveTab = tabs.find(item => item.active);
+
+                        // 记录上一个页面的滚动条位置
+                        if (prevActiveTab) {
+                            prevActiveTab.scrollTop = document.body.scrollTop = document.documentElement.scrollTop;
+                        }
 
                         // 先重置所有的选中状态，接下来会重新设置
                         tabs.forEach(item => item.active = false);

@@ -10,22 +10,27 @@ import config from '@/commons/config-hoc';
     }),
 })
 export default class KeepPage extends Component {
+    scrollTop = 0;
+
+    componentDidUpdate() {
+        document.body.scrollTop = document.documentElement.scrollTop = this.scrollTop;
+    }
+
     render() {
         const {tabs} = this.props;
 
         // 每次tab切换，都会导致所有的tab页面组件render一次，好像不可避免
-        return (
-            <div>
-                {tabs.map(item => {
-                    const {path: tabPath, component, active} = item;
+        return tabs.map(item => {
+            const {path: tabPath, component, active, scrollTop = 0} = item;
 
-                    return (
-                        <div key={tabPath} id={tabPath} style={{display: active ? 'block' : 'none'}}>
-                            {component}
-                        </div>
-                    );
-                })}
-            </div>
-        );
+            // 记录当前页面的滚动条位置，等待页面加载完成，componentDidUpdate会进行恢复
+            if (active) this.scrollTop = scrollTop;
+
+            return (
+                <div key={tabPath} id={tabPath} style={{display: active ? 'flex' : 'none', flex: 1}}>
+                    {component}
+                </div>
+            );
+        });
     }
 }
