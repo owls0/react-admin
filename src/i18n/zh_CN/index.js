@@ -68,4 +68,12 @@ export default {
         keepMenuOpen: '保持菜单展开',
         keepPage: '保持页面内容',
     },
+    tabs: {
+        refresh: '刷新',
+        close: '关闭',
+        closeOthers: '关闭其他',
+        closeAll: '关闭所有',
+        closeLeft: '关闭左侧',
+        closeRight: '关闭右侧',
+    },
 };

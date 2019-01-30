@@ -12,7 +12,7 @@ export default function (OriTable) {
         state = {
             show: false,
             left: 0,
-            right: 0,
+            top: 0,
             content: '',
         };
 
@@ -63,7 +63,7 @@ export default function (OriTable) {
             }
             this.content.style.left = `${left}px`;
             this.content.style.top = `${top}px`;
-        }
+        };
 
         render() {
             const {show, left, top, content} = this.state;

@@ -68,4 +68,12 @@ export default {
         keepMenuOpen: 'Keep Menu Open',
         keepPage: 'Keep Page Alive',
     },
+    tabs: {
+        refresh: 'Refresh',
+        close: 'Close',
+        closeOthers: 'Close Others',
+        closeAll: 'Close All',
+        closeLeft: 'Close All to the Left',
+        closeRight: 'Close All to the Right',
+    },
 };
