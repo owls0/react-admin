@@ -55,8 +55,6 @@ export default class AppRouter extends Component {
                         return <PageFrame {...props}/>;
                     }}/>
 
-                    {keepPage ? <KeepPage/> : null}
-
                     <Switch>
                         {allRoutes.map(item => {
                             const {path, component} = item;
@@ -80,6 +78,9 @@ export default class AppRouter extends Component {
                         })}
                         <Route component={Error404}/>
                     </Switch>
+
+                    {/* KeepPage 要放在KeepAuthRoute后面， KeepAuthRoute 中对active进行了设置，利用了对象的引用，可以减少一次由于设置active引起的重新渲染 */}
+                    {keepPage ? <KeepPage/> : null}
                 </div>
             </Router>
         );

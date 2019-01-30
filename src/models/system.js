@@ -36,10 +36,8 @@ export default {
     },
 
     setCurrentTabTitle: (title, state) => {
-        const {pathname, search} = window.location;
-        const currentPath = `${pathname}${search}`;
         const tabs = [...state.tabs];
-        const tab = tabs.find(item => item.path === currentPath);
+        const tab = tabs.find(item => item.active);
 
         if (tab) tab.text = title;
 
