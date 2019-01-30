@@ -91,36 +91,11 @@ export default class PageTabs extends Component {
     };
 
     handleRefresh = (targetKey, targetIndex, targetTab) => {
-        const {dataSource, action: {system}} = this.props;
-        // 将当前tab对应的组件清空即可 KeepAuthRoute.jsx 中会进行判断，从新赋值一个新的组件，相当于刷新
-        targetTab.component = null;
-        system.setTabs([...dataSource]);
+        this.props.action.system.refreshTab(targetTab);
     };
 
     handleClose = (targetKey, targetIndex, targetTab) => {
-        const {dataSource, action: {system}} = this.props;
-
-        // 关闭当前标签
-        if (targetTab.active) {
-            const currentIndex = dataSource.findIndex(item => item.path === targetKey);
-            let nextIndex = 0;
-
-            if (currentIndex === dataSource.length - 1) {
-                // 当前标签已经是最后一个了，删除后选中上一个
-                nextIndex = currentIndex - 1;
-            } else {
-                // 当前tab标签后面还有标签，删除后选中下一个标签
-                nextIndex = currentIndex + 1;
-            }
-
-            const nextPath = dataSource[nextIndex]?.path;
-
-            this.props.history.push(nextPath);
-        }
-
-        const tabs = dataSource.filter(item => item.path !== targetKey);
-
-        system.setTabs(tabs);
+        this.props.action.system.closeTab(targetTab, null);
     };
 
     handleCloseOthers = (targetKey, targetIndex, targetTab) => {

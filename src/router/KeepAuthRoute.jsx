@@ -36,6 +36,7 @@ export default class KeepAuthRoute extends React.Component {
             <Route
                 {...rest}
                 render={props => {
+                    const {history} = props;
                     let component = <Error401/>;
                     if (noAuth || isAuthenticated()) component = <Component {...props}/>;
 
@@ -48,6 +49,40 @@ export default class KeepAuthRoute extends React.Component {
                         if (prevActiveTab) {
                             prevActiveTab.scrollTop = document.body.scrollTop = document.documentElement.scrollTop;
                         }
+
+                        // 关闭一个标签
+                        const removeTab = tabs.find(item => item.isClose);
+                        const removeTabIndex = tabs.findIndex(item => item.isClose);
+                        if (removeTab) {
+                            // 关闭的是当前标签
+                            if (removeTab.active) {
+                                const removeTabKey = removeTab.path;
+                                const currentIndex = tabs.findIndex(item => item.path === removeTabKey);
+                                let nextActiveIndex = 0;
+
+                                if (currentIndex === tabs.length - 1) {
+                                    // 当前标签已经是最后一个了，删除后选中上一个
+                                    nextActiveIndex = currentIndex - 1;
+                                } else {
+                                    // 当前tab标签后面还有标签，删除后选中下一个标签
+                                    nextActiveIndex = currentIndex + 1;
+                                }
+
+                                const nextPath = tabs[nextActiveIndex]?.path;
+
+                                setTimeout(() => {
+                                    tabs.splice(removeTabIndex, 1);
+                                    history.push(nextPath);
+                                    this.props.action.system.setTabs([...tabs]);
+                                })
+                            } else {
+                                tabs.splice(removeTabIndex, 1);
+                                setTimeout(() => {
+                                    this.props.action.system.setTabs([...tabs]);
+                                });
+                            }
+                        }
+
 
                         // 先重置所有的选中状态，接下来会重新设置
                         tabs.forEach(item => item.active = false);

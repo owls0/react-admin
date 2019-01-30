@@ -29,7 +29,15 @@ src/library中less不启用css module 基础组件，不要使用css module
 页面内容保持 类似 keep alive功能
 
 ## tab页
-没有菜单对应的页面，需要单独设置title
+注：没有菜单对应的页面，需要单独设置title
+
+- 在当前tab标签之后打开新的tab标签
+- 记录并恢复滚动条位置
+- 保持页面内容
+- tab标签右键操作
+- tab标签拖拽排序
+- tab页操作API
+
 
 ## 判断运算符
 尤其在判断后端返回数据的时候，额外简洁

@@ -26,14 +26,6 @@ export default {
 
     setTabs: (tabs) => ({tabs}),
     setKeepPage: keepPage => ({keepPage}),
-    setTabTitle: ({path, text}, state) => {
-        const tabs = [...state.tabs];
-        const tab = tabs.find(item => item.path === path);
-
-        if (tab) tab.text = text;
-
-        return {tabs}
-    },
 
     setCurrentTabTitle: (title, state) => {
         const tabs = [...state.tabs];
@@ -43,6 +35,25 @@ export default {
 
         return {tabs}
     },
+
+    refreshTab: (targetTab, state) => {
+        const {tabs} = state;
+
+        // 将tab对应的组件清空即可 KeepAuthRoute.jsx 中会进行判断，从新赋值一个新的组件，相当于刷新
+        const tab = tabs.find(item => item.path === targetTab.path);
+        tab.component = null;
+
+        return {tabs: [...tabs]};
+    },
+
+    closeTab: (targetTab, state) => {
+        const {tabs} = state;
+        const tab = tabs.find(item => item.path === targetTab.path);
+        tab.isClose = true;
+
+        return {tabs: [...tabs]};
+    },
+
     /**
      * 设置主题颜色
      * @param primaryColor
