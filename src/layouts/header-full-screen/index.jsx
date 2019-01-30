@@ -1,6 +1,12 @@
 import React, {Component} from 'react';
-import {Icon} from 'antd';
+import {Icon, Tooltip} from 'antd';
+import config from '@/commons/config-hoc';
 
+@config({
+    connect: state => ({
+        local: state.system.i18n.setting,
+    }),
+})
 export default class index extends Component {
     state = {
         fullScreen: false,
@@ -56,7 +62,7 @@ export default class index extends Component {
     };
 
     render() {
-        const {className} = this.props;
+        const {className, local} = this.props;
         const {fullScreen} = this.state;
         return (
             <div
@@ -64,11 +70,15 @@ export default class index extends Component {
                 className={className}
                 onClick={this.handleFullScreenClick}
             >
-                {fullScreen ? (
-                    <Icon type="fullscreen-exit"/>
-                ) : (
-                    <Icon type="fullscreen"/>
-                )}
+                <Tooltip placement="bottom" title={fullScreen ? local.exitFullScreen : local.fullScreen}>
+                    <div style={{height: '30px', lineHeight: '30px'}}>
+                        {fullScreen ? (
+                            <Icon type="fullscreen-exit"/>
+                        ) : (
+                            <Icon type="fullscreen"/>
+                        )}
+                    </div>
+                </Tooltip>
             </div>
         );
     }

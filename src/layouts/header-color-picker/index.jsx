@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Icon} from 'antd';
+import {Icon, Tooltip} from 'antd';
 import config from '@/commons/config-hoc';
 import {loadScript} from '@/commons';
 import ColorPicker from '@/components/color-picker';
@@ -12,6 +12,7 @@ import './style.less';
         return {
             primaryColor: state.system.primaryColor,
             loading: state.system.loading,
+            local: state.system.i18n.setting,
         };
     },
 })
@@ -84,32 +85,38 @@ export default class ThemeColorPicker extends Component {
     };
 
     render() {
-        const {primaryColor = theme['@primary-color'], className} = this.props;
+        const {
+            primaryColor = theme['@primary-color'],
+            className,
+            local,
+        } = this.props;
         return (
             <div styleName="root" className={`theme-color-picker ${className}`}>
-                <div styleName="picker">
-                    <ColorPicker
-                        type="sketch"
-                        small
-                        color={primaryColor}
-                        position="bottom"
-                        presetColors={[
-                            '#F5222D',
-                            '#FA541C',
-                            '#FA8C16',
-                            '#FAAD14',
-                            '#FADB14',
-                            '#A0D911',
-                            '#52C41A',
-                            '#13C2C2',
-                            '#1890FF',
-                            '#2F54EB',
-                            '#722ED1',
-                            '#EB2F96',
-                        ]}
-                        onChangeComplete={this.handleColorChange}
-                    />
-                </div>
+                <Tooltip placement="bottom" title={local.selectPrimaryColor}>
+                    <div styleName="picker">
+                        <ColorPicker
+                            type="sketch"
+                            small
+                            color={primaryColor}
+                            position="bottom"
+                            presetColors={[
+                                '#F5222D',
+                                '#FA541C',
+                                '#FA8C16',
+                                '#FAAD14',
+                                '#FADB14',
+                                '#A0D911',
+                                '#52C41A',
+                                '#13C2C2',
+                                '#1890FF',
+                                '#2F54EB',
+                                '#722ED1',
+                                '#EB2F96',
+                            ]}
+                            onChangeComplete={this.handleColorChange}
+                        />
+                    </div>
+                </Tooltip>
                 <Icon style={{marginLeft: 4}} type="caret-down"/>
             </div>
         );

@@ -25,6 +25,11 @@ src/library中less不启用css module 基础组件，不要使用css module
 路由配置自动抓取 同时支持 config PAGE_ROUTE 两种方式
 页面跳转 page-link 组件，如果link所指已经是当前页面，点击无效
 
+页面内容保持 类似 keep alive功能
+
+## tab页
+没有菜单对应的页面，需要单独设置title
+
 ## 判断运算符
 尤其在判断后端返回数据的时候，额外简洁
 
@@ -51,6 +56,8 @@ color.less 来自于 https://ant-design.gitee.io/color.less 里面的代码有�
 
 ## mock 数据
 
+## ajax 请求
+
 ## 测试
 
 ## 国际化
@@ -62,7 +69,7 @@ color.less 来自于 https://ant-design.gitee.io/color.less 里面的代码有�
 example/antd 下文件时通过脚本 src/library/antd/generator-demos.js生成的
 
 ## 页面配置
-[config装饰器](./src/commons/config-hoc/README.md);
+[config装饰器](./src/commons/config-hoc/README.md)
 
 
 ## ESLint 说明
@@ -114,6 +121,6 @@ example/antd 下文件时通过脚本 src/library/antd/generator-demos.js生成�
 - [x] 框架中所有相关内容，切换到当前项目中
 - [x] 页面上选择主体颜色，改变主题
 - [ ] antd 组件整理
-- [ ] library 目录中要使用less，但不进行css模块化处理
-- [ ] tab页实现，react 并没有 类似vue的keep-alive功能~
+- [x] library 目录中要使用less，但不进行css模块化处理
+- [x] tab页实现，react 并没有 类似vue的keep-alive功能~ 通过显示隐藏div实现
 

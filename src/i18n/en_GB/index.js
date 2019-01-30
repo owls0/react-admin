@@ -68,6 +68,9 @@ export default {
         menuSetting: 'Menu Setting',
         keepMenuOpen: 'Keep Menu Open',
         keepPage: 'Keep Page Alive',
+        fullScreen: 'Full Screen',
+        exitFullScreen: 'Exit Full Screen',
+        selectPrimaryColor: 'Select Primary Color',
     },
     tabs: {
         refresh: 'Refresh',

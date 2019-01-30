@@ -68,6 +68,9 @@ export default {
         menuSetting: '菜单设置',
         keepMenuOpen: '保持菜单展开',
         keepPage: '保持页面内容',
+        fullScreen: '全屏显示',
+        exitFullScreen: '退出全屏',
+        selectPrimaryColor: '选择主题颜色',
     },
     tabs: {
         refresh: '刷新',
