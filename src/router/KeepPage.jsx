@@ -17,6 +17,7 @@ export default class KeepPage extends Component {
     }
 
     render() {
+        console.log('render KeepPage.jsx');
         const {tabs} = this.props;
 
         // 每次tab切换，都会导致所有的tab页面组件render一次，好像不可避免

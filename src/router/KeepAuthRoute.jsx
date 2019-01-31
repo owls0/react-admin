@@ -147,20 +147,25 @@ export default class KeepAuthRoute extends React.Component {
                             return null;
                         }
 
-                        // 清空选中状态
-                        if (prevActiveTab) prevActiveTab.active = false;
-
                         const {pathname, search} = props.location;
                         const currentPath = `${pathname}${search}`;
 
                         // 获取当前地址对应的标签页
                         const currentTab = tabs.find(item => item.path === currentPath);
-
                         const TabComponent = keepPage ? <Route {...rest} component={Component}/> : null;
-                        // 当前地址对应的标签存在
+
+                        // 选中当前标签 当前地址对应的标签存在
                         if (currentTab) {
                             // 选中当前地址对应的标签
-                            currentTab.active = true;
+                            if (!currentTab.active) {
+                                // 清空选中状态
+                                if (prevActiveTab) prevActiveTab.active = false;
+
+                                currentTab.active = true;
+                                setTimeout(() => {
+                                    system.setTabs([...tabs]);
+                                });
+                            }
 
                             // 先让 KeepPage.jsx 进行一次 无component渲染，然后再次渲染component达到刷新的目的
                             if (keepPage && !currentTab.component) {
@@ -172,8 +177,10 @@ export default class KeepAuthRoute extends React.Component {
                             }
                         }
 
-                        // 当前地址对应的tab页不存在，进行添加
+                        // 添加一个标签 当前地址对应的tab页不存在，进行添加
                         if (!currentTab) {
+                            // 清空选中状态 直接选中新添加的标签
+                            if (prevActiveTab) prevActiveTab.active = false;
                             const icon = selectedMenu?.icon;
                             const newAddTab = {
                                 path: currentPath,
