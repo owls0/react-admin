@@ -7,7 +7,7 @@ import './style.less';
 
 const Item = Breadcrumb.Item;
 
-export default class index extends Component {
+export default class BreadcrumbComponent extends Component {
     static propTypes = {
         dataSource: PropTypes.array, // 数据源
     };

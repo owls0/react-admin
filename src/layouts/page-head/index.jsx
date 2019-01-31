@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Breadcrumb from '../breadcrumb';
 import './style.less';
 
-export default class index extends Component {
+export default class PageHead extends Component {
     static propTypes = {
         title: PropTypes.any,
         breadcrumbs: PropTypes.array,

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import logo from './logo.svg';
 import './style.less';
 
-export default class index extends Component {
+export default class Logo extends Component {
     static propTypes = {
         min: PropTypes.bool,
     };

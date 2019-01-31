@@ -5,7 +5,7 @@ import PreviewCode from './PreviewCode';
 import './style.less';
 
 
-export default class index extends Component {
+export default class DagePage extends Component {
     static defaultProps = {
         readme: '',
         api: '',

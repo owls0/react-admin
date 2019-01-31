@@ -8,7 +8,7 @@ import './style.less';
 
 const SubMenu = Menu.SubMenu;
 
-export default class index extends Component {
+export default class SideMenu extends Component {
     static propTypes = {
         dataSource: PropTypes.array,    // 菜单数据
         theme: PropTypes.string,        // 主题

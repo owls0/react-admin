@@ -7,7 +7,7 @@ import config from '@/commons/config-hoc';
         local: state.system.i18n.setting,
     }),
 })
-export default class index extends Component {
+export default class HeaderFullScreen extends Component {
     state = {
         fullScreen: false,
     };

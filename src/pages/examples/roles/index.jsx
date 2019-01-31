@@ -6,7 +6,7 @@ import PageContent from '@/layouts/page-content';
 @config({
     path: '/example/roles',
 })
-export default class index extends Component {
+export default class RoleList extends Component {
     state = {};
 
     componentDidMount() {

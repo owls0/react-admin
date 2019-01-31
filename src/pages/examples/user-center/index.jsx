@@ -8,7 +8,7 @@ export const PAGE_ROUTE = '/example/users';
 
 const {Option} = Select;
 
-export default class index extends Component {
+export default class UserCenter extends Component {
     state = {};
 
     componentWillMount() {

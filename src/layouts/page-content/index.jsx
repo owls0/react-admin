@@ -12,7 +12,7 @@ import {connect} from '../../models/index';
  * 1. 是否含有公共footer
  */
 @connect(state => ({loading: state.page.loading}))
-export default class index extends Component {
+export default class PageContent extends Component {
     static propTypes = {
         footer: PropTypes.bool,
     };
