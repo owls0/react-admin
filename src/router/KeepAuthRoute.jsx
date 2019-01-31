@@ -163,7 +163,7 @@ export default class KeepAuthRoute extends React.Component {
                             currentTab.active = true;
 
                             // 先让 KeepPage.jsx 进行一次 无component渲染，然后再次渲染component达到刷新的目的
-                            if (!currentTab.component) {
+                            if (keepPage && !currentTab.component) {
                                 setTimeout(() => {
                                     const tb = tabs.find(item => item.path === currentTab.path);
                                     tb.component = TabComponent;

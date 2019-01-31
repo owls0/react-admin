@@ -20,7 +20,7 @@ export default class index extends Component {
     }
 
     render() {
-        console.log('user center render');
+        console.log('render user center');
         return (
             <PageContent>
                 <Button onClick={() => this.props.history.push('/example/users/_/UserEdit/ttt?name=Tom')}>编辑用户Tom</Button>

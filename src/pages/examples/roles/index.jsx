@@ -14,6 +14,7 @@ export default class index extends Component {
     }
 
     render() {
+        console.log('render Role');
         return (
             <PageContent>
                 init roles

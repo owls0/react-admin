@@ -2,8 +2,8 @@ import {getCurrentLocal} from '@/i18n';
 
 export default {
     initialState: {
-        breadcrumbs: [],    // 面包屑数据 [{local, text}] 支持国际化
-        title: '',          // 页面title {local, text} 支持国际化
+        breadcrumbs: [],    // 面包屑数据 [{key, local, text, path}] 支持国际化
+        title: '',          // 页面title {local, text, icon} 支持国际化
         showHead: true,     // 是否显示/隐藏页面头部
         loading: false,
     },
