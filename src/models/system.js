@@ -36,20 +36,57 @@ export default {
         return {tabs}
     },
 
-    refreshTab: (targetTab, state) => {
+    refreshTab: (targetPath, state) => {
         const {tabs} = state;
 
         // 将tab对应的组件清空即可 KeepAuthRoute.jsx 中会进行判断，从新赋值一个新的组件，相当于刷新
-        const tab = tabs.find(item => item.path === targetTab.path);
+        const tab = tabs.find(item => item.path === targetPath);
         tab.component = null;
 
         return {tabs: [...tabs]};
     },
 
-    closeTab: (targetTab, state) => {
+    refreshAllTab: (arg, state) => {
+        const tabs = state.tabs.map(item => ({...item, component: null}));
+
+        return {tabs};
+    },
+
+    closeTab: (targetPath, state) => {
         const {tabs} = state;
-        const tab = tabs.find(item => item.path === targetTab.path);
+        const tab = tabs.find(item => item.path === targetPath);
         tab.isClose = true;
+
+        return {tabs: [...tabs]};
+    },
+
+    closeOtherTabs: (targetPath, state) => {
+        const {tabs} = state;
+        const tab = tabs.find(item => item.path === targetPath);
+        tab.isCloseOthers = true;
+
+        return {tabs: [...tabs]};
+    },
+
+    closeAllTabs: (arg, state) => {
+        const {tabs} = state;
+        if (tabs && tabs.length) tabs[0].isCloseAll = true;
+
+        return {tabs: [...tabs]};
+    },
+
+    closeLeftTabs: (targetPath, state) => {
+        const {tabs} = state;
+        const tab = tabs.find(item => item.path === targetPath);
+        tab.isCloseLeft = true;
+
+        return {tabs: [...tabs]};
+    },
+
+    closeRightTabs: (targetPath, state) => {
+        const {tabs} = state;
+        const tab = tabs.find(item => item.path === targetPath);
+        tab.isCloseRight = true;
 
         return {tabs: [...tabs]};
     },

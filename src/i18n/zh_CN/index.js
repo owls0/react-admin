@@ -74,6 +74,7 @@ export default {
     },
     tabs: {
         refresh: '刷新',
+        refreshAll: '刷新全部',
         close: '关闭',
         closeOthers: '关闭其他',
         closeAll: '关闭所有',

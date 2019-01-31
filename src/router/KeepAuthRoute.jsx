@@ -37,6 +37,7 @@ export default class KeepAuthRoute extends React.Component {
                 {...rest}
                 render={props => {
                     const {history} = props;
+                    const {action: {system}} = this.props;
                     let component = <Error401/>;
                     if (noAuth || isAuthenticated()) component = <Component {...props}/>;
 
@@ -51,13 +52,13 @@ export default class KeepAuthRoute extends React.Component {
                         }
 
                         // 关闭一个标签
-                        const removeTab = tabs.find(item => item.isClose);
-                        const removeTabIndex = tabs.findIndex(item => item.isClose);
-                        if (removeTab) {
+                        const closeTab = tabs.find(item => item.isClose);
+                        if (closeTab) {
+                            const closeTabIndex = tabs.findIndex(item => item.isClose);
                             // 关闭的是当前标签
-                            if (removeTab.active) {
-                                const removeTabKey = removeTab.path;
-                                const currentIndex = tabs.findIndex(item => item.path === removeTabKey);
+                            if (closeTab.active) {
+                                const removeTabPath = closeTab.path;
+                                const currentIndex = tabs.findIndex(item => item.path === removeTabPath);
                                 let nextActiveIndex = 0;
 
                                 if (currentIndex === tabs.length - 1) {
@@ -71,38 +72,101 @@ export default class KeepAuthRoute extends React.Component {
                                 const nextPath = tabs[nextActiveIndex]?.path;
 
                                 setTimeout(() => {
-                                    tabs.splice(removeTabIndex, 1);
+                                    tabs.splice(closeTabIndex, 1);
                                     history.push(nextPath);
-                                    this.props.action.system.setTabs([...tabs]);
+                                    system.setTabs([...tabs]);
                                 })
                             } else {
-                                tabs.splice(removeTabIndex, 1);
+                                tabs.splice(closeTabIndex, 1);
                                 setTimeout(() => {
-                                    this.props.action.system.setTabs([...tabs]);
+                                    system.setTabs([...tabs]);
                                 });
                             }
+
+                            return null;
                         }
 
+                        // 关闭其他标签
+                        const closeOthersTab = tabs.find(item => item.isCloseOthers);
+                        if (closeOthersTab) {
+                            Reflect.deleteProperty(closeOthersTab, 'isCloseOthers');
 
-                        // 先重置所有的选中状态，接下来会重新设置
-                        tabs.forEach(item => item.active = false);
+                            setTimeout(() => {
+                                if (!closeOthersTab.active) history.push(closeOthersTab.path);
+
+                                system.setTabs([closeOthersTab]);
+                            });
+
+                            return null;
+                        }
+
+                        // 关闭所有标签
+                        const closeAllTab = tabs.find(item => item.isCloseAll);
+                        if (closeAllTab) {
+                            setTimeout(() => {
+                                // 全部删除，跳转首页
+                                history.push('/');
+
+                                system.setTabs([]);
+                            });
+
+                            return null;
+                        }
+
+                        // 关闭左侧
+                        const closeLeftTab = tabs.find(item => item.isCloseLeft);
+                        if (closeLeftTab) {
+                            const closeLeftTabIndex = tabs.findIndex(item => item.isCloseLeft);
+
+                            Reflect.deleteProperty(closeLeftTab, 'isCloseLeft');
+
+                            setTimeout(() => {
+                                const newTabs = tabs.slice(closeLeftTabIndex);
+
+                                if (!closeLeftTab.active) history.push(closeLeftTab.path);
+                                system.setTabs(newTabs);
+                            });
+
+                            return null
+                        }
+
+                        // 关闭右侧
+                        const closeRightTab = tabs.find(item => item.isCloseRight);
+                        if (closeRightTab) {
+                            const closeRightIndex = tabs.findIndex(item => item.isCloseRight);
+
+                            Reflect.deleteProperty(closeRightTab, 'isCloseRight');
+
+                            setTimeout(() => {
+                                const newTabs = tabs.slice(0, closeRightIndex + 1);
+
+                                if (!closeRightTab.active) history.push(closeRightTab.path);
+                                system.setTabs(newTabs);
+                            });
+
+                            return null;
+                        }
+
+                        // 清空选中状态
+                        if (prevActiveTab) prevActiveTab.active = false;
 
                         const {pathname, search} = props.location;
                         const currentPath = `${pathname}${search}`;
 
-                        // FIXME tab页面是否存在判断
+                        // 获取当前地址对应的标签页
                         const currentTab = tabs.find(item => item.path === currentPath);
 
+                        // 当前地址对应的标签存在
                         if (currentTab) {
-                            // 如果当前地址对应的tab页已经存在，直接选中
+                            // 选中当前地址对应的标签
                             currentTab.active = true;
 
+                            // 先让 KeepPage.jsx 进行一次 无component渲染，然后再次渲染component达到刷新的目的
                             if (!currentTab.component) {
-                                // 先让 KeepPage.jsx 进行一次 无component渲染，然后再次渲染component达到刷新的目的
                                 setTimeout(() => {
                                     const tb = tabs.find(item => item.path === currentTab.path);
                                     tb.component = component;
-                                    this.props.action.system.setTabs([...tabs]);
+                                    system.setTabs([...tabs]);
                                 })
                             }
                         }
@@ -127,9 +191,9 @@ export default class KeepAuthRoute extends React.Component {
 
                             if (!newTabs) newTabs = [...tabs, newAddTab];
 
-                            // FIXME 不适用setTimeout 会报出 Warning: Cannot update during an existing state transition (such as within `render`). Render methods should be a pure function of props and state.
+                            // 不使用setTimeout 会报出 Warning: Cannot update during an existing state transition (such as within `render`). Render methods should be a pure function of props and state.
                             setTimeout(() => {
-                                this.props.action.system.setTabs(newTabs);
+                                system.setTabs(newTabs);
                             })
                         }
                     }

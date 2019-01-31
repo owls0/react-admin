@@ -25,12 +25,8 @@ export default class PageTabs extends Component {
         this.props.history.push(path);
     };
 
-    handleEdit = (targetKey, action) => {
-        const {dataSource} = this.props;
-        const targetTab = dataSource.find(item => item.path === targetKey);
-        const targetIndex = dataSource.findIndex(item => item.path === targetKey);
-
-        if (action === 'remove') this.handleClose(targetKey, targetIndex, targetTab);
+    handleEdit = (targetPath, action) => {
+        if (action === 'remove') this.props.action.system.closeTab(targetPath);
     };
 
     handleRightClick = (e, tab) => {
@@ -47,7 +43,6 @@ export default class PageTabs extends Component {
 
     renderContextMenu = (tab) => {
         const {dataSource, local} = this.props;
-        const disabledRefresh = !tab.active;
         const disabledClose = dataSource.length === 1;
         const tabIndex = dataSource.findIndex(item => item.path === tab.path);
         const disabledCloseLeft = tabIndex === 0;
@@ -56,10 +51,13 @@ export default class PageTabs extends Component {
         return (
             <Menu
                 selectable={false}
-                onClick={({key: action}) => this.handleMenuClick(action, tab.path, tabIndex, tab)}
+                onClick={({key: action}) => this.handleMenuClick(action, tab.path)}
             >
-                <Menu.Item key="refresh" disabled={disabledRefresh}>
+                <Menu.Item key="refresh">
                     <Icon type="sync"/> {local.refresh}
+                </Menu.Item>
+                <Menu.Item key="refreshAll">
+                    <Icon type="sync"/> {local.refreshAll}
                 </Menu.Item>
                 <Menu.Divider/>
                 <Menu.Item key="close" disabled={disabledClose}>
@@ -81,53 +79,16 @@ export default class PageTabs extends Component {
         );
     };
 
-    handleMenuClick = (action, targetKey, targetIndex, targetTab) => {
-        if (action === 'refresh') this.handleRefresh(targetKey, targetIndex, targetTab);
-        if (action === 'close') this.handleClose(targetKey, targetIndex, targetTab);
-        if (action === 'closeOthers') this.handleCloseOthers(targetKey, targetIndex, targetTab);
-        if (action === 'closeAll') this.handleCloseAll(targetKey, targetIndex, targetTab);
-        if (action === 'closeLeft') this.handleCloseLeft(targetKey, targetIndex, targetTab);
-        if (action === 'closeRight') this.handleCloseRight(targetKey, targetIndex, targetTab);
-    };
+    handleMenuClick = (action, targetPath) => {
+        const {action: {system}} = this.props;
 
-    handleRefresh = (targetKey, targetIndex, targetTab) => {
-        this.props.action.system.refreshTab(targetTab);
-    };
-
-    handleClose = (targetKey, targetIndex, targetTab) => {
-        this.props.action.system.closeTab(targetTab, null);
-    };
-
-    handleCloseOthers = (targetKey, targetIndex, targetTab) => {
-        const {action: {system}, history} = this.props;
-
-        if (!targetTab.active) history.push(targetKey);
-
-        system.setTabs([targetTab]);
-    };
-
-    handleCloseAll = () => {
-        const {action: {system}, history} = this.props;
-        // 跳转到首页
-        history.push('/');
-
-        system.setTabs([]);
-    };
-
-    handleCloseLeft = (targetKey, targetIndex, targetTab) => {
-        const {dataSource, action: {system}, history} = this.props;
-        const tabs = dataSource.slice(targetIndex);
-
-        history.push(targetTab.path);
-        system.setTabs(tabs);
-    };
-
-    handleCloseRight = (targetKey, targetIndex, targetTab) => {
-        const {dataSource, action: {system}, history} = this.props;
-        const tabs = dataSource.slice(0, targetIndex + 1);
-
-        history.push(targetTab.path);
-        system.setTabs(tabs);
+        if (action === 'refresh') system.refreshTab(targetPath);
+        if (action === 'refreshAll') system.refreshAllTab();
+        if (action === 'close') system.closeTab(targetPath);
+        if (action === 'closeOthers') system.closeOtherTabs(targetPath);
+        if (action === 'closeAll') system.closeAllTabs();
+        if (action === 'closeLeft') system.closeLeftTabs(targetPath);
+        if (action === 'closeRight') system.closeRightTabs(targetPath);
     };
 
     render() {

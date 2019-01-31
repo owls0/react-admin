@@ -74,6 +74,7 @@ export default {
     },
     tabs: {
         refresh: 'Refresh',
+        refreshAll: 'Refresh All',
         close: 'Close',
         closeOthers: 'Close Others',
         closeAll: 'Close All',
