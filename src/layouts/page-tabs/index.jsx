@@ -112,12 +112,13 @@ export default class PageTabs extends Component {
                     onEdit={this.handleEdit}
                 >
                     {dataSource.map(pane => {
-                        let {text, path, icon} = pane;
-                        let title = text.local ? text.text : text;
+                        let {text: tabTitle, path, icon} = pane;
 
-                        if (text.icon) icon = text.icon;
+                        if (typeof tabTitle === 'object' && tabTitle.text) tabTitle = tabTitle.text;
 
-                        if (icon) title = <span><FontIcon type={icon}/>{title}</span>;
+                        if (tabTitle.icon) icon = tabTitle.icon;
+
+                        if (icon) tabTitle = <span><FontIcon type={icon}/>{tabTitle}</span>;
 
                         return (
                             <TabPane
@@ -126,7 +127,7 @@ export default class PageTabs extends Component {
                                         style={{display: 'inline-block', height: '100%'}}
                                         onContextMenu={(e) => this.handleRightClick(e, pane)}
                                     >
-                                        {title}
+                                        {tabTitle}
                                     </span>
                                 )}
                                 key={path}

@@ -4,19 +4,23 @@ import PageContent from '@/layouts/page-content';
 
 @config({
     path: '/example/users/_/UserEdit/:id',
-    title: {local: 'userEdit', text: '用户编辑', icon: 'edit'}
+    query: true,
+    title: (params, query) => {
+        return {text: `用户编辑-name:${query.name};id:${params.id}`, icon: 'edit'};
+    },
 })
 export default class UserEdit extends Component {
     state = {};
 
     componentDidMount() {
-
+        console.log(this.props.match);
     }
 
     render() {
+        const {query} = this.props;
         return (
             <PageContent>
-                init UserEdit
+                UserEdit {query.name}
             </PageContent>
         );
     }

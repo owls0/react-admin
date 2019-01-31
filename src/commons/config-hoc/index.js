@@ -6,6 +6,7 @@ import {connect as reduxConnect} from '@/models';
 import {ajaxHoc} from '@/commons/ajax';
 import pubSubHoc from '@/library/utils/event-hoc'
 import eventHoc from '@/library/utils/dom-event-hoc';
+import queryString from "qs";
 
 /**
  * 页面配置高阶组件，整合了多个高阶组件
@@ -18,7 +19,7 @@ export default (options) => {
             // path = void 0,       // 页面路由地址，如果存在path配置，会通过脚本抓取，当前组件将会作为路由页面，path将作为路由地址
             // noFrame = false,     // 标记当前页面为不需要导航框架的页面，比如登录页，通过脚本抓取实现
             // noAuth = false,      // 标记当前页面为不需要登录即可访问的页面，通过脚本抓取实现
-            title = true,           // true：当前页面显示通过菜单结构自动生成的title；false：当前页面不显示title；string：自定义title，并不参与国际化；object：{local, text}，text对应国际化menu中的配置，label为国际化失败之后的默认显示
+            title = true,           // true：当前页面显示通过菜单结构自动生成的title；false：当前页面不显示title；string：自定义title，并不参与国际化；object：{local, text}，text对应国际化menu中的配置，label为国际化失败之后的默认显示；function(params, query): 返回值作为title
             breadcrumbs = true,     // true：当前页面显示通过菜单结构自动生成的面包屑；false：当前页面不显示面包屑；object：[{local, text, ...}]，local对应国际化menu中的配置，text为国际化失败之后的默认显示
             appendBreadCrumbs = [], // 在当前面包屑基础上添加
             pageHead,               // 页面头部是否显示
@@ -40,7 +41,7 @@ export default (options) => {
 
         if (query === true) hocFuncs.push(queryHoc());
 
-        if (router === true) hocFuncs.push(withRouter);
+        if (router === true || typeof title === 'function') hocFuncs.push(withRouter);
 
         if (ajax === true) hocFuncs.push(ajaxHoc());
 
@@ -67,10 +68,20 @@ export default (options) => {
                 }
 
                 if (title && title !== true) {
-                    page.setTitle(title);
+                    let nextTitle = title;
+
+                    if (typeof title === 'function') {
+                        const search = queryString.parse(window.location.search, {ignoreQueryPrefix: true});
+                        const query = search || {};
+                        const params = this.props?.match?.params || {};
+
+                        nextTitle = title(params, query);
+                    }
+
+                    page.setTitle(nextTitle);
 
                     // FIXME 刷新时候，由于设置顺序问题，这个不作用
-                    setTimeout(() => system.setCurrentTabTitle(title));
+                    setTimeout(() => system.setCurrentTabTitle(nextTitle));
                 }
 
                 // 页面面包屑导航

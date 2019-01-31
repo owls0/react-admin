@@ -156,6 +156,7 @@ export default class KeepAuthRoute extends React.Component {
                         // 获取当前地址对应的标签页
                         const currentTab = tabs.find(item => item.path === currentPath);
 
+                        const TabComponent = keepPage ? <Route {...rest} component={Component}/> : null;
                         // 当前地址对应的标签存在
                         if (currentTab) {
                             // 选中当前地址对应的标签
@@ -165,7 +166,7 @@ export default class KeepAuthRoute extends React.Component {
                             if (!currentTab.component) {
                                 setTimeout(() => {
                                     const tb = tabs.find(item => item.path === currentTab.path);
-                                    tb.component = component;
+                                    tb.component = TabComponent;
                                     system.setTabs([...tabs]);
                                 })
                             }
@@ -176,7 +177,7 @@ export default class KeepAuthRoute extends React.Component {
                             const icon = selectedMenu?.icon;
                             const newAddTab = {
                                 path: currentPath,
-                                component,
+                                component: TabComponent,
                                 text: title,
                                 icon,
                                 active: true,

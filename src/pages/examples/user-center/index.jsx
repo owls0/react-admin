@@ -23,7 +23,8 @@ export default class index extends Component {
         console.log('user center render');
         return (
             <PageContent>
-                <Button onClick={() => this.props.history.push('/example/users/_/UserEdit/aaaa')}>编辑用户</Button>
+                <Button onClick={() => this.props.history.push('/example/users/_/UserEdit/ttt?name=Tom')}>编辑用户Tom</Button>
+                <Button onClick={() => this.props.history.push('/example/users/_/UserEdit/jjj?name=Jack')}>编辑用户Jack</Button>
                 <div>
                     <Input style={{width: 100, marginRight: 8}} placeholder="请输入"/>
                     <Select style={{width: 200}} placeholder="请选择">
@@ -34,7 +35,7 @@ export default class index extends Component {
                 测试一下library中的less是否使用了css module
                 <Library/>
                 用户中心
-                <div style={{height: 200, background: 'red'}}></div>
+                <div style={{height: 200, background: 'red'}}/>
                 <FixBottom>
                     <Button>按钮</Button>
                     <Button type="primary">按钮</Button>
