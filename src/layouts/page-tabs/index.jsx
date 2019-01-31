@@ -3,6 +3,7 @@ import {Tabs, Menu, Icon} from 'antd';
 import {FontIcon} from "@/library/antd";
 import config from '@/commons/config-hoc';
 import ContextMenu from './ContextMenu';
+import DraggableTabs from './DraggableTabs';
 import './style.less';
 
 const TabPane = Tabs.TabPane;
@@ -104,7 +105,7 @@ export default class PageTabs extends Component {
                     event={contextEvent}
                     content={contextMenu}
                 />
-                <Tabs
+                <DraggableTabs
                     type="editable-card"
                     hideAdd
                     onChange={this.handleChange}
@@ -135,7 +136,7 @@ export default class PageTabs extends Component {
                             />
                         );
                     })}
-                </Tabs>
+                </DraggableTabs>
             </div>
         );
     }

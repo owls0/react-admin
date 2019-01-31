@@ -3,6 +3,8 @@ import {Tabs} from 'antd';
 import {DragDropContextProvider, DragSource, DropTarget} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
+const TabPane = Tabs.TabPane;
+
 // Drag & Drop node
 class TabNode extends React.Component {
     render() {
@@ -10,7 +12,7 @@ class TabNode extends React.Component {
             connectDragSource,
             connectDropTarget,
             children,
-        } = this.props;
+        } = this.props
 
         return connectDragSource(
             connectDropTarget(children),
@@ -58,13 +60,12 @@ const WrapTabNode = DropTarget(
     )(TabNode),
 );
 
-export default class DraggableTabs extends React.Component {
+class DraggableTabs extends React.Component {
     state = {
         order: [],
     };
 
     moveTabNode = (dragKey, hoverKey) => {
-        console.log(dragKey, hoverKey);
         const newOrder = this.state.order.slice();
         const {children} = this.props;
 
@@ -131,6 +132,27 @@ export default class DraggableTabs extends React.Component {
                     {orderTabs}
                 </Tabs>
             </DragDropContextProvider>
+        );
+    }
+}
+
+export const PAGE_ROUTE = '/example/draggable-tabs';
+
+export default class DraggableTabsComponent extends React.Component {
+
+    render() {
+        return (
+            <DraggableTabs>
+                <TabPane tab="tab 1" key="1">
+                    Content of Tab Pane 1
+                </TabPane>
+                <TabPane tab="tab 2" key="2">
+                    Content of Tab Pane 2
+                </TabPane>
+                <TabPane tab="tab 3" key="3">
+                    Content of Tab Pane 3
+                </TabPane>
+            </DraggableTabs>
         );
     }
 }
