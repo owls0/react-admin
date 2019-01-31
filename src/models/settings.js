@@ -9,7 +9,7 @@ export default {
         pageFrameLayout: PAGE_FRAME_LAYOUT.SIDE_MENU,
         pageHeadFixed: true,
         pageHeadShow: true,
-        tabsShow: false,
+        tabsShow: true,
     },
 
     syncStorage: true, // 全部同步到localStorage中

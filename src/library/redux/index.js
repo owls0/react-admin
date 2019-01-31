@@ -197,6 +197,7 @@ export function getActionsAndReducers({models}) {
                 __reducers[actionTypes.GET_STATE_FROM_STORAGE] = (state, action) => {
                     const {payload = {}} = action;
                     const data = payload[modelName] || {};
+                    // FIXME 深层结构的数据，会导致默认值失效，要使用递归，精确赋值
                     return {...state, ...data};
                 };
             }
