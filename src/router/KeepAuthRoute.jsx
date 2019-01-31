@@ -38,8 +38,8 @@ export default class KeepAuthRoute extends React.Component {
                 render={props => {
                     const {history} = props;
                     const {action: {system}} = this.props;
-                    let component = <Error401/>;
-                    if (noAuth || isAuthenticated()) component = <Component {...props}/>;
+                    const isAuth = noAuth || isAuthenticated();
+                    let component = isAuth ? <Component {...props}/> : <Error401 {...props}/>;
 
                     // 如果页面现实tabs，或者启用了keep page alive 需要对tabs进行操作
                     if (tabsShow || keepPage) {
@@ -152,7 +152,7 @@ export default class KeepAuthRoute extends React.Component {
 
                         // 获取当前地址对应的标签页
                         const currentTab = tabs.find(item => item.path === currentPath);
-                        const TabComponent = keepPage ? <Route {...rest} component={Component}/> : null;
+                        const TabComponent = keepPage ? component : null;
 
                         // 选中当前标签 当前地址对应的标签存在
                         if (currentTab) {
