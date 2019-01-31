@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {Icon} from 'antd';
 import {
     SortableContainer,
     SortableElement,
@@ -12,46 +13,52 @@ import './style.css';
 function getItems(count) {
     return range(count).map((value) => {
         return {
-            value,
+            value: value + 1,
         };
     });
 }
 
 const Item = SortableElement((props) => {
+    const {children} = props;
     return (
         <div
             className={classNames('horizontal-item', props.className)}
             style={props.style}
         >
-            Item{props.value}
+            {children}
         </div>
     );
 });
 
-const SortableList = SortableContainer(options => {
-    const {className, items, itemClass} = options;
+const SortableList = SortableContainer(props => {
+    const {className, items, itemClass, onClose} = props;
     return (
         <div className={classNames('root', className)}>
-            <div className="wrapper" id="wrapper">
-                {items.map(({value}, index) => (
+            {items.map((item, index) => {
+                const {value} = item;
+
+                return (
                     <Item
                         key={`item-${value}`}
                         className={itemClass}
                         index={index}
-                        value={value}
-                    />
-                ))}
-            </div>
+                    >
+                        <Icon type="smile"/>
+                        <div className="item-inner">
+                            {`${value} Item Item Item Item`}
+                            <span style={{display: 'inline-block'}}>妈的我是span内容</span>
+                        </div>
+                        <Icon type="close" onClick={() => onClose(item)}/>
+                    </Item>
+                );
+            })}
         </div>
     );
 });
 
-
-export const PAGE_ROUTE = '/example/draggable-tabs';
-
-export default class DraggableTabsBar extends Component {
+class DraggableTabsBar extends Component {
     state = {
-        items: getItems(20, 50),
+        items: getItems(15, 50),
         isSorting: false,
     };
 
@@ -90,6 +97,14 @@ export default class DraggableTabsBar extends Component {
         }
     };
 
+    onClose = (item) => {
+        const {value} = item;
+        console.log(value);
+        const {items} = this.state;
+        items.splice(value, 1);
+        this.setState({items});
+    };
+
     render() {
         const {items, isSorting} = this.state;
         const props = {
@@ -98,9 +113,26 @@ export default class DraggableTabsBar extends Component {
             onSortEnd: this.onSortEnd,
             onSortStart: this.onSortStart,
             axis: 'x',
+            distance: 1,
             ref: 'component',
+            onClose: this.onClose,
         };
 
-        return <SortableList {...this.props} {...props} />;
+        return <SortableList {...props} />;
+    }
+}
+
+
+export const PAGE_ROUTE = '/example/draggable-tabs';
+
+export default class App extends Component {
+
+    render() {
+        return (
+            <div style={{marginTop: 50, overflow: 'hidden'}}>
+                <DraggableTabsBar/>
+            </div>
+        );
+
     }
 }
