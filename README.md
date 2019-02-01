@@ -1,7 +1,58 @@
+# React Admin
+基于[React](https://reactjs.org) [Ant Design](https://ant.design/)的管理系统架构
 
 ## 环境
-- yarn v1.13.0
-- node v10.13.0
+- [yarn](https://yarnpkg.com) v1.13.0
+- [node](https://nodejs.org) v10.13.0
+
+## 下载&安装
+```bash
+$ git clone https://github.com/zkboys/react-admin.git
+$ cd /path/to/react-admin
+$ yarn
+```
+
+## 开发启动
+```bash
+$ cd /path/to/react-admin
+$ yarn start
+```
+
+## 生产构建
+```
+$ cd /path/to/react-admin
+$ yarn build
+```
+注：构建生成的文件在 `/react-admin/build` 目录下
+
+## 目录结构
+```
+.
+├── config              // 构建配置
+├── nginx-conf          // 生产部署nginx配置参考
+├── public              // 不参与构建的静态文件
+├── scripts             // 构建脚本
+├── src                 
+│   ├── commons         // 通用js
+│   ├── components      // 通用组件
+│   ├── i18n            // 国际化
+│   ├── layouts         // 页面框架布局组件
+│   ├── library         // 基础组件
+│   ├── mock            // 模拟数据
+│   ├── models          // 模块，基于redux
+│   ├── pages           // 页面组件
+│   ├── router          // 路由
+│   ├── App.js          // 根组件
+│   ├── index.css       // 全局样式
+│   ├── index.js        // 项目入口
+│   ├── menus.js        // 菜单配置
+│   ├── setupProxy.js   // 后端联调代理配置
+│   └── theme.js        // 主题变量
+├── package.json
+├── README.md
+└── yarn.lock
+
+```
 
 ## Webpack
 使用了alias @: /path/to/src，说明：
