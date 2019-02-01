@@ -73,6 +73,7 @@ const SortableContainerList = SortableContainer(props => {
 
 export default class DraggableTabsBar extends Component {
     state = {
+        itemLength: 0,
         isSorting: false,
     };
 
@@ -90,6 +91,41 @@ export default class DraggableTabsBar extends Component {
     static defaultProps = {
         className: classNames('list', 'stylizedList'),
     };
+
+
+    componentDidUpdate(prevProps) {
+        const {dataSource} = this.props;
+        const {dataSource: prevDataSource} = prevProps;
+
+        if (prevDataSource.length !== dataSource.length) {
+            const maxWidth = 180;
+            const items = document.querySelectorAll('.draggable-tabs-bar-horizontal-item');
+            const rootContainer = document.querySelector('.draggable-tabs-bar-root');
+            const itemCount = items.length;
+            const rootContainerWidth = rootContainer.clientWidth;
+            const maxCount = Math.floor(rootContainerWidth / maxWidth);
+
+            if (itemCount < maxCount) {
+                items.forEach(itemNode => {
+                    itemNode.style.width = `${maxWidth}px`;
+                });
+            } else {
+                if (dataSource.length < prevDataSource.length) {
+                    console.log('删除操作');
+                    if (this.ST) window.clearTimeout(this.ST);
+                    this.ST = setTimeout(() => {
+                        items.forEach(itemNode => {
+                            itemNode.style.width = `${rootContainerWidth / itemCount}px`;
+                        });
+                    }, 2000);
+                } else {
+                    items.forEach(itemNode => {
+                        itemNode.style.width = `${rootContainerWidth / itemCount}px`;
+                    });
+                }
+            }
+        }
+    }
 
     onSortStart = (info, event) => {
         const {index} = info;
