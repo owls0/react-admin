@@ -41,16 +41,8 @@ import './style.less';
     };
 })
 export default class FrameTopSideMenu extends Component {
-    static propTypes = {
-        layout: PropTypes.string,
-    };
-
-    static defaultProps = {
-        layout: PAGE_FRAME_LAYOUT.SIDE_MENU,    // top-menu side-menu
-        pageHeadFixed: true,        // 页面头部是否固定
-    };
-
-    componentWillMount() {
+    constructor(...props) {
+        super(...props);
         const {action: {menu, side}} = this.props;
 
         setTimeout(() => { // 等待getStateFromStorage获取配置之后再设置
@@ -68,6 +60,15 @@ export default class FrameTopSideMenu extends Component {
             });
         });
     }
+
+    static propTypes = {
+        layout: PropTypes.string,
+    };
+
+    static defaultProps = {
+        layout: PAGE_FRAME_LAYOUT.SIDE_MENU,    // top-menu side-menu
+        pageHeadFixed: true,        // 页面头部是否固定
+    };
 
     setTitleAndBreadcrumbs() {
         const {
