@@ -20,16 +20,13 @@ body {
     z-index: 9999;
 }
 
+.ant-tooltip,
+.ant-modal-mask,
+.ant-modal-wrap,
+.ant-message,
+.ant-menu-submenu-popup,
 .ant-notification {
-    z-index: 9999;
-}
-
-.ant-message {
-    z-index: 9999 !important;
-}
-
-.ant-menu-submenu-popup {
-    z-index: 9999;
+    z-index: 9999 !important;;
 }
 
 .ant-modal {

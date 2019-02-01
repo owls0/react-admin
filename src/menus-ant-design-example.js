@@ -8,6 +8,14 @@ export default [
         path: '/example/antd/async-select',
     },
     {
+        key: '/example/antd/draggable-tabs-bar', 
+        parentKey: 'antDesign', 
+        icon: 'deployment-unit',
+        local: 'draggableTabsBar',
+        text: 'DraggableTabsBar ', 
+        path: '/example/antd/draggable-tabs-bar',
+    },
+    {
         key: '/example/antd/font-icon', 
         parentKey: 'antDesign', 
         icon: 'deployment-unit',

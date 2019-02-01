@@ -104,15 +104,17 @@ export default class PageTabs extends Component {
 
         const tabsBarDataSource = dataSource.map(item => {
             let {text: tabTitle, path, icon} = item;
+            let title = tabTitle;
 
-            if (typeof tabTitle === 'object' && tabTitle.text) tabTitle = tabTitle.text;
+            if (typeof tabTitle === 'object' && tabTitle.text) title = tabTitle.text;
 
             if (tabTitle.icon) icon = tabTitle.icon;
 
-            if (icon) tabTitle = <span><FontIcon type={icon} style={{marginRight: 4}}/>{tabTitle}</span>;
+            if (icon) title = <span><FontIcon type={icon} style={{marginRight: 4}}/>{title}</span>;
+
             return {
                 key: path,
-                title: tabTitle,
+                title,
                 closable: dataSource.length > 1,
                 ...item,
             }
