@@ -69,7 +69,7 @@ export default class KeepAuthRoute extends React.Component {
                                     nextActiveIndex = currentIndex + 1;
                                 }
 
-                                const nextPath = tabs[nextActiveIndex]?.path;
+                                const nextPath = tabs[nextActiveIndex]?.path || '/'; // 最后一个标签删除，跳转首页
 
                                 setTimeout(() => {
                                     tabs.splice(closeTabIndex, 1);

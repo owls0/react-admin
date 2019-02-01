@@ -115,7 +115,7 @@ export default class PageTabs extends Component {
             return {
                 key: path,
                 title,
-                closable: dataSource.length > 1,
+                closable: true,
                 ...item,
             }
         });

@@ -60,9 +60,12 @@ export default class FrameTopSideMenu extends Component {
         });
 
         this.props.history.listen(() => {
-            menu.getMenuStatus();
-            side.show();
-            this.setTitleAndBreadcrumbs();
+            // 加上timeout之后，tab页切换之后，对应页面就不render了，不知道为什么！
+            setTimeout(() => {
+                menu.getMenuStatus();
+                side.show();
+                this.setTitleAndBreadcrumbs();
+            });
         });
     }
 

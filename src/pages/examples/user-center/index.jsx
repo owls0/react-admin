@@ -3,11 +3,11 @@ import {Button, Input, Select} from 'antd';
 import PageContent from '@/layouts/page-content';
 import FixBottom from '@/layouts/fix-bottom';
 import Library from '@/library/Library';
-
-export const PAGE_ROUTE = '/example/users';
+import config from '@/commons/config-hoc';
 
 const {Option} = Select;
 
+@config({path: '/example/users'})
 export default class UserCenter extends Component {
     state = {};
 
