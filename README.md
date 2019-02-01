@@ -265,7 +265,7 @@ TODO
         }
     }
     ```
-- 非React组件，无法与models链接的组件：
+- 非React组件，无法与models链接的js方法中：
     ```js
     import {getCurrentLocal} from '@/i18n';
      
@@ -279,21 +279,22 @@ TODO
 ## 主题
 通过样式覆盖来实现
 
-编写`/src/theme.js`通过[less-loader](https://github.com/webpack-contrib/less-loader)的`modifyVars`来进行主题配置
-
-Ant Design 主题 参考：https://ant-design.gitee.io/docs/react/customize-theme-cn
-
-自定义的颜色元素，如果参与主题，不能使用Css Module同时需要修改`/public/color.less`
-
-/public/color.less 来自于 https://ant-design.gitee.io/color.less （经过整理）  
+### 编写主题
+- less文件中使用主题相关变量
+- 编写`/src/theme.js`通过[less-loader](https://github.com/webpack-contrib/less-loader)的`modifyVars`来进行主题配置
+- 自定义的颜色元素，如果参与主题，不能使用Css Module同时需要修改`/public/color.less`
 
 注：目前每次修改了theme.js 需要重新yarn start 才能生效
+
+### 参考
+- Ant Design 主题 参考：https://ant-design.gitee.io/docs/react/customize-theme-cn
+- `/public/color.less` 来自于 https://ant-design.gitee.io/color.less （经过整理）  
 
 ## 页面打印
 通过给元素添加相应的class，控制打印内容：
 
-- .just-print 只在打印时显示
-- .no-print 在打印时不显示 
+- `.just-print` 只在打印时显示
+- `.no-print` 在打印时不显示 
 
 ## 组件
 目录`src/library/antd`中基于Ant Design 扩展了一些常用组件
@@ -305,7 +306,7 @@ Ant Design 主题 参考：https://ant-design.gitee.io/docs/react/customize-them
 
 
 ## Webpack
-使用了alias @: /path/to/src，说明：
+### 使用了alias @: /path/to/src
 
 - 方便路径书写，不必关心相对路径结构
 - 复制粘贴到其他文件，不必修改路径
@@ -314,7 +315,7 @@ Ant Design 主题 参考：https://ant-design.gitee.io/docs/react/customize-them
     WebStorm -> Preference... -> Languages & Frameworks -> JavaScript -> Webpack
     ```
     
-支持判断运算符：
+### 支持判断运算符
 ```js
 const name = res?.data?.user?.name || '匿名';
 ```
