@@ -12,6 +12,14 @@ export const noAuths = [<% for(let i = 0; i < noAuths.length; i++){ %>
     '<%= noAuths[i] %>',<% } %>
 ];
 
+// 需要keep alive 页面
+export const keepAlives = [<% for(let i = 0; i < keepAlives.length; i++){ %>
+    {
+        path: '<%= keepAlives[i].path %>',
+        keepAlive: <%= keepAlives[i].keep %>,
+    },<% } %>
+];
+
 // 页面路由配置
 export default [<% for(let i = 0; i< routes.length; i++){ %>
     {

@@ -67,20 +67,23 @@ function writeRouteConfigFile(options, result) {
     const routes = [];
     const noFrames = [];
     const noAuths = [];
+    const keepAlives = [];
     for (let i = 0; i < result.length; i++) {
         const {content} = result[i];
         const configs = getConfigFromContent(content);
 
         const routePath = configs.path;
-        const {noFrame, noAuth} = configs;
+        const {noFrame, noAuth, keepAlive} = configs;
 
         if (routePath) {
             routes.push({routePath, ...result[i]});
             if (noFrame === 'true') noFrames.push(routePath);
             if (noAuth === 'true') noAuths.push(routePath);
+            if (keepAlive === 'true') keepAlives.push({path: routePath, keep: true});
+            if (keepAlive === 'false') keepAlives.push({path: routePath, keep: false});
         }
     }
-    writeByTemplate(template, {routes: routes, noFrames, noAuths}, output);
+    writeByTemplate(template, {routes: routes, noFrames, noAuths, keepAlives}, output);
 }
 
 /**
@@ -154,6 +157,7 @@ function getConfigFromContent(content) {
         path: 'string',
         noFrame: 'boolean',
         noAuth: 'boolean',
+        keepAlive: 'boolean',
     };
 
     Object.keys(configs).forEach(key => {

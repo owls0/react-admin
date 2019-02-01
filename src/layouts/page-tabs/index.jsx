@@ -49,6 +49,7 @@ export default class PageTabs extends Component {
 
     renderContextMenu = (tab) => {
         const {dataSource, local} = this.props;
+        const disabledRefresh = !tab.component;
         const disabledClose = dataSource.length === 1;
         const tabIndex = dataSource.findIndex(item => item.path === tab.path);
         const disabledCloseLeft = tabIndex === 0;
@@ -59,12 +60,12 @@ export default class PageTabs extends Component {
                 selectable={false}
                 onClick={({key: action}) => this.handleMenuClick(action, tab.path)}
             >
-                <Menu.Item key="refresh">
+                <Menu.Item key="refresh" disabled={disabledRefresh}>
                     <Icon type="sync"/> {local.refresh}
                 </Menu.Item>
-                <Menu.Item key="refreshAll">
-                    <Icon type="sync"/> {local.refreshAll}
-                </Menu.Item>
+                {/*<Menu.Item key="refreshAll">*/}
+                    {/*<Icon type="sync"/> {local.refreshAll}*/}
+                {/*</Menu.Item>*/}
                 <Menu.Divider/>
                 <Menu.Item key="close" disabled={disabledClose}>
                     <Icon type="close"/> {local.close}

@@ -23,13 +23,9 @@ const allRoutes = routes.map(item => {
 
 @config({
     query: true,
-    connect: (state) => ({
-        keepPage: state.system.keepPage,
-    }),
 })
 export default class AppRouter extends Component {
     render() {
-        const {keepPage} = this.props;
         const {noFrame, noAuth} = this.props.query;
         return (
             <Router history={history}>
@@ -55,7 +51,7 @@ export default class AppRouter extends Component {
                         return <PageFrame {...props}/>;
                     }}/>
 
-                    {keepPage ? <KeepPage/> : null}
+                    <KeepPage/>
 
                     <Switch>
                         {allRoutes.map(item => {

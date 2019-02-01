@@ -7,7 +7,10 @@ import config from '@/commons/config-hoc';
 
 const {Option} = Select;
 
-@config({path: '/example/users'})
+@config({
+    path: '/example/users',
+    keepAlive: false,
+})
 export default class UserCenter extends Component {
     state = {};
 

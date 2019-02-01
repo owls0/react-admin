@@ -3,6 +3,7 @@ import {Route} from 'react-router-dom';
 import {isAuthenticated} from '@/commons';
 import Error401 from '@/pages/error/Error401';
 import config from '@/commons/config-hoc';
+import {keepAliveRoutes} from './routes';
 
 /**
  * 与KeepPage配合使用的路由，进行页面的收集
@@ -13,13 +14,12 @@ import config from '@/commons/config-hoc';
             tabs: state.system.tabs,
             title: state.page.title,
             selectedMenu: state.menu.selectedMenu,
-            keepPage: state.system.keepPage,
+            keepPageSystem: state.system.keepPage,
             tabsShow: state.settings.tabsShow,
         }
     },
 })
 export default class KeepAuthRoute extends React.Component {
-
     render() {
         const {
             component: Component,
@@ -27,7 +27,7 @@ export default class KeepAuthRoute extends React.Component {
             tabs,
             title,
             selectedMenu,
-            keepPage,
+            keepPageSystem,
             tabsShow,
             ...rest
         } = this.props;
@@ -36,6 +36,8 @@ export default class KeepAuthRoute extends React.Component {
             <Route
                 {...rest}
                 render={props => {
+                    const configKeepAlive = keepAliveRoutes.find(item => item.path === rest.path)?.keepAlive;
+                    const keepPage = configKeepAlive === void 0 ? keepPageSystem : configKeepAlive;
                     const {history} = props;
                     const {action: {system}} = this.props;
                     const isAuth = noAuth || isAuthenticated();

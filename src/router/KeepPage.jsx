@@ -28,6 +28,8 @@ export default class KeepPage extends Component {
             // 记录当前页面的滚动条位置，等待页面加载完成，componentDidUpdate会进行恢复
             if (active) this.scrollTop = scrollTop;
 
+            if (!component) return null;
+
             return (
                 <div key={tabPath} id={tabPath} style={{display: active ? 'flex' : 'none', flex: 1}}>
                     {component}
