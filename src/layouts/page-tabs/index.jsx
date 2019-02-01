@@ -4,6 +4,7 @@ import {FontIcon, DraggableTabsBar} from "@/library/antd";
 import config from '@/commons/config-hoc';
 import ContextMenu from './ContextMenu';
 import './style.less';
+import {arrayMove} from "react-sortable-hoc";
 
 @config({
     router: true,
@@ -24,10 +25,11 @@ export default class PageTabs extends Component {
         this.props.action.system.closeTab(targetPath);
     };
 
-    handleSortEnd = (sortedDataSource) => {
+    handleSortEnd = ({oldIndex, newIndex}) => {
         const {dataSource} = this.props;
-        const tabs = sortedDataSource.map(item => dataSource.find(it => it.path === item.key));
-        this.props.action.system.setTabs(tabs);
+        const sortedDataSource = arrayMove(dataSource, oldIndex, newIndex);
+
+        this.props.action.system.setTabs(sortedDataSource);
     };
 
     handleClick = (item) => {
@@ -64,7 +66,7 @@ export default class PageTabs extends Component {
                     <FontIcon type="sync"/> {local.refresh}
                 </Menu.Item>
                 {/*<Menu.Item key="refreshAll">*/}
-                    {/*<FontIcon type="sync"/> {local.refreshAll}*/}
+                {/*<FontIcon type="sync"/> {local.refreshAll}*/}
                 {/*</Menu.Item>*/}
                 <Menu.Divider/>
                 <Menu.Item key="close" disabled={disabledClose}>

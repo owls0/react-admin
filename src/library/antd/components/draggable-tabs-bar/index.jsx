@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import {Icon} from 'antd';
 import {
     SortableContainer,
-    SortableElement,
-    arrayMove,
+    SortableElement
 } from 'react-sortable-hoc';
 import classNames from 'classnames';
 import './style.less';
@@ -135,26 +134,22 @@ export default class DraggableTabsBar extends Component {
     }
 
     onSortStart = (info, event) => {
-        const {index} = info;
-        const {onSortStart, dataSource} = this.props;
-        const item = dataSource[index];
         this.setState({isSorting: true});
 
+        const {onSortStart} = this.props;
+
         if (onSortStart) {
-            onSortStart(item, info, event);
+            onSortStart(info, event);
         }
     };
 
     onSortEnd = (info, event) => {
-        const {oldIndex, newIndex} = info;
-        const {onSortEnd} = this.props;
-        const dataSource = [...this.props.dataSource];
-        const sortedDataSource = arrayMove(dataSource, oldIndex, newIndex);
-
         this.setState({isSorting: false});
 
+        const {onSortEnd} = this.props;
+
         if (onSortEnd) {
-            onSortEnd(sortedDataSource, info, event);
+            onSortEnd(info, event);
         }
     };
 
