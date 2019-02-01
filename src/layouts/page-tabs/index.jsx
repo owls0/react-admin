@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Menu, Icon} from 'antd';
+import {Menu} from 'antd';
 import {FontIcon, DraggableTabsBar} from "@/library/antd";
 import config from '@/commons/config-hoc';
 import ContextMenu from './ContextMenu';
@@ -61,26 +61,26 @@ export default class PageTabs extends Component {
                 onClick={({key: action}) => this.handleMenuClick(action, tab.path)}
             >
                 <Menu.Item key="refresh" disabled={disabledRefresh}>
-                    <Icon type="sync"/> {local.refresh}
+                    <FontIcon type="sync"/> {local.refresh}
                 </Menu.Item>
                 {/*<Menu.Item key="refreshAll">*/}
-                    {/*<Icon type="sync"/> {local.refreshAll}*/}
+                    {/*<FontIcon type="sync"/> {local.refreshAll}*/}
                 {/*</Menu.Item>*/}
                 <Menu.Divider/>
                 <Menu.Item key="close" disabled={disabledClose}>
-                    <Icon type="close"/> {local.close}
+                    <FontIcon type="close"/> {local.close}
                 </Menu.Item>
                 <Menu.Item key="closeOthers" disabled={disabledClose}>
-                    <Icon type="close-circle"/> {local.closeOthers}
+                    <FontIcon type="close-circle"/> {local.closeOthers}
                 </Menu.Item>
                 <Menu.Item key="closeAll" disabled={disabledClose}>
-                    <Icon type="close-square"/> {local.closeAll}
+                    <FontIcon type="close-square"/> {local.closeAll}
                 </Menu.Item>
                 <Menu.Item key="closeLeft" disabled={disabledCloseLeft}>
-                    <Icon type="vertical-left"/> {local.closeLeft}
+                    <FontIcon type="vertical-left"/> {local.closeLeft}
                 </Menu.Item>
                 <Menu.Item key="closeRight" disabled={disabledCloseRight}>
-                    <Icon type="vertical-right"/> {local.closeRight}
+                    <FontIcon type="vertical-right"/> {local.closeRight}
                 </Menu.Item>
             </Menu>
         );
