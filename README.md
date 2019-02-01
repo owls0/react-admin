@@ -277,12 +277,12 @@ TODO
     ```
     
 ## 主题
-通过样式覆盖来实现
+使用less，通过样式覆盖来实现。
 
 ### 编写主题
-- less文件中使用主题相关变量
-- 编写`/src/theme.js`通过[less-loader](https://github.com/webpack-contrib/less-loader)的`modifyVars`来进行主题配置
-- 自定义的颜色元素，如果参与主题，不能使用Css Module同时需要修改`/public/color.less`
+- less文件中使用主题相关变量；
+- 编写`/src/theme.js`通过[less-loader](https://github.com/webpack-contrib/less-loader)的`modifyVars`覆盖less中的变量；
+- 自定义的颜色元素，如果参与主题，不能使用Css Module同时需要修改`/public/color.less`；
 
 注：目前每次修改了theme.js 需要重新yarn start 才能生效
 
