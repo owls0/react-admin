@@ -62,6 +62,8 @@ $ yarn build
 ---|---|---
 key|是|需要唯一
 parentKey|否|用于关联父级
+path|是|菜单对应的路由地址
+url|否|菜单对应会打开url对应的iframe页面，如果配置了path，url将无效
 local|否|国际化配置，系统在i18n.menu中获取对应的文案
 text|是|如果local对应的文案有效，将覆盖text，否则菜单默认使用text作为展示内容
 icon|否|菜单图标配置

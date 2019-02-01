@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
-import domEvent from '@/library/utils/dom-event-hoc';
-import {connect} from "../../models/index";
+import config from '@/commons/config-hoc';
 import './style.less';
 
-@connect(state => ({...state.menu}))
-@domEvent()
+@config({
+    path: '/iframe__page__/:src',
+    keepAlive: true,
+    event: true,
+})
 export default class IFrame extends Component {
 
     state = {
@@ -23,15 +25,15 @@ export default class IFrame extends Component {
     };
 
     render() {
-        const {selectedMenu} = this.props;
-        const url = selectedMenu && selectedMenu.url;
+        let {src} = this.props.match.params;
+        src = window.decodeURIComponent(src);
         const {height} = this.state;
         return (
             <div styleName="iframe" style={{fontSize: 0}}>
                 <iframe
                     style={{height}}
-                    title={url}
-                    src={url}
+                    title={src}
+                    src={src}
                 />
             </div>
         );

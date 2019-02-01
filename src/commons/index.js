@@ -1,6 +1,7 @@
 import {session} from '@/library/utils/storage';
 import {getNodeByPropertyAndValue, convertToTree, renderNode} from '@/library/utils/tree-utils';
 import pathToRegexp from "path-to-regexp/index";
+import md5 from 'md5';
 
 const CURRENT_USER_KEY = 'current-user';
 
@@ -126,7 +127,7 @@ export function getMenuTreeDataAndPermissions(menus) {
     // 处理path： 只声明了url，没有声明path，为iframe页面
     menus = menus.map(item => {
         if (item.url && !item.path) {
-            item.path = `/frame/(${item.url})`;
+            item.path = `/iframe__page__/${window.encodeURIComponent(item.url)}`;
         }
         return item;
     });
