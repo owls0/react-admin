@@ -9,7 +9,7 @@ const {Option} = Select;
 
 @config({
     path: '/example/users',
-    keepAlive: false,
+    keepAlive: true,
 })
 export default class UserCenter extends Component {
     state = {};

@@ -88,7 +88,7 @@ const name = res?.data?.user?.name || '匿名';
 
 说明：
 
-1. tab基于页面地址，没新开一个地址，就会新开一个tab页，`/path` 与 `/path?name=Tom`属于不同url地址，会对应两个tab页；
+1. tab基于页面地址，每新开一个地址，就会新开一个tab页，`/path` 与 `/path?name=Tom`属于不同url地址，会对应两个tab页；
 1. 没有菜单对应的页面，需要单独设置title，否则tab标签将没有title
 
 
