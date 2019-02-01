@@ -337,13 +337,14 @@ const name = res?.data?.user?.name || '匿名';
 - [x] ]model Redux 相关引用问题
 - [x] axios 升级
 - [x] sx-antd 移入项目中，编写例子，方便维护，方便使用人员查看，丰富架构内容
+- [x] 框架中所有相关内容，切换到当前项目中
+- [x] 页面上选择主体颜色，改变主题
+- [x] library 目录中要使用less，但不进行css模块化处理
+- [x] tab页实现，react 并没有 类似vue的keep-alive功能~ 通过显示隐藏div实现
 - [ ] 设计
     - [ ] 登录页面
     - [ ] Logo
     - [ ] 404 401 等错误页面
-- [x] 框架中所有相关内容，切换到当前项目中
-- [x] 页面上选择主体颜色，改变主题
 - [ ] antd 组件整理
-- [x] library 目录中要使用less，但不进行css模块化处理
-- [x] tab页实现，react 并没有 类似vue的keep-alive功能~ 通过显示隐藏div实现
+- [ ] 相关文档整理
 
