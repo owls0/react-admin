@@ -117,7 +117,7 @@ const name = res?.data?.user?.name || '匿名';
 ## 页面
 
 ### 页面配置
-通过config装饰器，实现页面的配置功能，参见[config-hoc](./src/commons/README.md)
+通过config装饰器，实现页面的配置功能，参见[config-hoc](./src/commons/config-hoc/README.md)
 
 ### 页面保持
 点击地址跳转页面，渲染之后会保持，再次跳转到此页面，页面不会重新创建，而是一直保持状态
