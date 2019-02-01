@@ -42,4 +42,6 @@ connect|boolean \| function(state)|false|是否与redux进行连接，true：只
 event|boolean|false|是否添加event高阶组件，可以使用this.props.addEventListener添加dom事件，并在组件卸载时会自动清理；通过this.props.removeEventListener移出dom事件
 pubSub|boolean|false|是否添加发布订阅高阶组件，可以使用this.props.on订阅事件，并在组件卸载时，会自动取消订阅; 通过this.props.emit发布事件
 
+注：`noFrame`、`noAuth`、`keepAlive` 只有配置了`path`才有效！
+
 
