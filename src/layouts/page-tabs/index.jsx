@@ -1,12 +1,9 @@
 import React, {Component} from 'react';
-import {Tabs, Menu, Icon} from 'antd';
-import {FontIcon} from "@/library/antd";
+import {Menu, Icon} from 'antd';
+import {FontIcon, DraggableTabsBar} from "@/library/antd";
 import config from '@/commons/config-hoc';
 import ContextMenu from './ContextMenu';
-import DraggableTabs from './DraggableTabs';
 import './style.less';
-
-const TabPane = Tabs.TabPane;
 
 @config({
     router: true,
@@ -22,13 +19,21 @@ export default class PageTabs extends Component {
         contextMenu: '',
     };
 
-    handleChange = (path) => {
-        this.props.history.push(path);
+    handleClose = (item) => {
+        const {path: targetPath} = item;
+        this.props.action.system.closeTab(targetPath);
     };
 
-    handleEdit = (targetPath, action) => {
-        if (action === 'remove') this.props.action.system.closeTab(targetPath);
+    handleSortEnd = (sortedDataSource) => {
+        const {dataSource} = this.props;
+        const tabs = sortedDataSource.map(item => dataSource.find(it => it.path === item.key));
+        this.props.action.system.setTabs(tabs);
     };
+
+    handleClick = (item) => {
+        this.props.history.push(item.path);
+    };
+
 
     handleRightClick = (e, tab) => {
         e.preventDefault();
@@ -97,6 +102,22 @@ export default class PageTabs extends Component {
         const {contextVisible, contextEvent, contextMenu} = this.state;
         const currentTab = dataSource.find(item => item.active);
 
+        const tabsBarDataSource = dataSource.map(item => {
+            let {text: tabTitle, path, icon} = item;
+
+            if (typeof tabTitle === 'object' && tabTitle.text) tabTitle = tabTitle.text;
+
+            if (tabTitle.icon) icon = tabTitle.icon;
+
+            if (icon) tabTitle = <span><FontIcon type={icon} style={{marginRight: 4}}/>{tabTitle}</span>;
+            return {
+                key: path,
+                title: tabTitle,
+                closable: dataSource.length > 1,
+                ...item,
+            }
+        });
+
         return (
             <div styleName="root">
                 <ContextMenu
@@ -105,38 +126,23 @@ export default class PageTabs extends Component {
                     event={contextEvent}
                     content={contextMenu}
                 />
-                <DraggableTabs
-                    type="editable-card"
-                    hideAdd
-                    onChange={this.handleChange}
-                    activeKey={currentTab?.path}
-                    onEdit={this.handleEdit}
-                >
-                    {dataSource.map(pane => {
-                        let {text: tabTitle, path, icon} = pane;
-
-                        if (typeof tabTitle === 'object' && tabTitle.text) tabTitle = tabTitle.text;
-
-                        if (tabTitle.icon) icon = tabTitle.icon;
-
-                        if (icon) tabTitle = <span><FontIcon type={icon}/>{tabTitle}</span>;
-
+                <DraggableTabsBar
+                    dataSource={tabsBarDataSource}
+                    itemWrapper={(itemJsx, item) => {
                         return (
-                            <TabPane
-                                tab={(
-                                    <span
-                                        style={{display: 'inline-block', height: '100%'}}
-                                        onContextMenu={(e) => this.handleRightClick(e, pane)}
-                                    >
-                                        {tabTitle}
-                                    </span>
-                                )}
-                                key={path}
-                                closable={dataSource.length > 1}
-                            />
+                            <span
+                                className="draggable-tabs-bar-wrapper"
+                                onContextMenu={(e) => this.handleRightClick(e, item)}
+                            >
+                                {itemJsx}
+                            </span>
                         );
-                    })}
-                </DraggableTabs>
+                    }}
+                    onSortEnd={this.handleSortEnd}
+                    onClose={this.handleClose}
+                    onClick={this.handleClick}
+                    activeKey={currentTab?.path}
+                />
             </div>
         );
     }

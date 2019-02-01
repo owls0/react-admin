@@ -1,138 +1,52 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {Icon} from 'antd';
-import {
-    SortableContainer,
-    SortableElement,
-    arrayMove,
-} from 'react-sortable-hoc';
-import range from 'lodash/range';
-import classNames from 'classnames';
-import './style.css';
-
-function getItems(count) {
-    return range(count).map((value) => {
-        return {
-            value: value + 1,
-        };
-    });
-}
-
-const Item = SortableElement((props) => {
-    const {children} = props;
-    return (
-        <div
-            className={classNames('horizontal-item', props.className)}
-            style={props.style}
-        >
-            {children}
-        </div>
-    );
-});
-
-const SortableList = SortableContainer(props => {
-    const {className, items, itemClass, onClose} = props;
-    return (
-        <div className={classNames('root', className)}>
-            {items.map((item, index) => {
-                const {value} = item;
-
-                return (
-                    <Item
-                        key={`item-${value}`}
-                        className={itemClass}
-                        index={index}
-                    >
-                        <Icon type="smile"/>
-                        <div className="item-inner">
-                            {`${value} Item Item Item Item`}
-                            <span style={{display: 'inline-block'}}>妈的我是span内容</span>
-                        </div>
-                        <Icon type="close" onClick={() => onClose(item)}/>
-                    </Item>
-                );
-            })}
-        </div>
-    );
-});
-
-class DraggableTabsBar extends Component {
-    state = {
-        items: getItems(15, 50),
-        isSorting: false,
-    };
-
-    static propTypes = {
-        items: PropTypes.array,
-        className: PropTypes.string,
-        onSortStart: PropTypes.func,
-        onSortEnd: PropTypes.func,
-        component: PropTypes.func,
-    };
-
-    static defaultProps = {
-        className: classNames('list', 'stylizedList'),
-    };
-
-    onSortStart = () => {
-        const {onSortStart} = this.props;
-        this.setState({isSorting: true});
-
-        if (onSortStart) {
-            onSortStart(this.refs.component);
-        }
-    };
-
-    onSortEnd = ({oldIndex, newIndex}) => {
-        const {onSortEnd} = this.props;
-        const {items} = this.state;
-
-        this.setState({
-            items: arrayMove(items, oldIndex, newIndex),
-            isSorting: false,
-        });
-
-        if (onSortEnd) {
-            onSortEnd(this.refs.component);
-        }
-    };
-
-    onClose = (item) => {
-        const {value} = item;
-        console.log(value);
-        const {items} = this.state;
-        items.splice(value, 1);
-        this.setState({items});
-    };
-
-    render() {
-        const {items, isSorting} = this.state;
-        const props = {
-            isSorting,
-            items,
-            onSortEnd: this.onSortEnd,
-            onSortStart: this.onSortStart,
-            axis: 'x',
-            distance: 1,
-            ref: 'component',
-            onClose: this.onClose,
-        };
-
-        return <SortableList {...props} />;
-    }
-}
-
+import {DraggableTabsBar} from '@/library/antd';
+import './style.less';
 
 export const PAGE_ROUTE = '/example/draggable-tabs';
 
 export default class App extends Component {
+    state = {
+        dataSource: [
+            {key: 1, title: <span><Icon style={{marginRight: 4}} type="user"/>1我的文字有点多啊</span>, closable: true},
+            {key: 2, title: <span><Icon style={{marginRight: 4}} type="user"/>2我的</span>, closable: true},
+            {key: 3, title: <span><Icon style={{marginRight: 4}} type="user"/>3我的</span>, closable: true},
+            {key: 4, title: <span><Icon style={{marginRight: 4}} type="user"/>4我的</span>, closable: true},
+            {key: 5, title: <span><Icon style={{marginRight: 4}} type="user"/>5我的文字有点多啊</span>, closable: true},
+            {key: 6, title: <span><Icon style={{marginRight: 4}} type="user"/>6我的文字有点多啊</span>, closable: true},
+            {key: 7, title: <span><Icon style={{marginRight: 4}} type="user"/>7我的文字有点多啊</span>, closable: true},
+            {key: 8, title: <span><Icon style={{marginRight: 4}} type="user"/>8我的文字有点多啊</span>, closable: true},
+            {key: 9, title: <span><Icon style={{marginRight: 4}} type="user"/>9我的文字有点多啊</span>, closable: true},
+            {key: 10, title: <span><Icon style={{marginRight: 4}} type="user"/>10我的文字有点多啊</span>, closable: true},
+        ],
+    };
+
+    handleSortEnd = (dataSource) => {
+        this.setState({dataSource});
+    };
+
+    handleClose = (item) => {
+        const dataSource = this.state.dataSource.filter(it => it.key !== item.key);
+        this.setState({dataSource});
+    };
+
+    handleClick = (item) => {
+        console.log(item);
+        this.setState({activeKey: item.key});
+    };
 
     render() {
+        const {dataSource, activeKey} = this.state;
         return (
-            <div style={{marginTop: 50, overflow: 'hidden'}}>
-                <DraggableTabsBar/>
+            <div styleName="root">
+                <DraggableTabsBar
+                    dataSource={dataSource}
+                    onSortEnd={this.handleSortEnd}
+                    onClose={this.handleClose}
+                    onClick={this.handleClick}
+                    activeKey={activeKey}
+                />
             </div>
         );
-
     }
 }

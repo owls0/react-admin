@@ -22,6 +22,7 @@ import _ToolItem from './components/tool-item';
 import _ToolBar from './components/tool-bar';
 import _UserAvatar from './components/user-avatar';
 import _AsyncSelect from './components/async-select';
+import _DraggableTabsBar from './components/draggable-tabs-bar';
 
 export const TableRightClick = _TableRightClick;
 export const TableDragRow = _TableDragRow;
@@ -47,3 +48,4 @@ export const ToolItem = _ToolItem;
 export const ToolBar = _ToolBar;
 export const UserAvatar = _UserAvatar;
 export const AsyncSelect = _AsyncSelect;
+export const DraggableTabsBar = _DraggableTabsBar;

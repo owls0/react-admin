@@ -21,6 +21,7 @@ export default class KeepPage extends Component {
         const {tabs} = this.props;
 
         // FIXME 每次tab切换，都会导致所有的tab页面组件render一次，由于history作为props，history改变导致的？（好像并不是）浏览器前进后退，并不是router使用的history，并不引起更新
+        // FIXME tab页开多了，性能极差
         return tabs.map(item => {
             const {path: tabPath, component, active, scrollTop = 0} = item;
 
