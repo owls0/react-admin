@@ -130,14 +130,14 @@ export default class PageTabs extends Component {
                 />
                 <DraggableTabsBar
                     dataSource={tabsBarDataSource}
-                    itemWrapper={(itemJsx, item) => {
+                    itemWrapper={(itemJsx, item, wrapperClassName) => {
                         return (
-                            <span
-                                className="draggable-tabs-bar-wrapper"
+                            <div
+                                className={wrapperClassName}
                                 onContextMenu={(e) => this.handleRightClick(e, item)}
                             >
                                 {itemJsx}
-                            </span>
+                            </div>
                         );
                     }}
                     onSortEnd={this.handleSortEnd}

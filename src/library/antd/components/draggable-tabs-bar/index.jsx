@@ -55,7 +55,9 @@ const SortableContainerList = SortableContainer(props => {
                 ];
 
                 if (itemWrapper) {
-                    itemJsx = itemWrapper(itemJsx, item);
+                    itemJsx = itemWrapper(itemJsx, item, 'draggable-tabs-bar-wrapper');
+                } else {
+                    itemJsx = <div className="draggable-tabs-bar-wrapper">{itemJsx}</div>;
                 }
                 return (
                     <SortableItem
@@ -63,7 +65,7 @@ const SortableContainerList = SortableContainer(props => {
                         className={classNames(itemClass, {'active': isActive})}
                         index={index}
                     >
-                        {itemJsx}
+                        <div className="draggable-tabs-bar-horizontal-item-inner">{itemJsx}</div>
                     </SortableItem>
                 );
             })}
@@ -100,7 +102,7 @@ export default class DraggableTabsBar extends Component {
         // tabs 个数有变，调整宽度
         if (prevDataSource.length !== dataSource.length) {
             const maxWidth = 180;
-            const items = document.querySelectorAll('.draggable-tabs-bar-horizontal-item');
+            const items = document.querySelectorAll('.draggable-tabs-bar-horizontal-item-inner');
             const rootContainer = document.querySelector('.draggable-tabs-bar-root');
             const itemCount = items.length;
             const rootContainerWidth = rootContainer.clientWidth;
