@@ -4,52 +4,93 @@ yarn v1.13.0
 node v10.13.0
 
 ## Webpack
-使用了alias @ -> /path/to/src，
+使用了alias @: /path/to/src，说明：
 
 - 方便路径书写，不必关心相对路径结构
 - 复制粘贴到其他文件，不必修改路径
-
-WebStorm 通过 配置可以支持提示和点击跳转：
-```
-Preference... -> Languages & Frameworks -> JavaScript -> Webpack
-```
-
-## 样式
-src目录下的less 文件启用了css module
-src/library中less不启用css module 基础组件，不要使用css module
-所有的css 文件没启用css module
-
-
-## 路由
-使用 react-router
-路由配置自动抓取 同时支持 config PAGE_ROUTE 两种方式
-页面跳转 page-link 组件，如果link所指已经是当前页面，点击无效
-二级页面 保持选中父级菜单 parentPath/_/childPath
-
-页面内容保持 类似 keep alive功能
-
-## tab页
-注：
-- 没有菜单对应的页面，需要单独设置title
-
-- 在当前tab标签之后打开新的tab标签
-- 记录并恢复滚动条位置
-- 保持页面内容
-- tab标签右键操作
-- tab页操作API
-- tab标签拖拽排序
-
-## keep page
-
-页面无论是否显示，内部的history会实时更新
-
-
-## 判断运算符
-尤其在判断后端返回数据的时候，额外简洁
-
+- WebStorm 通过 配置webpack配置文件，可以支持提示和点击跳转：
+    ```
+    WebStorm -> Preference... -> Languages & Frameworks -> JavaScript -> Webpack
+    ```
+    
+支持判断运算符：
 ```
 const name = res?.data?.user?.name || '匿名';
 ```
+
+## 样式
+使用less作为样式的编写：
+
+- src目录下的less 文件启用了Css Module
+- src/library中less不启用Css Module，基础组件不要使用Css Module，不利于样式覆盖
+- 所有的css 文件没启用Css Module
+
+
+## 路由
+系统路由使用 [react-router](https://reacttraining.com/react-router/web/guides/quick-start)
+
+- 路由配置自动抓取，生成`/src/pages/page-routes.js`，同时支持两种方式：
+    1. 常量方式
+        ```js
+        export const PAGE_ROUTE = '/path';
+        ```
+    1. 页面config装饰器
+        ```js
+        @config({
+            path: '/path',
+        })
+        export default class Demo extends React.Component {
+            ...
+        }
+        ```    
+- 页面跳转 page-link 组件，如果link所指已经是当前页面，点击不会引起页面重新render
+- 二级页面如果要保持选中父级菜单的选中状态，以父级path开始并以`/_/`作为分隔符即可：`parentPath/_/childPath`
+    ```
+    // parent page 
+    @config({
+        path: '/parent/path'
+    })
+    export default class Parent extends React.Component {
+        ...
+    }
+    
+    // child page
+    @config({
+        path: '/parent/path/_/child/path'
+    })
+    export default class Parent extends React.Component {
+        ...
+    }
+    ```
+
+## 页面
+通过config装饰器，实现页面的配置功能，参见[config-hoc](./src/commons/README.md)
+
+提供页面保持功能：
+
+点击地址跳转页面，渲染之后会保持，再次跳转到此页面，页面不会重新创建，而是一直保持状态
+
+开启方式：
+
+1. 页面有上角 -> 用户头像 -> 设置 -> 页面设置 —> 保持页面内容
+1. /src/models/system.js initState.keepPage 属性修改默认值
+1. config装饰器 keepAlive属性
+
+## 导航tab页
+页面头部标签，有如下特性：
+
+1. 在当前tab标签之后打开新的tab标签；
+1. 记录并恢复滚动条位置；
+1. 保持页面内容（需要开启`Keep Page Alive`）；
+1. tab标签右键操作；
+1. tab页操作API；
+1. tab标签拖拽排序；
+
+说明：
+
+1. tab基于页面地址，没新开一个地址，就会新开一个tab页，`/path` 与 `/path?name=Tom`属于不同url地址，会对应两个tab页；
+1. 没有菜单对应的页面，需要单独设置title，否则tab标签将没有title
+
 
 ## modal
 对redux进行封装 [文档](./src/models/README.md);
@@ -116,13 +157,14 @@ example/antd 下文件时通过脚本 src/library/antd/generator-demos.js生成�
 
 ## 登录
 由于是管理系统架构，绝大部分页面都需要登录，个别不需要登录的页面可以通过如下两种方式进行配置：
-@config({
-    noAuth: true,
-})
 
-浏览器url中携带noAuth=true参数
-
-
+1. 页面config配置
+    ```js
+    @config({
+        noAuth: true,
+    })
+    ```
+1. 浏览器url中携带noAuth=true参数
 
 ## TODO 
 - [x] ]model Redux 相关引用问题
