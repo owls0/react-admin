@@ -72,7 +72,7 @@ const name = res?.data?.user?.name || '匿名';
 ## 样式
 使用less作为样式的编写：
 
-- src目录下的less 文件启用了Css Module；
+- src目录下的less 文件启用了[Css Module](https://github.com/css-modules/css-modules)，配合[react-css-modules](https://github.com/gajus/react-css-modules)，通过 `<div styleName="root"></div>`使用样式
 - src/library中less不启用Css Module，基础组件不要使用Css Module，不利于样式覆盖；
 - 所有的css 文件没启用Css Module；
 
@@ -148,18 +148,18 @@ const name = res?.data?.user?.name || '匿名';
 对redux进行封装 [文档](./src/models/README.md);
 
 ## 主题
-通过样式覆盖来实现的
+通过样式覆盖来实现
 
-编写 theme.js 通过 less-loader 的 modifyVars 来进行主题配置
-antd 主题 https://ant-design.gitee.io/docs/react/customize-theme-cn
+编写`/src/theme.js`通过[less-loader](https://github.com/webpack-contrib/less-loader)的`modifyVars`来进行主题配置
+Ant Design 主题 https://ant-design.gitee.io/docs/react/customize-theme-cn
 每次修改了theme.js 需要重新yarn start 才能生效
 
-自定义的颜色元素，如果参与主题，不能使用css module 同时需要修改/public/color.less
-color.less 来自于 https://ant-design.gitee.io/color.less 里面的代码有点乱，大量重复，大量未使用到less变量的代码，需要整理  
+自定义的颜色元素，如果参与主题，不能使用Css Module同时需要修改`/public/color.less`
+/public/color.less 来自于 https://ant-design.gitee.io/color.less （经过整理）  
 
 ## 菜单
 /src/menus.js 中配置菜单数据，支持异步
-头部菜单过多时，会导致左侧展开收起比较卡
+注：头部菜单过多时，会导致左侧展开收起比较卡
 
 ## mock 数据
 
@@ -174,10 +174,6 @@ color.less 来自于 https://ant-design.gitee.io/color.less 里面的代码有�
 ## 组件
 通用组件不使用css module
 example/antd 下文件时通过脚本 src/library/antd/generator-demos.js生成的
-
-## 页面配置
-[config装饰器](./src/commons/config-hoc/README.md)
-
 
 ## ESLint 说明
 如果前端项目，不是git根目录，在提交的时候，会报错 `Not a git repository`
