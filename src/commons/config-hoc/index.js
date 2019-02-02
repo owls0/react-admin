@@ -55,6 +55,16 @@ export default (options) => {
 
         const componentName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
+        class WrappedComponentExtend extends WrappedComponent {
+            componentDidMount() {
+                if (super.componentDidMount) {
+                    super.componentDidMount();
+                }
+
+                console.log(this.componentWillShow);
+            }
+        }
+
         @hocs
         class WithConfig extends Component {
             constructor(...args) {
@@ -118,7 +128,7 @@ export default (options) => {
             static displayName = `WithConfig(${componentName})`;
 
             render() {
-                return <WrappedComponent {...this.props}/>;
+                return <WrappedComponentExtend {...this.props}/>;
             }
         }
 
