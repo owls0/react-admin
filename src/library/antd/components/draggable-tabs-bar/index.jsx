@@ -106,6 +106,10 @@ export default class DraggableTabsBar extends Component {
         if (prevDataSource.length !== dataSource.length) {
             this.setTabsWidth(prevDataSource, dataSource);
         }
+
+        if (dataSource.length === 1) {
+            this.setTabsWidth(prevDataSource, dataSource);
+        }
     }
 
     setTabsWidth = (prevDataSource, dataSource) => {
@@ -115,9 +119,8 @@ export default class DraggableTabsBar extends Component {
         const itemCount = items.length;
         const rootContainerWidth = rootContainer.clientWidth;
         const maxCount = Math.floor(rootContainerWidth / maxWidth);
-
         const setTabsWidth = () => {
-            if (itemCount < maxCount) {
+            if (itemCount <= maxCount) {
                 // 宽度足够所有的tab使用最大宽度，都使用最大宽度
                 items.forEach(itemNode => {
                     itemNode.style.width = `${maxWidth}px`;
@@ -134,7 +137,7 @@ export default class DraggableTabsBar extends Component {
             // 删除操作，先保持宽度，可以持续点击关闭
             if (this.ST) window.clearTimeout(this.ST);
 
-            this.ST = setTimeout(setTabsWidth, 1000);
+            this.ST = setTimeout(setTabsWidth, 500);
         } else {
             // 添加操作
             setTabsWidth();

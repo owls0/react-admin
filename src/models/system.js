@@ -86,6 +86,9 @@ export default {
             }
 
             tabs.splice(closeTabIndex, 1);
+
+            if (!tabs.length) return {tabs: [{path: '/', nextActive: true}]};
+
             return {tabs: [...tabs]};
         }
 
