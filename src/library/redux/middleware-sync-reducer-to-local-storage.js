@@ -18,7 +18,12 @@ function filterObjectByObject(originObj, mapObj = {}, result = {}) {
         }
 
         if (typeof value === 'object') {
-            result[key] = filterObjectByObject(originObj[key], value, result[key]);
+            if (Array.isArray(value)) {
+                const mo = value[0];
+                result[key] = originObj[key].map(item => filterObjectByObject(item, mo));
+            } else {
+                result[key] = filterObjectByObject(originObj[key], value, result[key]);
+            }
         }
     });
     return result;

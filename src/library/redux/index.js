@@ -225,7 +225,7 @@ export function getActionsAndReducers({models}) {
 function setObjectByObject(originObj, mapObj = {}) {
     Object.keys(mapObj).forEach(key => {
         const value = mapObj[key];
-        if (typeof value === 'object') {
+        if (typeof value === 'object' && !Array.isArray(value)) {
             originObj[key] = setObjectByObject(originObj[key], value);
         } else {
             originObj[key] = value;

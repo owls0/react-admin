@@ -16,12 +16,13 @@ export default {
         i18n: defaultLang.i18n,     // 默认语言集
         autoLocal: true,            // 是否根据浏览器自动获取语言，如果false，将默认简体中文
         primaryColor,               // 主题主颜色
-        tabs: [],                   // 所有的tab配置 {path, text, component, active, scrollTop}
+        tabs: [],                   // 所有的tab配置 {path, text, icon, component, active, scrollTop}
         keepPage: true,             // 页面切换回去之后，保持内容，通过显示隐藏div实现，不知道会有什么坑！！！性能？各个互相干扰？
     },
 
     syncStorage: {
         keepPage: true,
+        tabs: [{path: true, text: true, icon: true, active: true, scrollTop: true}],
     },
 
     setTabs: (tabs) => ({tabs}),

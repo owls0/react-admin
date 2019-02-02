@@ -93,6 +93,10 @@ export default class DraggableTabsBar extends Component {
         className: classNames('list', 'stylizedList'),
     };
 
+    componentDidMount() {
+        const {dataSource} = this.props;
+        this.setTabsWidth(dataSource, dataSource);
+    };
 
     componentDidUpdate(prevProps) {
         const {dataSource} = this.props;
@@ -100,38 +104,42 @@ export default class DraggableTabsBar extends Component {
 
         // tabs 个数有变，调整宽度
         if (prevDataSource.length !== dataSource.length) {
-            const maxWidth = 180;
-            const items = document.querySelectorAll('.draggable-tabs-bar-horizontal-item-inner');
-            const rootContainer = document.querySelector('.draggable-tabs-bar-root');
-            const itemCount = items.length;
-            const rootContainerWidth = rootContainer.clientWidth;
-            const maxCount = Math.floor(rootContainerWidth / maxWidth);
-
-            const setTabsWidth = () => {
-                if (itemCount < maxCount) {
-                    // 宽度足够所有的tab使用最大宽度，都使用最大宽度
-                    items.forEach(itemNode => {
-                        itemNode.style.width = `${maxWidth}px`;
-                    });
-                } else {
-                    // 宽度不够使用最大宽度，平均分配
-                    items.forEach(itemNode => {
-                        itemNode.style.width = `${rootContainerWidth / itemCount}px`;
-                    });
-                }
-            };
-
-            if (dataSource.length < prevDataSource.length) {
-                // 删除操作，先保持宽度，可以持续点击关闭
-                if (this.ST) window.clearTimeout(this.ST);
-
-                this.ST = setTimeout(setTabsWidth, 1000);
-            } else {
-                // 添加操作
-                setTabsWidth();
-            }
+            this.setTabsWidth(prevDataSource, dataSource);
         }
     }
+
+    setTabsWidth = (prevDataSource, dataSource) => {
+        const maxWidth = 180;
+        const items = document.querySelectorAll('.draggable-tabs-bar-horizontal-item-inner');
+        const rootContainer = document.querySelector('.draggable-tabs-bar-root');
+        const itemCount = items.length;
+        const rootContainerWidth = rootContainer.clientWidth;
+        const maxCount = Math.floor(rootContainerWidth / maxWidth);
+
+        const setTabsWidth = () => {
+            if (itemCount < maxCount) {
+                // 宽度足够所有的tab使用最大宽度，都使用最大宽度
+                items.forEach(itemNode => {
+                    itemNode.style.width = `${maxWidth}px`;
+                });
+            } else {
+                // 宽度不够使用最大宽度，平均分配
+                items.forEach(itemNode => {
+                    itemNode.style.width = `${rootContainerWidth / itemCount}px`;
+                });
+            }
+        };
+
+        if (dataSource.length < prevDataSource.length) {
+            // 删除操作，先保持宽度，可以持续点击关闭
+            if (this.ST) window.clearTimeout(this.ST);
+
+            this.ST = setTimeout(setTabsWidth, 1000);
+        } else {
+            // 添加操作
+            setTabsWidth();
+        }
+    };
 
     onSortStart = (info, event) => {
         this.setState({isSorting: true});
