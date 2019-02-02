@@ -25,8 +25,6 @@ export default class KeepAuthRoute extends React.Component {
             component: Component,
             noAuth,
             tabs,
-            title,
-            selectedMenu,
             keepPageSystem,
             tabsShow,
             ...rest
@@ -53,7 +51,6 @@ export default class KeepAuthRoute extends React.Component {
                             });
                             return keepPage ? null : component;
                         }
-
 
                         const {pathname, search} = props.location;
                         const currentPath = `${pathname}${search}`;
@@ -106,12 +103,9 @@ export default class KeepAuthRoute extends React.Component {
 
                             // 清空选中状态 直接选中新添加的标签
                             if (prevActiveTab) prevActiveTab.active = false;
-                            const icon = selectedMenu?.icon;
                             const newAddTab = {
                                 path: currentPath,
                                 component: TabComponent,
-                                text: title,
-                                icon,
                                 active: true,
                             };
 
@@ -124,6 +118,9 @@ export default class KeepAuthRoute extends React.Component {
 
                             // 不使用setTimeout 会报出 Warning: Cannot update during an existing state transition (such as within `render`). Render methods should be a pure function of props and state.
                             setTimeout(() => {
+                                // 等待title selectedMenu更新完成了之后，才获取；
+                                newAddTab.text = this.props.title;
+                                newAddTab.icon = this.props.selectedMenu?.icon;
                                 system.setTabs([...tabs]);
                             })
                         }
