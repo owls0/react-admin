@@ -196,9 +196,11 @@ export function getActionsAndReducers({models}) {
             if (!__reducers[actionTypes.GET_STATE_FROM_STORAGE]) {
                 __reducers[actionTypes.GET_STATE_FROM_STORAGE] = (state, action) => {
                     const {payload = {}} = action;
+                    // state 为当前模块的初始化数据，data为当前模块存储的数据
                     const data = payload[modelName] || {};
-                    // FIXME 深层结构的数据，会导致默认值失效，要使用递归，精确赋值
-                    return {...state, ...data};
+
+                    // 深层结构的数据，会导致默认值失效，要使用递归，精确赋值
+                    return setObjectByObject(state, data);
                 };
             }
         }
@@ -212,6 +214,25 @@ export function getActionsAndReducers({models}) {
     }
 }
 
+
+/**
+ * 根据 mapObj 的结构，获取 originObj 对应结构的数据
+ * @param originObj
+ * @param mapObj
+ * @param result
+ * @returns {{}}
+ */
+function setObjectByObject(originObj, mapObj = {}) {
+    Object.keys(mapObj).forEach(key => {
+        const value = mapObj[key];
+        if (typeof value === 'object') {
+            originObj[key] = setObjectByObject(originObj[key], value);
+        } else {
+            originObj[key] = value;
+        }
+    });
+    return originObj
+}
 
 /**
  * 通用异步Meta处理，默认启用errorTip，禁用successTip，onResolve，onReject回调

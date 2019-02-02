@@ -21,8 +21,6 @@ const allRoutes = routes.map(item => {
     };
 });
 
-console.log(routes);
-
 @config({
     query: true,
 })
