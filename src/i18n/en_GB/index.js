@@ -86,10 +86,10 @@ export default {
         closeRight: 'Close All to the Right',
     },
     errorPage: {
+        needLogin: 'Need to Log In!',
         pageNotFound: 'Page Not Found!',
         redirectTo: 'You can redirect to',
         orReturn: 'or return',
         previousStep: 'Previous Step',
-        needLogin: 'Need to Log In!',
     },
 };

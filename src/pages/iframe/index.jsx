@@ -3,7 +3,7 @@ import config from '@/commons/config-hoc';
 import './style.less';
 
 @config({
-    path: '/iframe__page__/:src',
+    path: '/iframe_page_/:src',
     keepAlive: true,
     event: true,
 })

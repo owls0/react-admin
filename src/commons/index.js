@@ -126,7 +126,7 @@ export function getMenuTreeDataAndPermissions(menus) {
     // 处理path： 只声明了url，没有声明path，为iframe页面
     menus = menus.map(item => {
         if (item.url && !item.path) {
-            item.path = `/iframe__page__/${window.encodeURIComponent(item.url)}`;
+            item.path = `/iframe_page_/${window.encodeURIComponent(item.url)}`;
         }
         return item;
     });

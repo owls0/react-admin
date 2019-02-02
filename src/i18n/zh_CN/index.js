@@ -86,10 +86,10 @@ export default {
         closeRight: '关闭右侧',
     },
     errorPage: {
+        needLogin: '您还未登录！',
         pageNotFound: '您访问的页面不存在！',
         redirectTo: '跳转到',
         orReturn: '或者返回',
         previousStep: '上一步',
-        needLogin: '您还未登录！',
     },
 };
