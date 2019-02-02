@@ -15,6 +15,8 @@ export default {
     },
     menu: {
         home: 'Home',
+        page404: '404 Not Found',
+        login: 'Log In',
         example: 'Example',
         userCenter: 'User Center',
         users: 'User List',
@@ -82,5 +84,12 @@ export default {
         closeAll: 'Close All',
         closeLeft: 'Close All to the Left',
         closeRight: 'Close All to the Right',
+    },
+    errorPage: {
+        pageNotFound: 'Page Not Found!',
+        redirectTo: 'You can redirect to',
+        orReturn: 'or return',
+        previousStep: 'Previous Step',
+        needLogin: 'Need to Log In!',
     },
 };

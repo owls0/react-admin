@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {DatePicker} from 'antd';
+import {DatePicker, Button} from 'antd';
 import config from '@/commons/config-hoc';
 import PageContent from '@/layouts/page-content';
 
@@ -10,7 +10,6 @@ export default class RoleList extends Component {
     state = {};
 
     componentDidMount() {
-
     }
 
     render() {
@@ -19,6 +18,7 @@ export default class RoleList extends Component {
             <PageContent>
                 init roles
                 <DatePicker/>
+                <Button onClick={() => this.props.history.push('/asdf')}>openTab</Button>
                 <div style={{height: 600, background: 'blue'}}/>
             </PageContent>
         );

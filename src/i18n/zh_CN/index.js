@@ -15,6 +15,8 @@ export default {
     },
     menu: {
         home: '首页',
+        page404: '404页面不存在',
+        login: '登录',
         example: '示例',
         userCenter: '用户中心',
         users: '用户列表',
@@ -82,5 +84,12 @@ export default {
         closeAll: '关闭所有',
         closeLeft: '关闭左侧',
         closeRight: '关闭右侧',
+    },
+    errorPage: {
+        pageNotFound: '您访问的页面不存在！',
+        redirectTo: '跳转到',
+        orReturn: '或者返回',
+        previousStep: '上一步',
+        needLogin: '您还未登录！',
     },
 };
