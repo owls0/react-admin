@@ -54,42 +54,93 @@ export default {
     },
 
     closeTab: (targetPath, state) => {
-        const {tabs} = state;
-        const tab = tabs.find(item => item.path === targetPath);
-        tab.isClose = true;
+        const tabs = [...state.tabs];
+        let closeTabIndex = 0;
 
-        return {tabs: [...tabs]};
+        const tab = tabs.find((item, index) => {
+            if (item.path === targetPath) {
+                closeTabIndex = index;
+                return true;
+            }
+            return false;
+        });
+
+        if (tab) {
+            // 关闭的是当前标签
+            if (tab.active) {
+                const removeTabPath = tab.path;
+                const currentIndex = tabs.findIndex(item => item.path === removeTabPath);
+                let nextActiveIndex = 0;
+
+                if (currentIndex === tabs.length - 1) {
+                    // 当前标签已经是最后一个了，删除后选中上一个
+                    nextActiveIndex = currentIndex - 1;
+                } else {
+                    // 当前tab标签后面还有标签，删除后选中下一个标签
+                    nextActiveIndex = currentIndex + 1;
+                }
+
+                if (tabs[nextActiveIndex]) {
+                    tabs[nextActiveIndex].nextActive = true;
+                }
+            }
+
+            tabs.splice(closeTabIndex, 1);
+            return {tabs: [...tabs]};
+        }
+
     },
 
     closeOtherTabs: (targetPath, state) => {
-        const {tabs} = state;
-        const tab = tabs.find(item => item.path === targetPath);
-        tab.isCloseOthers = true;
+        const closeOthersTab = state.tabs.find(item => item.path === targetPath);
 
-        return {tabs: [...tabs]};
+        if (closeOthersTab) {
+            closeOthersTab.nextActive = true;
+
+            return {tabs: [closeOthersTab]};
+        }
     },
 
-    closeAllTabs: (arg, state) => {
-        const {tabs} = state;
-        if (tabs && tabs.length) tabs[0].isCloseAll = true;
-
-        return {tabs: [...tabs]};
+    closeAllTabs: () => {
+        return {tabs: []};
     },
 
     closeLeftTabs: (targetPath, state) => {
-        const {tabs} = state;
-        const tab = tabs.find(item => item.path === targetPath);
-        tab.isCloseLeft = true;
+        const tabs = [...state.tabs];
+        let closeLeftTabIndex = 0;
+        const closeLeftTab = tabs.find((item, index) => {
+            if (item.path === targetPath) {
+                closeLeftTabIndex = index;
+                return true;
+            }
+            return false;
+        });
 
-        return {tabs: [...tabs]};
+        if (closeLeftTab) {
+            const newTabs = tabs.slice(closeLeftTabIndex);
+            closeLeftTab.nextActive = true;
+
+            return {tabs: newTabs}
+        }
     },
 
     closeRightTabs: (targetPath, state) => {
-        const {tabs} = state;
-        const tab = tabs.find(item => item.path === targetPath);
-        tab.isCloseRight = true;
+        const tabs = [...state.tabs];
+        let closeRightIndex = 0;
+        const closeRightTab = tabs.find((item, index) => {
+            if (item.path === targetPath) {
+                closeRightIndex = index;
+                return true;
+            }
+            return false;
+        });
 
-        return {tabs: [...tabs]};
+        if (closeRightTab) {
+            const newTabs = tabs.slice(0, closeRightIndex + 1);
+            closeRightTab.nextActive = true;
+
+            return {tabs: newTabs};
+        }
     },
 
     /**

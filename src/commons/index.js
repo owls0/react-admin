@@ -1,7 +1,6 @@
 import {session} from '@/library/utils/storage';
 import {getNodeByPropertyAndValue, convertToTree, renderNode} from '@/library/utils/tree-utils';
 import pathToRegexp from "path-to-regexp/index";
-import md5 from 'md5';
 
 const CURRENT_USER_KEY = 'current-user';
 

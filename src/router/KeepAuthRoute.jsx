@@ -40,113 +40,30 @@ export default class KeepAuthRoute extends React.Component {
                     const keepPage = configKeepAlive === void 0 ? keepPageSystem : configKeepAlive;
                     const {history} = props;
                     const {action: {system}} = this.props;
-                    const isAuth = noAuth || isAuthenticated();
-                    let component = isAuth ? <Component {...props}/> : <Error401 {...props}/>;
+                    let component = (noAuth || isAuthenticated()) ? <Component {...props}/> : <Error401 {...props}/>;
 
                     // 如果页面现实tabs，或者启用了keep page alive 需要对tabs进行操作
                     if (tabsShow || keepPage) {
-                        const prevActiveIndex = tabs.findIndex(item => item.active);
-                        const prevActiveTab = tabs.find(item => item.active);
+                        // 当前选中tab改变，需要重新调用history方法修改地址
+                        const nextActiveTab = tabs.find(item => item.nextActive);
+                        if (nextActiveTab) {
+                            nextActiveTab.nextActive = false;
+                            setTimeout(() => {
+                                history.push(nextActiveTab.path);
+                            });
+                            return keepPage ? null : component;
+                        }
+
+                        let prevActiveIndex = -1;
+                        const prevActiveTab = tabs.find((item, index) => {
+                            if (item.active) prevActiveIndex = index;
+
+                            return item.active;
+                        });
 
                         // 记录上一个页面的滚动条位置
                         if (prevActiveTab) {
                             prevActiveTab.scrollTop = document.body.scrollTop = document.documentElement.scrollTop;
-                        }
-
-                        // 关闭一个标签
-                        const closeTab = tabs.find(item => item.isClose);
-                        if (closeTab) {
-                            const closeTabIndex = tabs.findIndex(item => item.isClose);
-                            // 关闭的是当前标签
-                            if (closeTab.active) {
-                                const removeTabPath = closeTab.path;
-                                const currentIndex = tabs.findIndex(item => item.path === removeTabPath);
-                                let nextActiveIndex = 0;
-
-                                if (currentIndex === tabs.length - 1) {
-                                    // 当前标签已经是最后一个了，删除后选中上一个
-                                    nextActiveIndex = currentIndex - 1;
-                                } else {
-                                    // 当前tab标签后面还有标签，删除后选中下一个标签
-                                    nextActiveIndex = currentIndex + 1;
-                                }
-
-                                const nextPath = tabs[nextActiveIndex]?.path || '/'; // 最后一个标签删除，跳转首页
-
-                                setTimeout(() => {
-                                    tabs.splice(closeTabIndex, 1);
-                                    history.push(nextPath);
-                                    system.setTabs([...tabs]);
-                                })
-                            } else {
-                                tabs.splice(closeTabIndex, 1);
-                                setTimeout(() => {
-                                    system.setTabs([...tabs]);
-                                });
-                            }
-
-                            return null;
-                        }
-
-                        // 关闭其他标签
-                        const closeOthersTab = tabs.find(item => item.isCloseOthers);
-                        if (closeOthersTab) {
-                            Reflect.deleteProperty(closeOthersTab, 'isCloseOthers');
-
-                            setTimeout(() => {
-                                if (!closeOthersTab.active) history.push(closeOthersTab.path);
-
-                                system.setTabs([closeOthersTab]);
-                            });
-
-                            return null;
-                        }
-
-                        // 关闭所有标签
-                        const closeAllTab = tabs.find(item => item.isCloseAll);
-                        if (closeAllTab) {
-                            setTimeout(() => {
-                                // 全部删除，跳转首页
-                                history.push('/');
-
-                                system.setTabs([]);
-                            });
-
-                            return null;
-                        }
-
-                        // 关闭左侧
-                        const closeLeftTab = tabs.find(item => item.isCloseLeft);
-                        if (closeLeftTab) {
-                            const closeLeftTabIndex = tabs.findIndex(item => item.isCloseLeft);
-
-                            Reflect.deleteProperty(closeLeftTab, 'isCloseLeft');
-
-                            setTimeout(() => {
-                                const newTabs = tabs.slice(closeLeftTabIndex);
-
-                                if (!closeLeftTab.active) history.push(closeLeftTab.path);
-                                system.setTabs(newTabs);
-                            });
-
-                            return null
-                        }
-
-                        // 关闭右侧
-                        const closeRightTab = tabs.find(item => item.isCloseRight);
-                        if (closeRightTab) {
-                            const closeRightIndex = tabs.findIndex(item => item.isCloseRight);
-
-                            Reflect.deleteProperty(closeRightTab, 'isCloseRight');
-
-                            setTimeout(() => {
-                                const newTabs = tabs.slice(0, closeRightIndex + 1);
-
-                                if (!closeRightTab.active) history.push(closeRightTab.path);
-                                system.setTabs(newTabs);
-                            });
-
-                            return null;
                         }
 
                         const {pathname, search} = props.location;
@@ -208,7 +125,7 @@ export default class KeepAuthRoute extends React.Component {
                         }
                     }
 
-                    // 由KeepPage进行页面渲染和切换，这里不需要进行页面渲染
+                    // 由KeepPage组件进行页面渲染和切换，这里不需要进行页面渲染
                     if (keepPage) return null;
 
                     // 页面滚动条滚动到顶部
