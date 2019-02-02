@@ -22,6 +22,7 @@ export default class KeepPage extends Component {
 
         // 始终保持内容的顺序不变，避免React的diff算法，在元素移动时，先删除后创建，导致iframe重新加载的问题
         const sortTabs = [...tabs].sort((a, b) => (a.path > b.path ? 1 : -1));
+        console.log(sortTabs);
 
         // 已解决：每次tab切换，都会导致所有的tab页面组件render一次，由于history作为props，history改变导致的？（好像并不是）浏览器前进后退，并不是router使用的history，并不引起更新
         // 已解决：所有tab都render，tab页开多了，性能极差

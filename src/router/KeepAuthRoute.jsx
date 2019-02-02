@@ -9,6 +9,7 @@ import {keepAliveRoutes} from './routes';
  * 与KeepPage配合使用的路由，进行页面的收集
  */
 @config({
+    pubSub: true,
     connect(state) {
         return {
             tabs: state.system.tabs,
@@ -70,9 +71,15 @@ export default class KeepAuthRoute extends React.Component {
                             }
 
                             // 清空选中状态
-                            if (prevActiveTab) prevActiveTab.active = false;
+                            if (prevActiveTab) {
+                                prevActiveTab.active = false
+                                this.props.emit('tab-hide', prevActiveTab.path);
+                            }
 
                             currentTab.active = true;
+
+                            this.props.emit('tab-show', currentTab.path);
+
                             setTimeout(() => {
                                 system.setTabs([...tabs]);
                             });

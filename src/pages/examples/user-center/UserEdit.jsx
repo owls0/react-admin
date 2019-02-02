@@ -21,8 +21,15 @@ import PageContent from '@/layouts/page-content';
 })
 @Form.create()
 export default class UserEdit extends Component {
-    componentDidMount() {
-        console.log('super componentDidMount');
+    constructor(...props) {
+        super(...props);
+
+        this.props.onComponentWillShow(() => {
+            console.log('UserEdit onComponentShow');
+        });
+        this.props.onComponentWillHide(() => {
+            console.log('UserEdit onComponentWillHide');
+        });
     }
 
     handleSubmit = (e) => {

@@ -6,6 +6,7 @@ import {connect as reduxConnect} from '@/models';
 import {ajaxHoc} from '@/commons/ajax';
 import pubSubHoc from '@/library/utils/event-hoc'
 import eventHoc from '@/library/utils/dom-event-hoc';
+import * as pubsubmsg from '@/library/utils/pubsubmsg';
 
 /**
  * 页面配置高阶组件，整合了多个高阶组件
@@ -55,11 +56,42 @@ export default (options) => {
 
         const componentName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
+        let isSubscribed = false;
+
         @hocs
         class WithConfig extends Component {
             constructor(...args) {
                 super(...args);
 
+                // FIXME 构造方法会被反复调用
+                if (!isSubscribed) {
+                    isSubscribed = true;
+
+                    this.initFrame();
+
+                    const {pathname, search} = window.location;
+                    const currentPath = `${pathname}${search}`;
+
+                    pubsubmsg.subscribe('tab-show', (targetPath) => {
+                        if (currentPath === targetPath) {
+                            // 框架级的数据可能被改了，重新显示之后，根据当前页面的设置，再改回来
+                            setTimeout(this.initFrame);
+
+                            this.onShow && this.onShow();
+                        }
+                    });
+
+                    pubsubmsg.subscribe('tab-hide', (targetPath) => {
+                        if (currentPath === targetPath && this.onHide) {
+                            this.onHide();
+                        }
+                    });
+                }
+
+            }
+
+            // 设置框架级的一些数据
+            initFrame = () => {
                 const {page, side: sideAction, system} = this.props.action;
 
                 // 页面标题设置
@@ -113,12 +145,18 @@ export default (options) => {
 
                 // 页面左侧是否收起
                 if (sideCollapsed !== undefined) sideAction.setCollapsed(sideCollapsed);
-            }
+            };
 
             static displayName = `WithConfig(${componentName})`;
 
             render() {
-                return <WrappedComponent {...this.props}/>;
+                return (
+                    <WrappedComponent
+                        onComponentWillShow={func => this.onShow = func}
+                        onComponentWillHide={func => this.onHide = func}
+                        {...this.props}
+                    />
+                );
             }
         }
 

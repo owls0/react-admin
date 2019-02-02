@@ -141,11 +141,34 @@ order|否|菜单排序，数值越大越靠前显示
 ### 页面保持
 页面渲染一次之后会保持状态，再次跳转到此页面不会重新创建或重新渲染。
 
-开启方式：
+#### 开启方式
 
 1. 页面有上角 -> 用户头像 -> 设置 -> 页面设置 —> 保持页面状态
 1. /src/models/system.js initState.keepPage 属性修改默认值
 1. config装饰器 keepAlive属性
+
+#### 页面显示隐藏事件
+config 装饰器为主键注入了两个事件 `onComponentWillShow`、`onComponentWillHide` 
+
+```js
+@config({
+    ...
+})
+export default class SomePage extends React.Component {
+    constructor(...props) {
+        super(...props);
+
+        this.props.onComponentWillShow(() => {
+            // do some thing 
+        });
+        this.props.onComponentWillHide(() => {
+            // do some thing 
+        });
+    }
+    ...
+}
+```
+
 
 ## 导航布局
 系统提供了四种导航布局：
