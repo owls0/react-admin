@@ -33,18 +33,17 @@ export default class PageContent extends Component {
             if (item && item.type && item.type.__FIX_BOTTOM) hasFixBottom = true;
         });
 
-        const style = {...others.style};
-        if (hasFixBottom && style.marginBottom === void 0) {
-            style.marginBottom = '66px';
+        const rootStyle = {};
+        if (hasFixBottom) {
+            rootStyle.marginBottom = '66px';
         }
-        others.style = style;
 
         return (
-            <div {...others} styleName="page-content-root">
+            <div style={rootStyle} styleName="page-content-root">
                 <div styleName="page-loading" style={{display: loading ? 'block' : 'none'}}>
                     <Spin spinning size="large"/>
                 </div>
-                <div styleName="page-content">{children}</div>
+                <div styleName="page-content" {...others} >{children}</div>
                 {footer ? <div styleName="footer"><Footer/></div> : null}
             </div>
         );
