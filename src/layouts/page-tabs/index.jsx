@@ -112,7 +112,7 @@ export default class PageTabs extends Component {
 
             if (typeof tabTitle === 'object' && tabTitle.text) title = tabTitle.text;
 
-            if (tabTitle.icon) icon = tabTitle.icon;
+            if (tabTitle?.icon) icon = tabTitle.icon;
 
             if (icon) title = <span><FontIcon type={icon} style={{marginRight: 4}}/>{title}</span>;
 

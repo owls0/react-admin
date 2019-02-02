@@ -58,7 +58,7 @@ export default store => next => action => {
     function setTabsLocal() {
         const newTabs = tabs.map(item => {
             let {text} = item;
-            const newText = i18n.menu[text.local];
+            const newText = i18n.menu[text?.local];
 
             if (newText) {
                 text = {...text, text: newText};

@@ -102,7 +102,7 @@ export default {
     },
 
     closeAllTabs: () => {
-        return {tabs: []};
+        return {tabs: [{path: '/', nextActive: true}]};
     },
 
     closeLeftTabs: (targetPath, state) => {

@@ -44,7 +44,7 @@ export default class KeepAuthRoute extends React.Component {
 
                     // 如果页面现实tabs，或者启用了keep page alive 需要对tabs进行操作
                     if (tabsShow || keepPage) {
-                        // 当前选中tab改变，需要重新调用history方法修改地址
+                        // 根据nextActive标记切换新的tab页
                         const nextActiveTab = tabs.find(item => item.nextActive);
                         if (nextActiveTab) {
                             nextActiveTab.nextActive = false;
@@ -54,17 +54,6 @@ export default class KeepAuthRoute extends React.Component {
                             return keepPage ? null : component;
                         }
 
-                        let prevActiveIndex = -1;
-                        const prevActiveTab = tabs.find((item, index) => {
-                            if (item.active) prevActiveIndex = index;
-
-                            return item.active;
-                        });
-
-                        // 记录上一个页面的滚动条位置
-                        if (prevActiveTab) {
-                            prevActiveTab.scrollTop = document.body.scrollTop = document.documentElement.scrollTop;
-                        }
 
                         const {pathname, search} = props.location;
                         const currentPath = `${pathname}${search}`;
@@ -73,31 +62,48 @@ export default class KeepAuthRoute extends React.Component {
                         const currentTab = tabs.find(item => item.path === currentPath);
                         const TabComponent = keepPage ? component : null;
 
-                        // 选中当前标签 当前地址对应的标签存在
-                        if (currentTab) {
-                            // 选中当前地址对应的标签
-                            if (!currentTab.active) {
-                                // 清空选中状态
-                                if (prevActiveTab) prevActiveTab.active = false;
+                        // 切换tab页
+                        if (currentTab && !currentTab.active) {
+                            // 保存上一个tab页滚动调位置
+                            const prevActiveTab = tabs.find(item => item.active);
 
-                                currentTab.active = true;
-                                setTimeout(() => {
-                                    system.setTabs([...tabs]);
-                                });
+                            // 记录上一个页面的滚动条位置
+                            if (prevActiveTab) {
+                                prevActiveTab.scrollTop = document.body.scrollTop = document.documentElement.scrollTop;
                             }
 
-                            // 先让 KeepPage.jsx 进行一次 无component渲染，然后再次渲染component达到刷新的目的
-                            if (keepPage && !currentTab.component) {
-                                setTimeout(() => {
-                                    const tb = tabs.find(item => item.path === currentTab.path);
-                                    tb.component = TabComponent;
-                                    system.setTabs([...tabs]);
-                                })
-                            }
+                            // 清空选中状态
+                            if (prevActiveTab) prevActiveTab.active = false;
+
+                            currentTab.active = true;
+                            setTimeout(() => {
+                                system.setTabs([...tabs]);
+                            });
+                        }
+
+                        // 先让 KeepPage.jsx 进行一次 无component渲染，然后再次渲染component达到刷新的目的
+                        if (keepPage && currentTab && !currentTab.component) {
+                            setTimeout(() => {
+                                const tb = tabs.find(item => item.path === currentTab.path);
+                                tb.component = TabComponent;
+                                system.setTabs([...tabs]);
+                            })
                         }
 
                         // 添加一个标签 当前地址对应的tab页不存在，进行添加
                         if (!currentTab) {
+                            let prevActiveIndex = -1;
+                            const prevActiveTab = tabs.find((item, index) => {
+                                if (item.active) prevActiveIndex = index;
+
+                                return item.active;
+                            });
+
+                            // 记录上一个页面的滚动条位置
+                            if (prevActiveTab) {
+                                prevActiveTab.scrollTop = document.body.scrollTop = document.documentElement.scrollTop;
+                            }
+
                             // 清空选中状态 直接选中新添加的标签
                             if (prevActiveTab) prevActiveTab.active = false;
                             const icon = selectedMenu?.icon;
@@ -109,18 +115,16 @@ export default class KeepAuthRoute extends React.Component {
                                 active: true,
                             };
 
-                            let newTabs;
                             // 用户新开tab页之后，往往比较关心上一个tab，新开的tab页面放在当前tab页面之后
                             if (prevActiveIndex !== -1) {
-                                newTabs = [...tabs];
-                                newTabs.splice(prevActiveIndex + 1, 0, newAddTab);
+                                tabs.splice(prevActiveIndex + 1, 0, newAddTab);
+                            } else {
+                                tabs.push(newAddTab);
                             }
-
-                            if (!newTabs) newTabs = [...tabs, newAddTab];
 
                             // 不使用setTimeout 会报出 Warning: Cannot update during an existing state transition (such as within `render`). Render methods should be a pure function of props and state.
                             setTimeout(() => {
-                                system.setTabs(newTabs);
+                                system.setTabs([...tabs]);
                             })
                         }
                     }

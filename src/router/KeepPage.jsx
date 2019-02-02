@@ -18,7 +18,6 @@ export default class KeepPage extends Component {
     }
 
     render() {
-        console.log('render KeepPage.jsx');
         const {tabs} = this.props;
 
         // 始终保持内容的顺序不变，避免React的diff算法，在元素移动时，先删除后创建，导致iframe重新加载的问题
