@@ -8,6 +8,7 @@ import './style.less';
 
 @config({
     ajax: true,
+    event: true,
     connect: (state) => {
         return {
             primaryColor: state.system.primaryColor,
@@ -34,7 +35,13 @@ export default class ThemeColorPicker extends Component {
 
         // .less文件加载完成之后，生成主题，localStorage中的主题有可能过时，需要覆盖
         if (primaryColor) this.handleColorChange(primaryColor);
+
+        this.props.addEventListener(document, 'click', () => this.handleToolTipHide(0));
     }
+
+    state = {
+        toolTipVisible: false,
+    };
 
     handleColorChange = color => {
         const changeColor = () => {
@@ -84,16 +91,35 @@ export default class ThemeColorPicker extends Component {
         }
     };
 
+    handleToolTipShow = () => {
+        if (this.ST) clearTimeout(this.ST);
+        this.setState({toolTipVisible: true});
+    };
+
+    handleToolTipHide = (time = 300) => {
+        this.ST = setTimeout(() => {
+            this.setState({toolTipVisible: false})
+        }, time);
+    };
+
     render() {
         const {
             primaryColor = theme['@primary-color'],
             className,
             local,
         } = this.props;
+        const {toolTipVisible} = this.state;
         return (
             <div styleName="root" className={`theme-color-picker ${className}`}>
-                <Tooltip placement="bottom" title={local.selectPrimaryColor}>
-                    <div styleName="picker">
+                <Tooltip
+                    visible={toolTipVisible}
+                    placement="bottom"
+                    title={local.selectPrimaryColor}
+                >
+                    <div styleName="picker"
+                         onMouseEnter={this.handleToolTipShow}
+                         onMouseLeave={() => this.handleToolTipHide()}
+                    >
                         <ColorPicker
                             type="sketch"
                             small
