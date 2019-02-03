@@ -216,6 +216,7 @@ onComplete|完成回调，无论成功、失败都会调用
 支持这种比较传统的写法，一般也不会太用到
 
 ```js
+import {createAction} from 'redux-actions';
 
 export const types = {
     GET_MENU_STATUS: 'MENU:GET_MENU_STATUS', // 防止各个模块冲突，最好模块名开头
