@@ -78,7 +78,7 @@ export default class HeaderFullScreen extends Component {
                 onMouseEnter={this.handleToolTipShow}
                 onMouseLeave={() => this.handleToolTipHide()}
             >
-                <Tooltip placement="bottom" title={fullScreen ? local.exitFullScreen : local.fullScreen}>
+                <Tooltip visible={toolTipVisible} placement="bottom" title={fullScreen ? local.exitFullScreen : local.fullScreen}>
                     <div style={{height: '30px', lineHeight: '30px'}}>
                         {fullScreen ? (
                             <Icon type="fullscreen-exit"/>
