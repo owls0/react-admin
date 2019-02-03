@@ -5,6 +5,7 @@ import PageContent from '@/layouts/page-content';
 
 @config({
     path: '/example/users/_/UserEdit/:id',
+    keepAlive: true,
     query: true,
     title: (props) => {
         const {query} = props;
@@ -30,6 +31,10 @@ export default class UserEdit extends Component {
         this.props.onComponentWillHide(() => {
             console.log('UserEdit onComponentWillHide');
         });
+    }
+
+    componentDidMount() {
+        console.log('UserEdit.js componentDidMount');
     }
 
     handleSubmit = (e) => {

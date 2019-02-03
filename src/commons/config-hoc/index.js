@@ -4,9 +4,9 @@ import {compose} from '@/commons'
 import queryHoc from '@/commons/query-hoc';
 import {connect as reduxConnect} from '@/models';
 import {ajaxHoc} from '@/commons/ajax';
-import pubSubHoc from '@/library/utils/event-hoc'
+import pubSubHoc from '@/library/utils/pub-sub-hoc'
 import eventHoc from '@/library/utils/dom-event-hoc';
-import * as pubsubmsg from '@/library/utils/pubsubmsg';
+import PubSub from 'pubsub-js'
 
 /**
  * 页面配置高阶组件，整合了多个高阶组件
@@ -31,7 +31,7 @@ export default (options) => {
             ajax = false,           // 是否添加ajax高阶组件，内部可以通过this.props.ajax使用ajax API
             connect = false,        // 是否与redux进行连接，true：只注入了this.props.action相关方法；false：不与redux进行连接；(state) => ({title: state.page.title})：将函数返回的数据注入this.props
             event = false,          // 是否添加event高阶组件，可以使用this.props.addEventListener添加dom事件，并在组件卸载时会自动清理；通过this.props.removeEventListener移出dom事件
-            pubSub = false,         // 是否添加发布订阅高阶组件，可以使用this.props.on订阅事件，并在组件卸载时，会自动取消订阅; 通过this.props.emit发布事件
+            pubSub = false,         // 是否添加发布订阅高阶组件，可以使用this.props.subscribe订阅事件，并在组件卸载时，会自动取消订阅; 通过this.props.publish发布事件
         } = options;
 
         const hocFuncs = [];
@@ -56,38 +56,34 @@ export default (options) => {
 
         const componentName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
-        let isSubscribed = false;
-
         @hocs
         class WithConfig extends Component {
             constructor(...args) {
                 super(...args);
+                this.initFrame();
 
-                // FIXME 构造方法会被反复调用
-                if (!isSubscribed) {
-                    isSubscribed = true;
+                const {pathname, search} = window.location;
+                const currentPath = `${pathname}${search}`;
 
-                    this.initFrame();
+                this.tabShowToken = PubSub.subscribe('tab-show', (msg, targetPath) => {
+                    if (currentPath === targetPath) {
+                        // 框架级的数据可能被改了，重新显示之后，根据当前页面的设置，再改回来
+                        this.initFrame();
 
-                    const {pathname, search} = window.location;
-                    const currentPath = `${pathname}${search}`;
+                        this.onShow && this.onShow();
+                    }
+                });
 
-                    pubsubmsg.subscribe('tab-show', (targetPath) => {
-                        if (currentPath === targetPath) {
-                            // 框架级的数据可能被改了，重新显示之后，根据当前页面的设置，再改回来
-                            setTimeout(this.initFrame);
+                this.tabHideToken = PubSub.subscribe('tab-hide', (msg, targetPath) => {
+                    if (currentPath === targetPath && this.onHide) {
+                        this.onHide();
+                    }
+                });
+            }
 
-                            this.onShow && this.onShow();
-                        }
-                    });
-
-                    pubsubmsg.subscribe('tab-hide', (targetPath) => {
-                        if (currentPath === targetPath && this.onHide) {
-                            this.onHide();
-                        }
-                    });
-                }
-
+            componentWillUnmount() {
+                PubSub.unsubscribe(this.tabShowToken);
+                PubSub.unsubscribe(this.tabHideToken);
             }
 
             // 设置框架级的一些数据

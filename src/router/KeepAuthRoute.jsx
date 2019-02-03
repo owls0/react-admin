@@ -42,7 +42,7 @@ export default class KeepAuthRoute extends React.Component {
                     let component = (noAuth || isAuthenticated()) ? <Component {...props}/> : <Error401 {...props}/>;
 
                     // 如果页面现实tabs，或者启用了keep page alive 需要对tabs进行操作
-                    if (tabsShow || keepPage) {
+                    if (tabsShow || keepPage || keepAliveRoutes.length) {
                         // 根据nextActive标记切换新的tab页
                         const nextActiveTab = tabs.find(item => item.nextActive);
                         if (nextActiveTab) {
@@ -72,13 +72,13 @@ export default class KeepAuthRoute extends React.Component {
 
                             // 清空选中状态
                             if (prevActiveTab) {
-                                prevActiveTab.active = false
-                                this.props.emit('tab-hide', prevActiveTab.path);
+                                prevActiveTab.active = false;
+                                this.props.publish('tab-hide', prevActiveTab.path);
                             }
 
                             currentTab.active = true;
 
-                            this.props.emit('tab-show', currentTab.path);
+                            this.props.publish('tab-show', currentTab.path);
 
                             setTimeout(() => {
                                 system.setTabs([...tabs]);
