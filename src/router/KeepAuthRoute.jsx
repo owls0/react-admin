@@ -43,8 +43,14 @@ export default class KeepAuthRoute extends React.Component {
 
                     // 如果页面现实tabs，或者启用了keep page alive 需要对tabs进行操作
                     if (tabsShow || keepPage || keepAliveRoutes.length) {
+                        const {pathname, search} = props.location;
+                        const currentPath = `${pathname}${search}`;
+
+                        let currentTab = tabs.find(item => item.path === currentPath);
+                        let nextActiveTab = tabs.find(item => item.nextActive);
+                        let prevActiveTab = tabs.find(item => item.active);
+
                         // 根据nextActive标记切换新的tab页
-                        const nextActiveTab = tabs.find(item => item.nextActive);
                         if (nextActiveTab) {
                             nextActiveTab.nextActive = false;
                             setTimeout(() => {
@@ -53,17 +59,12 @@ export default class KeepAuthRoute extends React.Component {
                             return keepPage ? null : component;
                         }
 
-                        const {pathname, search} = props.location;
-                        const currentPath = `${pathname}${search}`;
-
                         // 获取当前地址对应的标签页
-                        const currentTab = tabs.find(item => item.path === currentPath);
                         const TabComponent = keepPage ? component : null;
 
                         // 切换tab页
                         if (currentTab && !currentTab.active) {
                             // 保存上一个tab页滚动调位置
-                            const prevActiveTab = tabs.find(item => item.active);
 
                             // 记录上一个页面的滚动条位置
                             if (prevActiveTab) {
@@ -80,16 +81,18 @@ export default class KeepAuthRoute extends React.Component {
 
                             this.props.publish('tab-show', currentTab.path);
 
+                            console.time('active');
+
                             setTimeout(() => {
                                 system.setTabs([...tabs]);
+                                console.timeEnd('active');
                             });
                         }
 
                         // 先让 KeepPage.jsx 进行一次 无component渲染，然后再次渲染component达到刷新的目的
                         if (keepPage && currentTab && !currentTab.component) {
                             setTimeout(() => {
-                                const tb = tabs.find(item => item.path === currentTab.path);
-                                tb.component = TabComponent;
+                                currentTab.component = TabComponent;
                                 system.setTabs([...tabs]);
                             })
                         }
