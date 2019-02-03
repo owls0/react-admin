@@ -40,7 +40,7 @@ router|boolean|false|是否添加withRouter装饰器，如果设置了path，将
 query|boolean|false|是否添加地址查询字符串转换高阶组件，内部可以通过this.props.query访问查询字符串
 connect|boolean \| function(state)|false|是否与redux进行连接，true：只注入了this.props.action相关方法；false：不与redux进行连接；(state) => ({title: state.page.title})：将函数返回的数据注入this.props
 event|boolean|false|是否添加event高阶组件，可以使用this.props.addEventListener添加dom事件，并在组件卸载时会自动清理；通过this.props.removeEventListener移出dom事件
-pubSub|boolean|false|是否添加发布订阅高阶组件，可以使用this.props.subscribe订阅事件，并在组件卸载时，会自动取消订阅; 通过this.props.publish发布事件
+pubSub|boolean|false|是否添加发布订阅高阶组件，可以使用this.props.subscribe(topic, (msg, data) => {...})订阅事件，并在组件卸载时，会自动取消订阅; 通过this.props.publish(topic, data)发布事件
 
 注：
 - `noFrame`、`noAuth`、`keepAlive` 只有配置了`path`才有效！
