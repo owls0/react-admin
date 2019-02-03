@@ -21,6 +21,14 @@ import {keepAliveRoutes} from './routes';
     },
 })
 export default class KeepAuthRoute extends React.Component {
+    componentWillUpdate() {
+        if (this.tabsChange) {
+            this.tabsChange = false;
+            this.props.action.system.setTabs(this.tabs);
+            console.timeEnd('active');
+        }
+    }
+
     render() {
         const {
             component: Component,
@@ -83,10 +91,16 @@ export default class KeepAuthRoute extends React.Component {
 
                             console.time('active');
 
-                            setTimeout(() => {
-                                system.setTabs([...tabs]);
-                                console.timeEnd('active');
-                            });
+                            // 在componentWillUpdate中执行 system.setTabs
+                            // 加快tab页切换，开发：80ms左右，生产：10ms左右
+                            // 避免 Warning: Cannot update during an existing state transition (such as within `render`). Render methods should be a pure function of props and state.
+                            this.tabsChange = true;
+                            this.tabs = [...tabs];
+
+                            // setTimeout(() => {
+                            //     system.setTabs([...tabs]);
+                            //     console.timeEnd('active'); // 开发：180ms左右，生产：20ms左右
+                            // });
                         }
 
                         // 先让 KeepPage.jsx 进行一次 无component渲染，然后再次渲染component达到刷新的目的
