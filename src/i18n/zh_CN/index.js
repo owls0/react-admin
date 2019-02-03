@@ -29,7 +29,6 @@ export default {
         baiDu: '百度官网',
         antDesignExtend: 'Ant Design 组件扩展',
         asyncSelect: '异步下拉',
-        fontIcon: '图标',
         formItemLayout: '表单布局',
         formUtil: '表单相关工具',
         inputClear: '可清空Input',

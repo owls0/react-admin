@@ -8,7 +8,6 @@ import 'antd/lib/icon/style/css';
 import 'antd/lib/popconfirm/style/css';
 import 'antd/lib/dropdown/style/css';
 import 'antd/lib/menu/style/css';
-import FontIcon from '../font-icon/FontIcon';
 import PopPrompt from '../pop-prompt';
 
 /**
@@ -126,7 +125,7 @@ export default class Operator extends Component {
         const icon = status ? 'check-circle' : 'minus-circle-o';
         const color = status ? 'green' : 'red';
 
-        const defaultLabel = <FontIcon type={icon}/>;
+        const defaultLabel = <Icon type={icon}/>;
         let label = this.getLabel({...opt, label: defaultLabel, color}, i);
 
         // 如果没有权限，不允许进行操作，只做展示

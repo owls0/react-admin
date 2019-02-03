@@ -16,14 +16,6 @@ export default [
         path: '/example/antd/draggable-tabs-bar',
     },
     {
-        key: '/example/antd/font-icon', 
-        parentKey: 'antDesignExtend', 
-        icon: 'deployment-unit',
-        local: 'fontIcon',
-        text: 'FontIcon # 图标', 
-        path: '/example/antd/font-icon',
-    },
-    {
         key: '/example/antd/form-item-layout', 
         parentKey: 'antDesignExtend', 
         icon: 'deployment-unit',

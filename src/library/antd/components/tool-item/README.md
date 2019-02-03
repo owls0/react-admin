@@ -17,7 +17,7 @@ items | 工具项配置 | array | -
 ---|---|---|---
 key | react 列表循环需要的key | string | index
 type | 按钮的type | string| 'primary'
-icon | 按钮的icon | FontIcon | -
+icon | 按钮的icon | Icon | -
 text | 按钮的text | any | -
 visible | 此项是否可见 | bool | true
 onClick | 按钮点击回调 | function | -

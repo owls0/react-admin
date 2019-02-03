@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Menu, Icon} from 'antd';
-import {FontIcon} from '@/library/antd';
 import {renderNode} from '@/library/utils/tree-utils';
 import Link from '../page-link';
 import './style.less';
@@ -31,7 +30,7 @@ export default class HeaderMenu extends Component {
                 const text = item.text;
                 const icon = item.icon;
 
-                let title = <span><FontIcon type={icon}/><Icon type="home" style={{display: 'none'}}/><span>{text}</span></span>;
+                let title = <span><Icon type={icon}/><Icon type="home" style={{display: 'none'}}/><span>{text}</span></span>;
 
                 if (children) {
                     return (

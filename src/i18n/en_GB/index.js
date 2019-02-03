@@ -29,7 +29,6 @@ export default {
         baiDu: 'Bai Du',
         antDesignExtend: 'Ant Design Extend',
         asyncSelect: 'Async Select',
-        fontIcon: 'Font Icon',
         formItemLayout: 'Form Item Layout',
         formUtil: 'Form Util',
         inputClear: 'Input Clear',

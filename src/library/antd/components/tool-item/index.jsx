@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Button from 'antd/lib/button';
+import {Button, Icon} from 'antd';
 import 'antd/lib/button/style/css';
-import FontIcon from '../font-icon/FontIcon';
 
 export default class ToolItem extends Component {
     static propTypes = {
@@ -51,7 +50,7 @@ export default class ToolItem extends Component {
                             >
                                 {
                                     icon ?
-                                        <FontIcon type={icon}/>
+                                        <Icon type={icon}/>
                                         : null
                                 }
                                 {text}

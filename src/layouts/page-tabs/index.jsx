@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Menu} from 'antd';
-import {FontIcon, DraggableTabsBar} from "@/library/antd";
+import {Menu, Icon} from 'antd';
+import {DraggableTabsBar} from "@/library/antd";
 import config from '@/commons/config-hoc';
 import ContextMenu from './ContextMenu';
 import './style.less';
@@ -63,26 +63,26 @@ export default class PageTabs extends Component {
                 onClick={({key: action}) => this.handleMenuClick(action, tab.path)}
             >
                 <Menu.Item key="refresh">
-                    <FontIcon type="sync"/> {local.refresh}
+                    <Icon type="sync"/> {local.refresh}
                 </Menu.Item>
                 <Menu.Item key="refreshAll">
-                    <FontIcon type="sync"/> {local.refreshAll}
+                    <Icon type="sync"/> {local.refreshAll}
                 </Menu.Item>
                 <Menu.Divider/>
                 <Menu.Item key="close" disabled={disabledClose}>
-                    <FontIcon type="close"/> {local.close}
+                    <Icon type="close"/> {local.close}
                 </Menu.Item>
                 <Menu.Item key="closeOthers" disabled={disabledClose}>
-                    <FontIcon type="close-circle"/> {local.closeOthers}
+                    <Icon type="close-circle"/> {local.closeOthers}
                 </Menu.Item>
                 <Menu.Item key="closeAll" disabled={disabledClose}>
-                    <FontIcon type="close-square"/> {local.closeAll}
+                    <Icon type="close-square"/> {local.closeAll}
                 </Menu.Item>
                 <Menu.Item key="closeLeft" disabled={disabledCloseLeft}>
-                    <FontIcon type="vertical-left"/> {local.closeLeft}
+                    <Icon type="vertical-left"/> {local.closeLeft}
                 </Menu.Item>
                 <Menu.Item key="closeRight" disabled={disabledCloseRight}>
-                    <FontIcon type="vertical-right"/> {local.closeRight}
+                    <Icon type="vertical-right"/> {local.closeRight}
                 </Menu.Item>
             </Menu>
         );
@@ -113,7 +113,7 @@ export default class PageTabs extends Component {
 
             if (tabTitle?.icon) icon = tabTitle.icon;
 
-            if (icon) title = <span><FontIcon type={icon} style={{marginRight: 4}}/>{title}</span>;
+            if (icon) title = <span><Icon type={icon} style={{marginRight: 4}}/>{title}</span>;
 
             return {
                 key: path,

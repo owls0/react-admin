@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Breadcrumb} from 'antd';
-import {FontIcon} from '@/library/antd';
+import {Breadcrumb, Icon} from 'antd';
 import Link from '../page-link';
 import './style.less';
 
@@ -24,7 +23,7 @@ export default class BreadcrumbComponent extends Component {
                     return (
                         <Item key={key}>
                             <Link to={path}>
-                                {icon ? <FontIcon type={icon}/> : null}
+                                {icon ? <Icon type={icon}/> : null}
                                 {text}
                             </Link>
                         </Item>
@@ -32,7 +31,7 @@ export default class BreadcrumbComponent extends Component {
                 }
                 return (
                     <Item key={key}>
-                        {icon ? <FontIcon type={icon}/> : null}
+                        {icon ? <Icon type={icon}/> : null}
                         {text}
                     </Item>
                 );
