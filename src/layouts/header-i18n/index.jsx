@@ -44,7 +44,6 @@ export default class HeaderUser extends Component {
                         <Icon type="caret-down"/>
                     </span>
                 </Dropdown>
-
             </div>
         );
     }
