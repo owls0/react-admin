@@ -133,22 +133,36 @@ order|否|菜单排序，数值越大越靠前显示
     ```
 
 ## 页面
-指的是路由对应的页面组件。
+指的是路由对应的页面组件。业务开发接触最多的就是页面，通过一些封装，简化开发。
 
 ### 页面配置
 通过config装饰器，实现页面的配置功能，参见[config-hoc](./src/commons/config-hoc/README.md)
 
+```js
+import config from '@/commons/config-hoc';
+
+@config({
+    path: '/example/ajax',
+    title: 'Page Title',
+    ajax: true,
+})
+export default class SomePage extends Component {
+    ...
+}
+```
+
 ### 页面保持
 页面渲染一次之后会保持状态，再次跳转到此页面不会重新创建或重新渲染。
 
-#### 开启方式
+开启方式：
 
-1. 页面有上角 -> 用户头像 -> 设置 -> 页面设置 —> 保持页面状态
+1. 页面有上角 -> 用户头像 -> 设置 -> 页面设置 -> 保持页面状态
 1. /src/models/system.js initState.keepPage 属性修改默认值
 1. config装饰器 keepAlive属性
 
-#### 页面显示隐藏事件
-config 装饰器为主键注入了两个事件 `onComponentWillShow`、`onComponentWillHide` 
+页面显示/隐藏事件：
+
+`config` 装饰器为组件注入了两个事件 `onComponentWillShow`、`onComponentWillHide` ，如果页面使用了 Keep Alive功能，切换显示/隐藏时会触发
 
 ```js
 @config({
@@ -161,6 +175,7 @@ export default class SomePage extends React.Component {
         this.props.onComponentWillShow(() => {
             // do some thing 
         });
+        
         this.props.onComponentWillHide(() => {
             // do some thing 
         });
