@@ -17,13 +17,14 @@ export default class BreadcrumbComponent extends Component {
 
     renderItems() {
         const {dataSource} = this.props;
+        const iconStyle = {marginRight: 4};
         if (dataSource && dataSource.length) {
             return dataSource.map(({key, icon, text, path}) => {
                 if (path) {
                     return (
                         <Item key={key}>
                             <Link to={path}>
-                                {icon ? <Icon type={icon}/> : null}
+                                {icon ? <Icon type={icon} style={iconStyle}/> : null}
                                 {text}
                             </Link>
                         </Item>
@@ -31,7 +32,7 @@ export default class BreadcrumbComponent extends Component {
                 }
                 return (
                     <Item key={key}>
-                        {icon ? <Icon type={icon}/> : null}
+                        {icon ? <Icon type={icon} style={iconStyle}/> : null}
                         {text}
                     </Item>
                 );

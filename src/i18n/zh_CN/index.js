@@ -46,8 +46,7 @@ export default {
         tableDragRow: '表格行可拖拽高阶组件',
         tableEditable: '可编辑表格',
         tableRightClick: '表格行右键高阶组件',
-        toolBar: '工具条容器',
-        toolItem: '工具项',
+        toolBar: '工具条',
         userAvatar: '用户头像',
     },
     login: {

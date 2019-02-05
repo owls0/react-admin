@@ -156,16 +156,8 @@ export default [
         parentKey: 'antDesignExtend', 
         icon: 'deployment-unit',
         local: 'toolBar',
-        text: 'ToolBar # 工具条容器', 
+        text: 'ToolBar # 工具条', 
         path: '/example/antd/tool-bar',
-    },
-    {
-        key: '/example/antd/tool-item', 
-        parentKey: 'antDesignExtend', 
-        icon: 'deployment-unit',
-        local: 'toolItem',
-        text: 'ToolItem # 工具项', 
-        path: '/example/antd/tool-item',
     },
     {
         key: '/example/antd/user-avatar', 

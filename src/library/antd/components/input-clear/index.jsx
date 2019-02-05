@@ -1,34 +1,14 @@
 import React, {Component} from 'react';
-import Input from 'antd/lib/input';
-import Icon from 'antd/lib/icon';
-import 'antd/lib/input/style/css';
-import 'antd/lib/icon/style/css';
-import PropTypes from 'prop-types';
+import {Input, Icon} from 'antd';
 
 const closeIconColor = 'rgba(0, 0, 0, 0.25)';
 const closeIconHoverColor = 'rgba(0, 0, 0, 0.43)';
 
 /**
  * 给输入框添加清空按钮 suffix ，点击可清空Input，并使Input获得焦点
- * @example
- * import InputClear from 'path/to/InputClear';
- *
- * // form必传
- * <InputClear
- *   form={form}
- *   prefix={<Icon type="user" style={{fontSize: 13}}/>}
- *   placeholder="Username"
- * />
- *
- * @module 扩展antd.Input加清空按钮
  */
 
 export default class InputClear extends Component {
-
-    static propTypes = {
-        onClear: PropTypes.func,
-    };
-
     state = {
         iconColor: closeIconColor,
         showCloseIcon: false,
@@ -36,6 +16,7 @@ export default class InputClear extends Component {
 
     showCloseIcon() {
         const {value} = this.props;
+
         if (value) this.setState({showCloseIcon: true});
     }
 
@@ -64,9 +45,18 @@ export default class InputClear extends Component {
         this.hideCloseIcon();
     };
 
+    handleClear = () => {
+        const {onChange} = this.props;
+
+        if (onChange) {
+            onChange({target: {value: ''}});
+        }
+        this.__input.focus();
+    };
+
     render() {
         const {iconColor, showCloseIcon} = this.state;
-        const {onClear, ...others} = this.props;
+        const {...others} = this.props;
 
         let injectProps = {};
         injectProps.suffix = (
@@ -83,12 +73,7 @@ export default class InputClear extends Component {
                     this.setState({iconColor: closeIconHoverColor});
                 }}
                 onMouseLeave={() => this.setState({iconColor: closeIconColor})}
-                onClick={() => {
-                    if (onClear) {
-                        onClear();
-                        this.__input.focus();
-                    }
-                }}
+                onClick={this.handleClear}
             />
         );
         return (

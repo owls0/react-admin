@@ -1,14 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Icon from 'antd/lib/icon';
-import Popconfirm from 'antd/lib/popconfirm';
-import Dropdown from 'antd/lib/dropdown';
-import Menu from 'antd/lib/menu';
-import 'antd/lib/icon/style/css';
-import 'antd/lib/popconfirm/style/css';
-import 'antd/lib/dropdown/style/css';
-import 'antd/lib/menu/style/css';
+import {Icon, Popconfirm, Dropdown, Menu} from 'antd';
 import PopPrompt from '../pop-prompt';
+import './index.less';
 
 /**
  * 操作封装，一般用于表格最后的操作列中
@@ -212,6 +206,7 @@ export default class Operator extends Component {
         if (!operatorsLength) {
             return null;
         }
+
         return (
             <span>
                 {operators.map((v, i) => (

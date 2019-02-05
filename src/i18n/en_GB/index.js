@@ -47,7 +47,6 @@ export default {
         tableEditable: 'Table Editable',
         tableRightClick: 'Table Right Click',
         toolBar: 'Tool Bar',
-        toolItem: 'Tool Item',
         userAvatar: 'User Avatar',
     },
     login: {

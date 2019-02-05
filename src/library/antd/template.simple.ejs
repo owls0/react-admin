@@ -1,17 +1,17 @@
 import React from 'react';
-import * as Base from '@/library/antd/components/tool-item/demo/Base';
+import * as <%= demos[0].name%> from '@/library/antd/components/<%= componentName%>/demo/<%= demos[0].name%>';
 import config from '@/commons/config-hoc';
 import PageContent from '@/layouts/page-content';
 
 
 @config({
-    path: '/example/antd/tool-item',
+    path: '/example/antd/<%= componentName%>',
 })
 export default class extends React.Component {
     render() {
         return (
             <PageContent>
-                <Base.default/>
+                <<%= demos[0].name%>.default/>
             </PageContent>
         );
     }

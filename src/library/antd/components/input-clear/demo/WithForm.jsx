@@ -6,12 +6,6 @@ const FormItem = Form.Item;
 
 @Form.create()
 export default class Basic extends Component {
-
-    handleClear = () => {
-        const {form: {setFieldsValue}} = this.props;
-        setFieldsValue({inputClear: void 0});
-    };
-
     handleSubmit = () => {
         const {form} = this.props;
         form.validateFieldsAndScroll((err, values) => {
@@ -34,10 +28,7 @@ export default class Basic extends Component {
                             {required: true, message: '请输入！'},
                         ],
                     })(
-                        <InputClear
-                            style={{width: '200px'}}
-                            onClear={this.handleClear}
-                        />
+                        <InputClear style={{width: '200px'}}/>
                     )}
                 </FormItem>
                 <FormItem>
@@ -50,5 +41,5 @@ export default class Basic extends Component {
 
 export const title = '与antd Form 结合使用';
 export const markdown = `
-与正常 antd Input 使用一样，只是需要声明 \`onClear\`属性
+与正常 antd Input 使用一样
 `;

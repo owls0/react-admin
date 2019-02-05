@@ -31,7 +31,7 @@ export default class extends Component {
         this.props.form.validateFields(() => void 0);
 
         // TODO 方便测试，填写表单
-        this.props.form.setFieldsValue({userName: 'test', password: '111'});
+        this.props.form.setFieldsValue({userName: 'admin', password: '111'});
     }
 
     handleSubmit = (e) => {
@@ -45,10 +45,10 @@ export default class extends Component {
 
                 setTimeout(() => {
                     this.setState({loading: false});
-                    if (userName === 'test' && password === '111') {
+                    if (userName === 'admin' && password === '111') {
                         setLoginUser({
                             id: 'tempUserId',
-                            name: userName,
+                            name: 'Admin',
                         });
                         // 跳转页面，优先跳转上次登出页面
                         const lastHref = window.sessionStorage.getItem('last-href');
@@ -117,7 +117,7 @@ export default class extends Component {
                     </Form>
                     <div styleName="error-tip">{message}</div>
                     <div styleName="tip">
-                        <span>{local.userName}：test </span>
+                        <span>{local.userName}：admin </span>
                         <span>{local.password}：111</span>
                     </div>
                 </div>

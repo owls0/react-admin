@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Pagination from 'antd/lib/pagination';
-import 'antd/lib/pagination/style/css';
+import {Pagination} from 'antd';
+import './index.less';
 
 /**
  * 分页封装
@@ -57,25 +57,22 @@ export default class PaginationComponent extends Component {
             style = {/* display: 'none', */ ...style}
         }
         return (
-            <div className="pagination-component" style={style}>
-                <div className="pagination-wrap">
-                    <Pagination
-                        {...props}
-                        pageSizeOptions={['10', '20', '30', '40', '50', '80', '100']}
-                        onShowSizeChange={(num, size) => onPageSizeChange(size)}
-                        onChange={(num) => onPageNumChange(num)}
-                        defaultCurrent={1}
-                        pageSize={pageSize}
-                        current={pageNum}
-                        total={total}/>
-                    {showMessage ?
-                        <div className="total-count">
-                            共{totalPage}页 {total}条数据
-                        </div>
-                        : ''
-                    }
-                </div>
-                <div style={{clear: 'both'}}/>
+            <div className="pagination-wrap" style={style}>
+                <Pagination
+                    {...props}
+                    pageSizeOptions={['10', '20', '30', '40', '50', '80', '100']}
+                    onShowSizeChange={(num, size) => onPageSizeChange(size)}
+                    onChange={(num) => onPageNumChange(num)}
+                    defaultCurrent={1}
+                    pageSize={pageSize}
+                    current={pageNum}
+                    total={total}
+                />
+                {showMessage ? (
+                    <div className="total-count">
+                        共{totalPage}页 {total}条数据
+                    </div>
+                ) : null}
             </div>
         );
     }
