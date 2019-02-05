@@ -31,10 +31,11 @@ const SortableContainerList = SortableContainer(props => {
         onClick,
         itemWrapper,
         isSorting,
+        ...others
     } = props;
 
     return (
-        <div className={classNames('draggable-tabs-bar-root', className, {sorting: isSorting})}>
+        <div className={classNames('draggable-tabs-bar-root', className, {sorting: isSorting})} {...others}>
             {dataSource.map((item, index) => {
                 const {key, title, closable} = item;
                 const isActive = activeKey === key;
@@ -76,6 +77,7 @@ export default class DraggableTabsBar extends Component {
     state = {
         itemLength: 0,
         isSorting: false,
+        mouseIn: false,
     };
 
     static propTypes = {
@@ -94,8 +96,7 @@ export default class DraggableTabsBar extends Component {
     };
 
     componentDidMount() {
-        const {dataSource} = this.props;
-        this.setTabsWidth(dataSource, dataSource);
+        this.setTabsWidth();
     };
 
     componentDidUpdate(prevProps) {
@@ -104,22 +105,20 @@ export default class DraggableTabsBar extends Component {
 
         // tabs 个数有变，调整宽度
         if (prevDataSource.length !== dataSource.length) {
-            this.setTabsWidth(prevDataSource, dataSource);
-        }
-
-        if (dataSource.length === 1) {
-            this.setTabsWidth(prevDataSource, dataSource);
+            this.setTabsWidth();
         }
     }
 
-    setTabsWidth = (prevDataSource, dataSource) => {
+    setTabsWidth = () => {
+        const {mouseIn} = this.state;
         const maxWidth = 150;
         const items = document.querySelectorAll('.draggable-tabs-bar-horizontal-item-inner');
         const rootContainer = document.querySelector('.draggable-tabs-bar-root');
         const itemCount = items.length;
         const rootContainerWidth = rootContainer.clientWidth;
         const maxCount = Math.floor(rootContainerWidth / maxWidth);
-        const setTabsWidth = () => {
+
+        if (!mouseIn) {
             if (itemCount <= maxCount) {
                 // 宽度足够所有的tab使用最大宽度，都使用最大宽度
                 items.forEach(itemNode => {
@@ -131,16 +130,6 @@ export default class DraggableTabsBar extends Component {
                     itemNode.style.width = `${rootContainerWidth / itemCount}px`;
                 });
             }
-        };
-
-        if (dataSource.length < prevDataSource.length) {
-            // 删除操作，先保持宽度，可以持续点击关闭
-            if (this.ST) window.clearTimeout(this.ST);
-
-            this.ST = setTimeout(setTabsWidth, 500);
-        } else {
-            // 添加操作
-            setTabsWidth();
         }
     };
 
@@ -163,6 +152,16 @@ export default class DraggableTabsBar extends Component {
             onSortEnd(info, event);
         }
     };
+
+    handleMouseEnter = () => {
+        this.setState({mouseIn: true});
+    };
+
+    handleMouseLeave = () => {
+        this.setState({mouseIn: false});
+        this.setTabsWidth();
+    };
+
 
     render() {
         const {
@@ -187,6 +186,12 @@ export default class DraggableTabsBar extends Component {
             itemWrapper,
         };
 
-        return <SortableContainerList {...props} />;
+        return (
+            <SortableContainerList
+                {...props}
+                onMouseEnter={this.handleMouseEnter}
+                onMouseLeave={this.handleMouseLeave}
+            />
+        );
     }
 }

@@ -12,6 +12,36 @@ import './style.less';
     breadcrumbs: [{key: 'home', local: 'home', text: '首页', icon: 'home'}],
 })
 export default class Home extends Component {
+    constructor(...props) {
+        super(...props);
+        this.props.onComponentWillShow(() => {
+            this.setState({
+                users: 868,
+                read: 1869,
+                like: 666,
+                warning: 28,
+                start: 168,
+            });
+        });
+
+        this.props.onComponentWillHide(() => {
+            this.setState({
+                users: 0,
+                read: 0,
+                like: 0,
+                warning: 0,
+                start: 0,
+            });
+        });
+    }
+
+    state = {
+        users: 868,
+        read: 1869,
+        like: 666,
+        warning: 28,
+        start: 168,
+    };
     getPieOption = () => {
         return {
             title: {
@@ -236,6 +266,14 @@ export default class Home extends Component {
     };
 
     render() {
+        const {
+            users,
+            read,
+            like,
+            warning,
+            start,
+        } = this.state;
+
         const colStyle = {
             border: '1px solid #e8e8e8',
             borderRadius: '5px',
@@ -246,31 +284,31 @@ export default class Home extends Component {
                 <div styleName="statistics">
                     <DataBlock
                         color="#1890FF"
-                        count={868}
+                        count={users}
                         tip="新增用户"
                         icon="user-add"
                     />
                     <DataBlock
                         color="#FAAD14"
-                        count={8988}
+                        count={read}
                         tip="昨日阅读量"
                         icon="area-chart"
                     />
                     <DataBlock
                         color="#3E8F2D"
-                        count={666}
+                        count={like}
                         tip="新增点击"
                         icon="like"
                     />
                     <DataBlock
                         color="red"
-                        count={26}
+                        count={warning}
                         tip="报警次数"
                         icon="warning"
                     />
                     <DataBlock
                         color="#FA541C"
-                        count={276}
+                        count={start}
                         tip="新增收藏"
                         icon="star"
                     />
