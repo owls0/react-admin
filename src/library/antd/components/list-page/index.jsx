@@ -6,7 +6,6 @@ import QueryBar from '../query-bar';
 import QueryItem from '../query-item';
 import ToolBar from '../tool-bar';
 import PaginationComponent from '../pagination';
-import ToolItem from '../tool-item';
 
 /**
  * 列表页的封装，通过传入相应的配置，生成列表页
@@ -204,9 +203,7 @@ export default class extends Component {
                 }
                 {
                     toolItems && toolItems.length ?
-                        <ToolBar>
-                            <ToolItem items={toolItems}/>
-                        </ToolBar>
+                        <ToolBar items={toolItems}/>
                         : null
                 }
                 <Table

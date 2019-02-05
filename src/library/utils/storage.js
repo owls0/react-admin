@@ -41,7 +41,7 @@ export function init(options) {
 /**
  * localStorage 存储数据
  * @param {string} key 数据的key
- * @param {json} value 要存储的数据
+ * @param {*} value 要存储的数据
  */
 export function setItem(key, value) {
     key = _keyPrefix + key;

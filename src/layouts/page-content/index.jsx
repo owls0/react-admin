@@ -26,7 +26,7 @@ export default class PageContent extends Component {
     }
 
     render() {
-        const {footer, loading, children, action, ...others} = this.props;
+        const {footer, loading, children, action, className, ...others} = this.props;
 
         let hasFixBottom = false;
         React.Children.map(children, item => {
@@ -43,7 +43,7 @@ export default class PageContent extends Component {
                 <div styleName="page-loading" style={{display: loading ? 'block' : 'none'}}>
                     <Spin spinning size="large"/>
                 </div>
-                <div styleName="page-content" {...others} >{children}</div>
+                <div styleName="page-content" className={className} {...others} >{children}</div>
                 {footer ? <div styleName="footer"><Footer/></div> : null}
             </div>
         );

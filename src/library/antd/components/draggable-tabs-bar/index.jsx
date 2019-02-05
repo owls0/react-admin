@@ -113,7 +113,7 @@ export default class DraggableTabsBar extends Component {
     }
 
     setTabsWidth = (prevDataSource, dataSource) => {
-        const maxWidth = 180;
+        const maxWidth = 150;
         const items = document.querySelectorAll('.draggable-tabs-bar-horizontal-item-inner');
         const rootContainer = document.querySelector('.draggable-tabs-bar-root');
         const itemCount = items.length;
