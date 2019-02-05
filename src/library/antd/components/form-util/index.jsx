@@ -1,5 +1,4 @@
 import React from 'react';
-import InputClear from '../input-clear';
 import FormItemLayout from '../form-item-layout';
 import InputNumber from 'antd/lib/input-number';
 import Input from 'antd/lib/input';
@@ -51,7 +50,6 @@ import 'antd/lib/cascader/style/css';
 function isInputLikeElement(type) {
     return [
         'input',
-        'input-clear',
         'number',
         'textarea',
         'password',
@@ -93,7 +91,6 @@ export function getFormElement(item) {
     if (component) return component;
 
     if (isInputLikeElement(type)) {
-        if (type === 'input-clear') return <InputClear {...elementProps}/>;
         if (type === 'number') return <InputNumber {...elementProps}/>;
         return <Input type={type} {...elementProps}/>;
     }

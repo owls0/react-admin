@@ -32,14 +32,6 @@ export default [
         path: '/example/antd/form-util',
     },
     {
-        key: '/example/antd/input-clear', 
-        parentKey: 'antDesignExtend', 
-        icon: 'deployment-unit',
-        local: 'inputClear',
-        text: 'InputClear # 可清空Input', 
-        path: '/example/antd/input-clear',
-    },
-    {
         key: '/example/antd/list-page', 
         parentKey: 'antDesignExtend', 
         icon: 'deployment-unit',

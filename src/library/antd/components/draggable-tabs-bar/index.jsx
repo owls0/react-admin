@@ -112,8 +112,8 @@ export default class DraggableTabsBar extends Component {
     setTabsWidth = () => {
         const {mouseIn} = this.state;
         const maxWidth = 150;
-        const items = document.querySelectorAll('.draggable-tabs-bar-horizontal-item-inner');
-        const rootContainer = document.querySelector('.draggable-tabs-bar-root');
+        const items = this.container.querySelectorAll('.draggable-tabs-bar-horizontal-item-inner');
+        const rootContainer = this.container.querySelector('.draggable-tabs-bar-root');
         const itemCount = items.length;
         const rootContainerWidth = rootContainer.clientWidth;
         const maxCount = Math.floor(rootContainerWidth / maxWidth);
@@ -158,8 +158,7 @@ export default class DraggableTabsBar extends Component {
     };
 
     handleMouseLeave = () => {
-        this.setState({mouseIn: false});
-        this.setTabsWidth();
+        this.setState({mouseIn: false}, this.setTabsWidth);
     };
 
 
@@ -187,11 +186,14 @@ export default class DraggableTabsBar extends Component {
         };
 
         return (
-            <SortableContainerList
-                {...props}
+            <div
+                style={{width: '100%'}}
+                ref={node => this.container = node}
                 onMouseEnter={this.handleMouseEnter}
                 onMouseLeave={this.handleMouseLeave}
-            />
+            >
+                <SortableContainerList {...props}/>
+            </div>
         );
     }
 }
