@@ -1,7 +1,7 @@
 export default [
     {
         key: '/example/antd/async-select', 
-        parentKey: 'antDesignExtend', 
+        parentKey: 'component', 
         icon: 'deployment-unit',
         local: 'asyncSelect',
         text: 'AsyncSelect # 异步下拉', 
@@ -9,7 +9,7 @@ export default [
     },
     {
         key: '/example/antd/draggable-tabs-bar', 
-        parentKey: 'antDesignExtend', 
+        parentKey: 'component', 
         icon: 'deployment-unit',
         local: 'draggableTabsBar',
         text: 'DraggableTabsBar ', 
@@ -17,7 +17,7 @@ export default [
     },
     {
         key: '/example/antd/form-element', 
-        parentKey: 'antDesignExtend', 
+        parentKey: 'component', 
         icon: 'deployment-unit',
         local: 'formElement',
         text: 'FormElement # 表单元素', 
@@ -25,7 +25,7 @@ export default [
     },
     {
         key: '/example/antd/operator', 
-        parentKey: 'antDesignExtend', 
+        parentKey: 'component', 
         icon: 'deployment-unit',
         local: 'operator',
         text: 'Operator # 操作', 
@@ -33,7 +33,7 @@ export default [
     },
     {
         key: '/example/antd/pagination', 
-        parentKey: 'antDesignExtend', 
+        parentKey: 'component', 
         icon: 'deployment-unit',
         local: 'pagination',
         text: 'Pagination # 分页组件', 
@@ -41,7 +41,7 @@ export default [
     },
     {
         key: '/example/antd/pop-prompt', 
-        parentKey: 'antDesignExtend', 
+        parentKey: 'component', 
         icon: 'deployment-unit',
         local: 'popPrompt',
         text: 'PopPrompt # 弹框输入', 
@@ -49,7 +49,7 @@ export default [
     },
     {
         key: '/example/antd/query-bar', 
-        parentKey: 'antDesignExtend', 
+        parentKey: 'component', 
         icon: 'deployment-unit',
         local: 'queryBar',
         text: 'QueryBar # 查询条', 
@@ -57,7 +57,7 @@ export default [
     },
     {
         key: '/example/antd/query-item', 
-        parentKey: 'antDesignExtend', 
+        parentKey: 'component', 
         icon: 'deployment-unit',
         local: 'queryItem',
         text: 'QueryItem # 查询条件', 
@@ -65,7 +65,7 @@ export default [
     },
     {
         key: '/example/antd/table-editable', 
-        parentKey: 'antDesignExtend', 
+        parentKey: 'component', 
         icon: 'deployment-unit',
         local: 'tableEditable',
         text: 'TableEditable # 可编辑表格', 
@@ -73,7 +73,7 @@ export default [
     },
     {
         key: '/example/antd/tool-bar', 
-        parentKey: 'antDesignExtend', 
+        parentKey: 'component', 
         icon: 'deployment-unit',
         local: 'toolBar',
         text: 'ToolBar # 工具条', 

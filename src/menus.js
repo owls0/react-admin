@@ -11,6 +11,6 @@ export default function getMenus(userId) {
         {key: 'user', local: 'users', text: '用户列表', icon: 'user', path: '/example/users', order: 900},
         {key: 'role', local: 'roles', text: '角色列表 ', icon: 'team', path: '/example/roles', order: 800},
         {key: 'page404', local: 'page404', text: '404页面不存', icon: 'team', path: '/404', order: 700},
-        {key: 'antDesignExtend', local: 'antDesignExtend', text: 'Ant Design组件扩展', icon: 'ant-design', order: 700},
+        {key: 'component', local: 'component', text: '组件', icon: 'ant-design', order: 700},
     ].concat(antdMenus));
 }

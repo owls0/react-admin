@@ -27,7 +27,7 @@ export default {
         ajax: 'ajax请求',
         antDesign: 'Ant Design 官网',
         baiDu: '百度官网',
-        antDesignExtend: 'Ant Design 组件扩展',
+        component: '组件',
         asyncSelect: '异步下拉',
         formItemLayout: '表单布局',
         formUtil: '表单相关工具',

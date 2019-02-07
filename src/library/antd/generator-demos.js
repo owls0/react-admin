@@ -99,7 +99,7 @@ function writeMenus(options) {
     const menus = options.map(({componentName, title}) => {
         return `    {
         key: '/example/antd/${componentName}', 
-        parentKey: 'antDesignExtend', 
+        parentKey: 'component', 
         icon: 'deployment-unit',
         local: '${firstLowerCase(componentName)}',
         text: '${firstUpperCase(componentName)} ${title}', 
