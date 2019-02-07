@@ -6,7 +6,7 @@ import Form from 'antd/lib/form';
 import 'antd/lib/popover/style/css';
 import 'antd/lib/button/style/css';
 import 'antd/lib/form/style/css';
-import {FormElement} from "@/library/antd/index";
+import {getFormItem} from '../form-util';
 
 const FormItem = Form.Item;
 /**
@@ -123,7 +123,7 @@ export default class PopPrompt extends Component {
             <Form onSubmit={this.handleConfirm}>
                 {
                     items && items.length ?
-                        items.map(item => <FormElement key={item.field} form={form} {...item}/>)
+                        items.map(item => getFormItem(item, form))
                         :
                         <FormItem>
                             {

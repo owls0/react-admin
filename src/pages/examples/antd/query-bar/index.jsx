@@ -10,8 +10,8 @@ const demos = [
         markdown: Base.markdown,
         code: `
 import React, {Component} from 'react';
-import {Input, Row, Col} from 'antd';
-import {QueryBar, FormItemLayout} from '../sx-antd';
+import {Row, Col} from 'antd';
+import {QueryBar, FormElement} from '../sx-antd';
 
 export default class Base extends Component {
     state = {
@@ -31,36 +31,48 @@ export default class Base extends Component {
                 >
                     <Row>
                         <Col span={8}>
-                            <FormItemLayout label="用户名">
-                                <Input/>
-                            </FormItemLayout>
+                            <FormElement
+                                type="input"
+                                filed="userName"
+                                label="用户名"
+                            />
                         </Col>
                         <Col span={8}>
-                            <FormItemLayout label="登录名">
-                                <Input/>
-                            </FormItemLayout>
+                            <FormElement
+                                type="input"
+                                filed="loginName"
+                                label="登录名"
+                            />
                         </Col>
                         <Col span={8}>
-                            <FormItemLayout label="工作">
-                                <Input/>
-                            </FormItemLayout>
+                            <FormElement
+                                type="input"
+                                filed="job"
+                                label="工作"
+                            />
                         </Col>
                     </Row>
                     <Row style={{display: collapsed ? 'none' : 'block'}}>
                         <Col span={8}>
-                            <FormItemLayout label="年龄">
-                                <Input/>
-                            </FormItemLayout>
+                            <FormElement
+                                type="input"
+                                field="age"
+                                label="年龄"
+                            />
                         </Col>
                         <Col span={8}>
-                            <FormItemLayout label="职位">
-                                <Input/>
-                            </FormItemLayout>
+                            <FormElement
+                                type="input"
+                                field="position"
+                                label="职位"
+                            />
                         </Col>
                         <Col span={8}>
-                            <FormItemLayout label="爱好">
-                                <Input/>
-                            </FormItemLayout>
+                            <FormElement
+                                type="input"
+                                field="enjoy"
+                                label="爱好"
+                            />
                         </Col>
                     </Row>
                 </QueryBar>
