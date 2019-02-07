@@ -291,13 +291,13 @@ export default class Home extends Component {
                     <DataBlock
                         color="#FAAD14"
                         count={read}
-                        tip="昨日阅读量"
+                        tip="昨日阅读"
                         icon="area-chart"
                     />
                     <DataBlock
                         color="#3E8F2D"
                         count={like}
-                        tip="新增点击"
+                        tip="新增点赞"
                         icon="like"
                     />
                     <DataBlock
