@@ -19,27 +19,27 @@ export default class Base extends Component {
             <div>
                 <QueryItem
                     items={[
-                        {
-                            label: '用户名', width: 300, field: 'name', type: 'input',
-                            decorator: {
-                                rules: [
-                                    {required: true, message: '请输入用户名！'}
-                                ],
+                        [
+                            {
+                                label: '用户名', field: 'name', type: 'input', placeholder: '请输入用户名',
+                                decorator: {
+                                    rules: [
+                                        {required: true, message: '请输入用户名！'}
+                                    ],
+                                },
                             },
-                        },
-                        {
-                            label: '工作', width: 300, field: 'job', type: 'select',
-                            elementProps: {
+                            {
+                                label: '工作', field: 'job', type: 'select', placeholder: '请选择工作',
                                 options: [
                                     {label: '护理员', value: '1'},
                                     {label: '伐木工', value: '2'},
                                     {label: '程序员', value: '3'},
                                 ],
                             },
-                        },
-                        {
-                            label: '入职日期', width: 300, field: 'join', type: 'date',
-                        }
+                            {
+                                label: '入职日期', field: 'join', type: 'date', placeholder: '请选择日期',
+                            }
+                        ]
                     ]}
                     onSubmit={(values) => {
                         console.log(values);
@@ -63,14 +63,61 @@ import React, {Component} from 'react';
 import {QueryItem} from '../sx-antd';
 
 export default class Base extends Component {
+    fetchJobs = () => {
+        return new Promise((resolve, reject) => {
+            resolve([
+                {value: '11', label: '产品经理'},
+                {value: '22', label: '测试专员'},
+                {value: '33', label: '前端开发'},
+            ])
+        })
+    };
+
+    fetchAddress = () => {
+        return new Promise((resolve, reject) => {
+            resolve([
+                {
+                    title: '北京',
+                    value: '0-0',
+                    key: '0-0',
+                    children: [
+                        {
+                            title: '石景山区',
+                            value: '0-0-1',
+                            key: '0-0-1',
+                        },
+                        {
+                            title: '海淀区',
+                            value: '0-0-2',
+                            key: '0-0-2',
+                        },
+                    ],
+                },
+                {
+                    title: '上海',
+                    value: '0-1',
+                    key: '0-1',
+                },
+            ]);
+        });
+    };
+
     render() {
         return (
             <div>
                 <QueryItem
+                    loadOptions={() => {
+                        return Promise.all([
+                            this.fetchJobs(),
+                            this.fetchAddress()]
+                        ).then(([job, address]) => {
+                            return {job, address};
+                        });
+                    }}
                     items={[
                         [
                             {
-                                label: '用户名', width: 300, field: 'name', type: 'input',
+                                label: '用户名', labelWidth: 80, field: 'name', type: 'input', placeholder: '请输入用户名',
                                 decorator: {
                                     rules: [
                                         {required: true, message: '请输入用户名！'}
@@ -78,22 +125,21 @@ export default class Base extends Component {
                                 },
                             },
                             {
-                                label: '工作', width: 300, field: 'job', type: 'select',
-                                elementProps: {
-                                    options: [
-                                        {label: '护理员', value: '1'},
-                                        {label: '伐木工', value: '2'},
-                                        {label: '程序员', value: '3'},
-                                    ],
+                                label: '工作', labelWidth: 80, field: 'job', type: 'select', placeholder: '请选择工作',
+                                decorator: {
+                                    initialValue: '11',
                                 },
                             },
                             {
-                                label: '年龄', width: 300, field: 'age', type: 'number',
+                                label: '地址', labelWidth: 80, field: 'address', type: 'select-tree', placeholder: '请选择地址',
                             },
                         ],
-                        {
-                            label: '入职日期', width: 300, field: 'join', type: 'date',
-                        }
+                        [
+                            {
+                                label: '入职日期', labelWidth: 80, field: 'join2', type: 'date', placeholder: '请选择日期',
+                                itemStyle: {flex: '12 12 12px'},
+                            },
+                        ]
                     ]}
                     onSubmit={(values) => {
                         console.log(values);
@@ -126,10 +172,17 @@ collapsed | 是否收起 | bool | false
 items | 查询条件没一项配置 | object | -
 onSubmit | 提交时触发（回车或则点击查询按钮）| function(values) {} | -
 formRef | 获取内部form | function(form) {} | -
+loadOptions | 获取下拉、下拉树等数据，一个返回Promise，数据以field作为key对应 | function => Promise | -
 
 ### items
+参数|说明|类型|默认值
+---|---|---|---
+collapsedShow | 是否在收起时显示| bool | false
+itemStyle | 最外层容器样式 | object | -
+其他 | FormElement所需参数，[点击这里](/example/form-element/README.md) | - | -
 
-FormUtil.getFormItem函数所需参数，[点击这里](/example/form-util)`;
+
+`;
 
 @config({
     path: '/example/antd/query-item',

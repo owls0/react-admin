@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Icon from 'antd/lib/icon';
-import 'antd/lib/icon/style/css';
+import {Icon} from 'antd';
+import './index.less';
 
 export default class QueryBar extends React.Component {
     static propTypes = {

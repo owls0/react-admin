@@ -19,7 +19,10 @@ export default class RoleList extends Component {
                 init roles
                 <DatePicker/>
                 <Button onClick={() => this.props.history.push('/asdf')}>openTab</Button>
-                <div style={{height: 600, background: 'blue'}}/>
+                <div style={{display: 'flex'}}>
+                    <div style={{height: 50, flexGrow: 1, background: 'red'}}></div>
+                    <div style={{height: 50, flexGrow: 2, background: 'green'}}></div>
+                </div>
             </PageContent>
         );
     }

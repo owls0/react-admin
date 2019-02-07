@@ -1,23 +1,23 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Form from 'antd/lib/form';
-import Button from 'antd/lib/button';
-import 'antd/lib/form/style/css';
-import 'antd/lib/button/style/css';
-import {getFormItem} from '../form-util';
+import {Form, Button} from 'antd';
+import FormElement from '../form-element';
+import './index.less';
 
 /**
  * 查询条件封装，通过传入items即可生成查询条件
  * item属性：
  * collapsedShow： 收起时，是否显示，用来区分展开/收起时所显示哪些项
- * 其他参见 getFormItem 属性
+ * 其他参见 FormElement 属性
  */
 @Form.create()
 export default class QueryItem extends Component {
 
     static propTypes = {
-        showSearchButton: PropTypes.bool,
-        showResetButton: PropTypes.bool,
+        showSubmit: PropTypes.bool,
+        submitText: PropTypes.any,
+        showReset: PropTypes.bool,
+        resetText: PropTypes.any,
         collapsed: PropTypes.bool,
         items: PropTypes.array,
         onSubmit: PropTypes.func,
@@ -26,17 +26,34 @@ export default class QueryItem extends Component {
     };
 
     static defaultProps = {
-        showSearchButton: true,
-        showResetButton: true,
+        showSubmit: true,
+        submitText: '查询',
+        showReset: true,
+        resetText: '重置',
         collapsed: false,
         items: [],
         onSubmit: () => true,
         extra: null,
     };
 
+    state = {};
+
     componentWillMount() {
-        const {formRef, form} = this.props;
+        const {formRef, form, loadOptions} = this.props;
+
         if (formRef) formRef(form);
+
+        if (loadOptions) {
+            const result = loadOptions(form);
+
+            if (result instanceof Promise) {
+                loadOptions(form).then((data) => this.setState(data));
+            }
+
+            if (typeof result === 'object') {
+                this.setState(result);
+            }
+        }
     }
 
     handleSubmit = (e) => {
@@ -52,8 +69,10 @@ export default class QueryItem extends Component {
     render() {
         const {
             items,
-            showSearchButton,
-            showResetButton,
+            showSubmit,
+            submitText,
+            showReset,
+            resetText,
             collapsed,
             form,
             extra,
@@ -72,53 +91,54 @@ export default class QueryItem extends Component {
                             data = [data];
                         }
                         return (
-                            <div key={index}>
-                                {
-                                    data.map(item => {
-                                        const style = {display: 'inline'};
-                                        if (collapsed && !item.collapsedShow) {
-                                            style.display = 'none'
-                                        }
-                                        return (
-                                            <span
-                                                key={item.field}
-                                                style={style}
-                                            >
-                                                {getFormItem({float: true, ...item}, form)}
-                                            </span>
-                                        );
-                                    })
-                                }
-                                {
-                                    index === items.length - 1 && (showSearchButton || showResetButton) ?
-                                        <div style={{display: 'inline-block', paddingTop: '3px'}}>
-                                            {
-                                                showSearchButton ?
-                                                    <Button
-                                                        style={{marginLeft: 8, marginBottom: 16}}
-                                                        type="primary"
-                                                        htmlType="submit"
-                                                    >
-                                                        查询
-                                                    </Button>
-                                                    : null
-                                            }
-                                            {
-                                                showResetButton ?
-                                                    <Button
-                                                        style={{marginLeft: 8, marginBottom: 16}}
-                                                        type="ghost"
-                                                        onClick={() => form.resetFields()}
-                                                    >
-                                                        重置
-                                                    </Button>
-                                                    : null
-                                            }
+                            <div key={index} className="query-item-element-container">
+                                {data.map(item => {
+                                    const {itemStyle, field, collapsedShow, ...others} = item;
+                                    const style = {display: 'block'};
+
+                                    const options = this.state[field];
+                                    if (options && !others.options) others.options = options;
+
+                                    if (collapsed && !collapsedShow) {
+                                        style.display = 'none'
+                                    }
+
+                                    return (
+                                        <div
+                                            key={field}
+                                            style={{...itemStyle, ...style}}
+                                        >
+                                            <FormElement
+                                                form={form}
+                                                field={field}
+                                                {...others}
+                                            />
                                         </div>
-                                        : null
-                                }
+                                    );
+                                })}
+                                {index === items.length - 1 && (showSubmit || showReset) ? (
+                                    <div className="query-item-button-container" style={{paddingTop: '3px'}}>
+                                        {showSubmit ? (
+                                            <Button
+                                                style={{marginRight: 8, marginBottom: 16}}
+                                                type="primary"
+                                                htmlType="submit"
+                                            >
+                                                {submitText}
+                                            </Button>
+                                        ) : null}
+                                        {showReset ? (
+                                            <Button
+                                                style={{marginBottom: 16}}
+                                                type="ghost"
+                                                onClick={() => form.resetFields()}
+                                            >
+                                                {resetText}
+                                            </Button>
+                                        ) : null}
+                                    </div>
+                                ) : null}
                                 {index === items.length - 1 && extra}
-                                <div style={{clear: 'both'}}/>
                             </div>
                         );
                     })

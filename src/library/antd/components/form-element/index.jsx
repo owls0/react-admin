@@ -109,6 +109,7 @@ export default class FormElement extends Component {
             help,
             label,
             labelWidth,
+            width,
             labelCol,
             required,
             validateStatus,
@@ -123,8 +124,20 @@ export default class FormElement extends Component {
 
         const {getFieldDecorator} = form;
 
+        let elementStyle = {width: '100%'};
+        if (width !== void 0) {
+            elementStyle.width = width;
+        }
+
+        if (others.style) {
+            elementStyle = {...elementStyle, ...others.style};
+        }
+
         return (
-            <div className="form-element-flex-root" ref={node => this.container = node}>
+            <div
+                className="form-element-flex-root"
+                ref={node => this.container = node}
+            >
                 <FormItem
                     colon={colon}
                     extra={extra}
@@ -137,7 +150,7 @@ export default class FormElement extends Component {
                     wrapperCol={wrapperCol}
                 >
                     {getFieldDecorator(field, decorator)(
-                        getElement(others)
+                        getElement({...others, style: elementStyle})
                     )}
                     {children}
                 </FormItem>

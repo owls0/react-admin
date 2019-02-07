@@ -7,27 +7,27 @@ export default class Base extends Component {
             <div>
                 <QueryItem
                     items={[
-                        {
-                            label: '用户名', width: 300, field: 'name', type: 'input',
-                            decorator: {
-                                rules: [
-                                    {required: true, message: '请输入用户名！'}
-                                ],
+                        [
+                            {
+                                label: '用户名', field: 'name', type: 'input', placeholder: '请输入用户名',
+                                decorator: {
+                                    rules: [
+                                        {required: true, message: '请输入用户名！'}
+                                    ],
+                                },
                             },
-                        },
-                        {
-                            label: '工作', width: 300, field: 'job', type: 'select',
-                            elementProps: {
+                            {
+                                label: '工作', field: 'job', type: 'select', placeholder: '请选择工作',
                                 options: [
                                     {label: '护理员', value: '1'},
                                     {label: '伐木工', value: '2'},
                                     {label: '程序员', value: '3'},
                                 ],
                             },
-                        },
-                        {
-                            label: '入职日期', width: 300, field: 'join', type: 'date',
-                        }
+                            {
+                                label: '入职日期', field: 'join', type: 'date', placeholder: '请选择日期',
+                            }
+                        ]
                     ]}
                     onSubmit={(values) => {
                         console.log(values);

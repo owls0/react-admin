@@ -10,58 +10,87 @@ const demos = [
         markdown: FormElement.markdown,
         code: `
 import React, {Component} from 'react';
-import {Form} from 'antd';
+import {Form, Button} from 'antd';
 import {FormElement} from '../sx-antd';
-
-const FormItem = Form.Item;
 
 @Form.create()
 export default class extends Component {
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                console.log('Received values of form: ', values);
+            }
+        });
+    };
+
     render() {
-        const {form: {getFieldDecorator}} = this.props;
+        const {form} = this.props;
+        const labelWidth = 100;
 
         return (
             <div>
-                <FormItem
-                    label="输入框"
-                >
-                    {getFieldDecorator('input', {})(
-                        <FormElement type="input"/>
-                    )}
-                </FormItem>
+                <Form onSubmit={this.handleSubmit}>
+                    <FormElement
+                        form={form}
+                        type="number"
+                        field="number"
+                        label="数字"
+                        labelWidth={labelWidth}
+                        placeholder="请输入数字"
+                        decorator={{
+                            rules: [
+                                {required: true, message: '不能为空！'}
+                            ],
+                        }}
+                    >
+                        <span className="ant-form-text"> machines</span>
+                    </FormElement>
 
-                <FormItem
-                    label="下拉框"
-                >
-                    {getFieldDecorator('select', {
-                        initialValue: '1',
-                    })(
-                        <FormElement
-                            type="select"
-                            placeholder="请选择一项"
-                            options={[
-                                {label: '选项一', value: '1'},
-                                {label: '选项二', value: '2'},
-                                {label: '选项三', value: '3'},
-                                {label: '选项四', value: '4'},
-                                {label: '选项五', value: '5'},
-                            ]}
-                        />
-                    )}
-                </FormItem>
-                <FormItem
-                    label="日期"
-                >
-                    {getFieldDecorator('select', {
-                        initialValue: '1',
-                    })(
-                        <FormElement
-                            type="date"
-                            placeholder="请选择日期"
-                            width={200}
-                        />
-                    )}
-                </FormItem>
+                    <FormElement
+                        form={form}
+                        type="input"
+                        field="input"
+                        label="输入框"
+                        labelWidth={labelWidth}
+                        placeholder="请输入"
+                        decorator={{
+                            rules: [
+                                {required: true, message: '不能为空！'}
+                            ],
+                        }}
+                    />
+
+                    <FormElement
+                        form={form}
+                        type="select"
+                        field="select"
+                        label="下拉框"
+                        labelWidth={labelWidth}
+                        placeholder="请选择"
+                        options={[
+                            {label: '选项一', value: '1'},
+                            {label: '选项二', value: '2'},
+                            {label: '选项三', value: '3'},
+                            {label: '选项四', value: '4'},
+                            {label: '选项五', value: '5'},
+                        ]}
+                    />
+                    <FormElement
+                        form={form}
+                        type="date"
+                        field="date"
+                        label="日期"
+                        labelWidth={labelWidth}
+                        placeholder="请选择日期"
+                        width={200}
+                    />
+                    <Form.Item
+                        wrapperCol={{span: 12, offset: 6}}
+                    >
+                        <Button type="primary" htmlType="submit">Submit</Button>
+                    </Form.Item>
+                </Form>
             </div>
         );
     }
@@ -83,7 +112,7 @@ const api = `## API
 ---|---|---|---
 type | 元素类型，可用类型有：input,hidden,number,textarea,password,mobile,email,select,select-tree,checkbox,checkbox-group,radio,radio-group,switch,date,date-range,month,time,cascader | string | 'input'
 component | 自定义元素，如果配合Form使用，此组件请提供value onChange属性 | ReactNode 或 function | - 
-其他 | 其他属性为Ant Design提供的属性 | - | - 
+其他 | 其他属性为Ant Design Form.Item 和表单元素提供的属性 | - | - 
 `;
 
 @config({
