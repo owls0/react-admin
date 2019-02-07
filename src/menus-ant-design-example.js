@@ -16,6 +16,14 @@ export default [
         path: '/example/antd/draggable-tabs-bar',
     },
     {
+        key: '/example/antd/form-element', 
+        parentKey: 'antDesignExtend', 
+        icon: 'deployment-unit',
+        local: 'formElement',
+        text: 'FormElement # 表单元素', 
+        path: '/example/antd/form-element',
+    },
+    {
         key: '/example/antd/form-item-layout', 
         parentKey: 'antDesignExtend', 
         icon: 'deployment-unit',

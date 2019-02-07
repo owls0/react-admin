@@ -1,6 +1,6 @@
-import React from 'react';
-import FormItemLayout from '../form-item-layout';
+import React, {Component} from 'react';
 import {
+    Form,
     InputNumber,
     Input,
     Select,
@@ -12,28 +12,12 @@ import {
     TimePicker,
     Cascader,
 } from 'antd';
+import './index.less';
 
 const {TextArea, Password} = Input;
+const FormItem = Form.Item;
 
-// input number textarea password mobile email select select-tree checkbox radio switch date time date-time cascader
-/*
- * item 大多是 FormItemLayout 所需参数 及 表单元素所需参数
-
- type: 'input',
- field: 'loginName',
- label: '登录名',
- labelSpaceCount: 3,
- labelWidth: 100,
- width: '25%',
- placeholder: '请输入登录名',
- decorator: {
-     rules: [
-        {required: false, message: '请输入用户名'},
-     ],
- },
- props: {} 元素的一些props，具体参考antd
- *
- * */
+// input hidden number textarea password mobile email select select-tree checkbox radio switch date time date-time cascader
 
 /**
  * 类似 input 元素
@@ -43,6 +27,7 @@ const {TextArea, Password} = Input;
 function isInputLikeElement(type) {
     return [
         'input',
+        'hidden',
         'number',
         'textarea',
         'password',
@@ -51,34 +36,13 @@ function isInputLikeElement(type) {
     ].includes(type);
 }
 
-/**
- * 获取元素placeholder
- * @param item
- * @returns {*}
- */
-export function getPlaceholder(item) {
-    const {type = 'input', label = '', placeholder, props = {}} = item;
-
-    if (props.placeholder) return props.placeholder;
-
-    if (placeholder) return placeholder;
-
-    // FIXME 国际化
-    return isInputLikeElement(type) ? `请输入${label}` : `请选择${label}`;
-}
-
-/**
- * 获取表单元素
- * @param item {type, placeholder, props, component}
- * @returns {*}
- */
-export function getFormElement(item) {
+function getElement(item) {
     const {type = 'input', component, ...props} = item;
 
     // 样式
-    const width = props.width || '100%';
-    const elementCommonStyle = {width};
-    props.style = props.style ? {...elementCommonStyle, ...props.style} : elementCommonStyle;
+    // const width = props.width || '100%';
+    // const elementCommonStyle = {width};
+    // props.style = props.style ? {...elementCommonStyle, ...props.style} : elementCommonStyle;
 
     // 如果 component 存在，说明是自定义组件
     if (component) {
@@ -109,7 +73,6 @@ export function getFormElement(item) {
     if (type === 'radio-group') return <Radio.Group {...props}/>;
     if (type === 'cascader') return <Cascader {...props}/>;
 
-
     if (type === 'checkbox') return <Checkbox {...props}>{props.label}</Checkbox>;
 
     if (type === 'radio') return <Radio {...props}>{props.label}</Radio>;
@@ -128,12 +91,57 @@ export function getFormElement(item) {
     throw new Error(`no such type: ${type}`);
 }
 
-export function getFormItem(item, form) {
-    const {getFieldDecorator} = form;
-    const {field, decorator} = item;
-    return (
-        <FormItemLayout key={item.field} {...item}>
-            {getFieldDecorator(field, decorator)(getFormElement(item))}
-        </FormItemLayout>
-    );
+export default class FormElement extends Component {
+    componentDidMount() {
+        const {labelWidth} = this.props;
+        if (labelWidth !== void 0) {
+            const label = this.container.querySelector('.ant-form-item-label');
+            if (label) label.style.flexBasis = typeof labelWidth === 'string' ? labelWidth : `${labelWidth}px`;
+        }
+    }
+
+    render() {
+        const {
+            form,
+            colon,
+            extra,
+            hasFeedback,
+            help,
+            label,
+            labelWidth,
+            labelCol,
+            required,
+            validateStatus,
+            wrapperCol,
+
+            field,
+            decorator,
+
+            children,
+            ...others
+        } = this.props;
+
+        const {getFieldDecorator} = form;
+
+        return (
+            <div className="form-element-flex-root" ref={node => this.container = node}>
+                <FormItem
+                    colon={colon}
+                    extra={extra}
+                    hasFeedback={hasFeedback}
+                    help={help}
+                    label={label}
+                    labelCol={labelCol}
+                    required={required}
+                    validateStatus={validateStatus}
+                    wrapperCol={wrapperCol}
+                >
+                    {getFieldDecorator(field, decorator)(
+                        getElement(others)
+                    )}
+                    {children}
+                </FormItem>
+            </div>
+        );
+    }
 }
