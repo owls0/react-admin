@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button} from 'antd';
 import uuid from 'uuid/v4';
-import {TableEditable} from '../../../index';
+import {TableEditable, Operator} from '../../../index';
 
 const jobs = {
     '1': '护林员',
@@ -11,7 +11,7 @@ const jobs = {
 
 export default class extends Component {
     state = {
-        value: [
+        dataSource: [
             {editable: ['name'], id: '1', name: '熊大', loginName: 'xiongda', job: '1', jobName: '护林员', age: 22},
             {editable: false, id: '2', name: '熊二', loginName: 'xionger', job: '1', jobName: '护林员', age: 20},
             {showEdit: false, editable: true, id: '3', name: '光头强', loginName: 'guangtouqiang', job: '2', jobName: '伐木工', age: 30},
@@ -23,9 +23,7 @@ export default class extends Component {
             title: '用户名', width: 200, dataIndex: 'name', key: 'name',
             props: {
                 type: 'input',
-                elementProps: {
-                    placeholder: '请输入用户名',
-                },
+                placeholder: '请输入用户名',
                 decorator: {
                     rules: [
                         {required: true, message: '请输入用户名!'}
@@ -37,9 +35,7 @@ export default class extends Component {
             title: '登录名', width: 200, dataIndex: 'loginName', key: 'loginName',
             props: {
                 type: 'input',
-                elementProps: {
-                    placeholder: '请输入登录名',
-                },
+                placeholder: '请输入登录名',
                 decorator: {
                     rules: [
                         {required: true, message: '请输入登录名!'}
@@ -54,14 +50,12 @@ export default class extends Component {
             },
             props: {
                 type: 'select',
-                elementProps: {
-                    placeholder: '请选择职业',
-                    options: [
-                        {label: '护林员', value: '1'},
-                        {label: '伐木工', value: '2'},
-                        {label: '程序员', value: '3'},
-                    ],
-                },
+                placeholder: '请选择职业',
+                options: [
+                    {label: '护林员', value: '1'},
+                    {label: '伐木工', value: '2'},
+                    {label: '程序员', value: '3'},
+                ],
                 decorator: {
                     rules: [
                         {required: true, message: '请选择职业!'}
@@ -73,58 +67,46 @@ export default class extends Component {
         {title: '年龄', width: 60, dataIndex: 'age', key: 'dataIndex'},
         {
             title: '操作',
-            width: 60,
+            width: 100,
             render: (text, record) => {
                 // 注意这 showEdit 和 editable 要默认为true
                 const {showEdit = true, editable = true} = record;
 
                 if (showEdit && editable) {
                     return (
-                        <a
-                            onClick={() => {
-                                // 单独校验此行
-                                record.__validate((err, values) => {
-                                    if (err) return;
-
-                                    // values为editable-table form使用的数据
-                                    console.log(values);
-                                    // record 才是真实编辑过得数据
-                                    console.log(record);
-
-                                    const value = [...this.state.value];
-                                    const r = value.find(item => item.id === record.id);
-                                    r.showEdit = false;
-
-                                    this.setState({value});
-                                });
-                            }}
-                        >保存</a>
+                        <Operator items={[
+                            {label: '保存', onClick: record.save},
+                            {label: '取消', onClick: record.cancel},
+                        ]}/>
                     );
                 }
+
                 return (
-                    <a
-                        disabled={editable === false}
-                        onClick={() => {
-                            const value = [...this.state.value];
-                            const r = value.find(item => item.id === record.id);
-                            r.showEdit = true;
+                    <Operator items={[
+                        {
+                            label: '编辑',
+                            disabled: editable === false,
+                            onClick: () => {
+                                const dataSource = [...this.state.dataSource];
+                                const r = dataSource.find(item => item.id === record.id);
+                                r.showEdit = true;
 
-                            this.setState({value});
-                        }}
-                    >编辑</a>
+                                this.setState({dataSource});
+                            }
+                        }
+                    ]}/>
                 );
-
             }
         }
     ];
 
-    handleChange = (value) => {
-        this.setState({value});
+    handleChange = (dataSource) => {
+        this.setState({dataSource});
     };
 
     handleAdd = () => {
-        const value = [...this.state.value];
-        value.unshift({
+        const dataSource = [...this.state.dataSource];
+        dataSource.unshift({
             id: uuid(),
             editable: true,
             name: void 0,
@@ -133,7 +115,7 @@ export default class extends Component {
             jobName: void 0
         });
 
-        this.setState({value});
+        this.setState({dataSource});
     };
 
     handleSubmit = () => {
@@ -142,13 +124,13 @@ export default class extends Component {
             if (err) return;
             // values为editable-table form使用的数据
             console.log(values);
-            // this.state.value 才是真实编辑过得数据
-            console.log(this.state.value);
+            // this.state.dataSource 才是真实编辑过得数据
+            console.log(this.state.dataSource);
         });
     };
 
     render() {
-        const {value} = this.state;
+        const {dataSource} = this.state;
         return (
             <div>
                 <Button style={{marginBottom: 16}} type="primary" onClick={this.handleAdd}>添加</Button>
@@ -156,7 +138,7 @@ export default class extends Component {
                     formRef={(form) => this.tableForm = form}
                     showAddButton
                     columns={this.columns}
-                    value={value}
+                    dataSource={dataSource}
                     onChange={this.handleChange}
                     rowKey="id"
                 />
@@ -169,7 +151,7 @@ export default class extends Component {
 export const title = '基础用法';
 
 export const markdown = `
-表格整行可编辑，使用value代替了表格的dataSource属性，同时提供了onChange属性，封装成了类表单元素；
+表格整行可编辑，提供了onChange属性；
 
 表格每一列最好声明width，编辑/展示切换时，列宽不会变
 `;

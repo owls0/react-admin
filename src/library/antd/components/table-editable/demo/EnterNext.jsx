@@ -16,7 +16,7 @@ function focusAndSelect(e, index) {
 
 export default class extends Component {
     state = {
-        value: [
+        dataSource: [
             {id: '1', name: '熊大', loginName: 'xiongda', job: '1', jobName: '护林员', age: 22},
             {id: '2', name: '熊二', loginName: 'xionger', job: '1', jobName: '护林员', age: 20},
         ],
@@ -26,10 +26,8 @@ export default class extends Component {
             title: '用户名', dataIndex: 'name', key: 'name',
             props: {
                 type: 'input',
-                elementProps: {
-                    placeholder: '请输入用户名',
-                    onPressEnter: (e) => focusAndSelect(e, 1),
-                },
+                placeholder: '请输入用户名',
+                onPressEnter: (e) => focusAndSelect(e, 1),
                 decorator: {
                     rules: [
                         {required: true, message: '请输入用户名!'}
@@ -41,10 +39,8 @@ export default class extends Component {
             title: '登录名', dataIndex: 'loginName', key: 'loginName',
             props: {
                 type: 'input',
-                elementProps: {
-                    placeholder: '请输入登录名',
-                    onPressEnter: (e) => focusAndSelect(e, 2),
-                },
+                placeholder: '请输入登录名',
+                onPressEnter: (e) => focusAndSelect(e, 2),
                 decorator: {
                     rules: [
                         {required: true, message: '请输入登录名!'}
@@ -56,34 +52,32 @@ export default class extends Component {
             title: '年龄', dataIndex: 'age', key: 'age',
             props: {
                 type: 'input',
-                elementProps: {
-                    placeholder: '请输入年龄',
-                    onPressEnter: (e) => {
-                        const value = [...this.state.value];
+                placeholder: '请输入年龄',
+                onPressEnter: (e) => {
+                    const dataSource = [...this.state.dataSource];
 
-                        // 获取父级tr
-                        let currentTr = e.target;
-                        while (currentTr && currentTr.tagName !== 'TR') {
-                            currentTr = currentTr.parentNode;
-                        }
+                    // 获取父级tr
+                    let currentTr = e.target;
+                    while (currentTr && currentTr.tagName !== 'TR') {
+                        currentTr = currentTr.parentNode;
+                    }
 
-                        const nextTr = currentTr.nextSibling;
+                    const nextTr = currentTr.nextSibling;
 
-                        // 当前输入框在最后一行，新增一行，并且新增行第一个输入框获取焦点
-                        if (!nextTr) {
-                            value.push({id: uuid(), name: void 0, loginName: void 0, age: void 0});
-                            this.setState({value}, () => {
-                                const nextInput = currentTr.nextSibling.getElementsByTagName('input')[0];
+                    // 当前输入框在最后一行，新增一行，并且新增行第一个输入框获取焦点
+                    if (!nextTr) {
+                        dataSource.push({id: uuid(), name: void 0, loginName: void 0, age: void 0});
+                        this.setState({dataSource}, () => {
+                            const nextInput = currentTr.nextSibling.getElementsByTagName('input')[0];
 
-                                nextInput.focus();
-                                nextInput.select();
-                            });
-                        } else {
-                            const nextInput = nextTr.getElementsByTagName('input')[0];
                             nextInput.focus();
                             nextInput.select();
-                        }
-                    },
+                        });
+                    } else {
+                        const nextInput = nextTr.getElementsByTagName('input')[0];
+                        nextInput.focus();
+                        nextInput.select();
+                    }
                 },
                 decorator: {
                     rules: [
@@ -94,19 +88,19 @@ export default class extends Component {
         },
     ];
 
-    handleChange = (value) => {
-        this.setState({value});
+    handleChange = (dataSource) => {
+        this.setState({dataSource});
     };
 
     render() {
-        const {value} = this.state;
+        const {dataSource} = this.state;
         return (
             <div>
                 <TableEditable
                     formRef={(form) => this.tableForm = form}
                     showAddButton
                     columns={this.columns}
-                    value={value}
+                    dataSource={dataSource}
                     onChange={this.handleChange}
                     rowKey="id"
                 />

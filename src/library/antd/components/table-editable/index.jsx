@@ -1,30 +1,30 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Table from 'antd/lib/table';
-import Button from 'antd/lib/button';
-import Form from 'antd/lib/form';
-import 'antd/lib/table/style/css';
-import 'antd/lib/button/style/css';
+import {Table, Button, Form} from 'antd';
 import 'antd/lib/form/style/css';
 import uuid from 'uuid/v4';
-import * as FormUtil from '../form-util';
+import FormElement from '../form-element';
 import classnames from 'classnames';
+import './index.less';
 
 @Form.create()
 export default class FieldsTable extends Component {
     static propTypes = {
         formRef: PropTypes.func,
-        value: PropTypes.array,
+        dataSource: PropTypes.array,
         onChange: PropTypes.func,
         columns: PropTypes.array,
         rowKey: PropTypes.string.isRequired,
-        showAddButton: PropTypes.bool,
+        showAdd: PropTypes.bool,
+        addText: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
+
     };
 
     static defaultProps = {
         rowKey: 'id',
-        value: [],
-        showAddButton: true,
+        dataSource: [],
+        showAdd: true,
+        addText: '添加',
         onChange: () => true,
     };
 
@@ -47,7 +47,7 @@ export default class FieldsTable extends Component {
 
         if (props.dataIndex) dataIndex = props.dataIndex;
 
-        const {value, onChange, form, rowKey} = this.props;
+        const {onChange, form, rowKey} = this.props;
         const id = record[rowKey];
 
         props.field = `${dataIndex}-${id}`;
@@ -73,34 +73,57 @@ export default class FieldsTable extends Component {
 
                 const {form} = this.props;
 
-                form.validateFieldsAndScroll(validateFields, callback);
+                form.validateFieldsAndScroll(validateFields, (err, values) => {
+                    const realValues = {};
+
+                    Object.keys(values).forEach(key => {
+                        const realKey = key.split('-')[0];
+                        realValues[realKey] = values[key];
+                    });
+
+                    callback(err, realValues);
+                });
             };
         }
 
-        const decorator = {};
-        decorator.onChange = (e) => {
-            const {getValue = (e) => e.target ? e.target.value : e} = props;
-            const val = getValue(e);
+        if (!record.save) {
+            record.save = () => {
+                // 单独校验此行
+                record.__validate((err, values) => {
+                    if (err) return;
+                    // values 编辑过的新数据
+                    // console.log(values);
+                    // record 原始未编辑过得数据
+                    // console.log(record);
+                    const newRecord = {...record, ...values, showEdit: false};
+                    const dataSource = [...this.props.dataSource];
+                    const index = dataSource.findIndex(item => item.id === newRecord.id);
 
-            const currentRecord = value.find(item => item[rowKey] === record[rowKey]);
+                    dataSource.splice(index, 1, newRecord);
 
-            currentRecord[dataIndex] = val;
-
-            if (!currentRecord.__changed) currentRecord.__changed = new Set();
-            currentRecord.__changed.add(dataIndex);
-
-            onChange(value);
-        };
-
-        if (text) {
-            decorator.initialValue = text;
+                    onChange(dataSource);
+                });
+            }
+        }
+        if (!record.cancel) {
+            record.cancel = () => {
+                const dataSource = [...this.props.dataSource];
+                const r = dataSource.find(item => item.id === record.id);
+                r.showEdit = false;
+                onChange(dataSource);
+            }
         }
 
-        return FormUtil.getFormItem({...props, decorator: {...props.decorator, ...decorator}}, form);
+
+        const decorator = {};
+
+        decorator.initialValue = record[dataIndex];
+
+        return <FormElement form={form} {...props} decorator={{...props.decorator, ...decorator}}/>
     };
 
     handleAddNewRow = () => {
-        const {value, onChange, columns, rowKey} = this.props;
+        const {dataSource, onChange, columns, rowKey} = this.props;
         const newRecord = {__add: true};
 
         if (columns && columns.length) {
@@ -112,23 +135,24 @@ export default class FieldsTable extends Component {
         }
         newRecord[rowKey] = uuid();
 
-        onChange([...value, {...newRecord}]);
+        onChange([...dataSource, {...newRecord}]);
     };
 
     render() {
         let {
-            value,
+            dataSource,
             onChange,
             style,
             formRef,
             className,
             rowKey,
-            showAddButton,
+            showAdd,
+            addText,
             footer,
             ...others
         } = this.props;
 
-        const dataSource = [...value];
+        const tableDataSource = [...dataSource];
 
         const columns = this.props.columns.map(item => {
             const {render} = item;
@@ -147,13 +171,13 @@ export default class FieldsTable extends Component {
 
         if (footer) ft = footer;
 
-        if (showAddButton) ft = () => (
+        if (showAdd) ft = () => (
             <Button
                 icon="plus"
                 style={{width: '100%', height: '80px', lineHeight: '80px'}}
                 type="dashed"
                 onClick={this.handleAddNewRow}
-            >添加</Button>
+            >{addText}</Button>
         );
 
         return (
@@ -163,7 +187,7 @@ export default class FieldsTable extends Component {
                 pagination={false}
                 {...others}
                 columns={columns}
-                dataSource={dataSource}
+                dataSource={tableDataSource}
                 rowKey={rowKey}
                 footer={ft}
             />

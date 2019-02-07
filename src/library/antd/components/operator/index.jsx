@@ -49,14 +49,14 @@ export default class Operator extends Component {
 
         if (loading) {
             const labelWidth = this.label[i] ? this.label[i].offsetWidth : 'auto';
-            return <span className="operator-label" style={{display: 'inline-block', width: labelWidth, textAlign: 'center'}}>{this.loadingIcon}</span>;
+            return <a className="operator-label" style={{display: 'inline-block', width: labelWidth, textAlign: 'center'}}>{this.loadingIcon}</a>;
         }
 
         const labelStyle = {};
 
         if (color) labelStyle.color = color;
 
-        return <span className={`operator-label ${disabled ? 'operator-label-disabled' : ''}`} style={labelStyle} ref={v => this.label[i] = v}>{label}</span>;
+        return <a className={`operator-label ${disabled ? 'operator-label-disabled' : ''}`} style={labelStyle} ref={v => this.label[i] = v}>{label}</a>;
     };
 
     /*
@@ -194,9 +194,9 @@ export default class Operator extends Component {
             );
             operators.push(
                 <Dropdown overlay={menu} trigger={moreTrigger}>
-                    <span className="operator-label">
+                    <a className="operator-label">
                         {moreText}
-                    </span>
+                    </a>
                 </Dropdown>
             );
         }
