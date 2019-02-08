@@ -23,6 +23,7 @@ export default class QueryItem extends Component {
         onSubmit: PropTypes.func,
         formRef: PropTypes.func,
         extra: PropTypes.any,
+        loadOptions: PropTypes.func,
     };
 
     static defaultProps = {
@@ -117,7 +118,7 @@ export default class QueryItem extends Component {
                                     );
                                 })}
                                 {index === items.length - 1 && (showSubmit || showReset) ? (
-                                    <div className="query-item-button-container" style={{paddingTop: '3px'}}>
+                                    <div className="query-item-button-container" style={{paddingTop: '4px'}}>
                                         {showSubmit ? (
                                             <Button
                                                 style={{marginRight: 8, marginBottom: 16}}

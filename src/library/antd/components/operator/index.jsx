@@ -173,7 +173,7 @@ export default class Operator extends Component {
             const menu = (
                 <Menu style={{width: moreContentWidth}}>
                     {
-                        more.map((item, index) => <Menu.Item key={index}>{item}</Menu.Item>)
+                        more.map((item, index) => <Menu.Item key={item.label || index}>{item}</Menu.Item>)
                     }
                 </Menu>
             );
@@ -195,7 +195,7 @@ export default class Operator extends Component {
         return (
             <span>
                 {operators.map((v, i) => (
-                    <span key={`operator-${i}`}>
+                    <span key={v.label || `operator-${i}`}>
                         {v}
                         {operatorsLength === i + 1 ? '' : <span className="operator-divider"/>}
                     </span>
