@@ -5,9 +5,7 @@ import _QueryBar from './components/query-bar';
 import _QueryItem from './components/query-item';
 import _ToolBar from './components/tool-bar';
 import _AsyncSelect from './components/async-select';
-import _DraggableTabsBar from './components/draggable-tabs-bar';
 import _Operator from "./components/operator";
-import _PopPrompt from "./components/pop-prompt";
 import _UserAvatar from './components/user-avatar';
 
 export const TableEditable = _TableEditable;
@@ -17,7 +15,5 @@ export const QueryBar = _QueryBar;
 export const QueryItem = _QueryItem;
 export const ToolBar = _ToolBar;
 export const AsyncSelect = _AsyncSelect;
-export const DraggableTabsBar = _DraggableTabsBar;
 export const Operator = _Operator;
-export const PopPrompt = _PopPrompt;
 export const UserAvatar = _UserAvatar;

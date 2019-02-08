@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Icon, Popconfirm, Dropdown, Menu} from 'antd';
-import PopPrompt from '../pop-prompt';
 import './index.less';
 
 /**
@@ -19,7 +18,6 @@ export default class Operator extends Component {
 
             onClick: PropTypes.func,
             confirm: PropTypes.object,
-            prompt: PropTypes.object,
             statusSwitch: PropTypes.object,
         })),
         moreText: PropTypes.any,
@@ -93,16 +91,6 @@ export default class Operator extends Component {
         );
     };
 
-    getPrompt = (opt, i) => {
-        let label = this.getLabel(opt, i);
-        const {prompt} = opt;
-        return (
-            <PopPrompt {...prompt}>
-                {label}
-            </PopPrompt>
-        );
-    };
-
     getText = (options, i) => {
         let label = this.getLabel(options, i);
         const {onClick} = options;
@@ -136,7 +124,6 @@ export default class Operator extends Component {
     getItem = (opt, i) => {
         const {
             confirm,
-            prompt,
             statusSwitch,
             visible = true,
             disabled = false,
@@ -152,8 +139,6 @@ export default class Operator extends Component {
             }
 
             if (confirm) return this.getConfirm(opt, i);
-
-            if (prompt) return this.getPrompt(opt, i);
 
             if (statusSwitch) return this.getStatusSwitch(opt, i);
 

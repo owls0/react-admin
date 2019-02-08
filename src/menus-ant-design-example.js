@@ -8,14 +8,6 @@ export default [
         path: '/example/antd/async-select',
     },
     {
-        key: '/example/antd/draggable-tabs-bar', 
-        parentKey: 'component', 
-        icon: 'deployment-unit',
-        local: 'draggableTabsBar',
-        text: 'DraggableTabsBar ', 
-        path: '/example/antd/draggable-tabs-bar',
-    },
-    {
         key: '/example/antd/form-element', 
         parentKey: 'component', 
         icon: 'deployment-unit',
@@ -38,14 +30,6 @@ export default [
         local: 'pagination',
         text: 'Pagination # 分页组件', 
         path: '/example/antd/pagination',
-    },
-    {
-        key: '/example/antd/pop-prompt', 
-        parentKey: 'component', 
-        icon: 'deployment-unit',
-        local: 'popPrompt',
-        text: 'PopPrompt # 弹框输入', 
-        path: '/example/antd/pop-prompt',
     },
     {
         key: '/example/antd/query-bar', 

@@ -27,8 +27,10 @@ export default {
         ajax: 'Ajax',
         antDesign: 'Ant Design',
         baiDu: 'Bai Du',
+
         component: 'Component',
         asyncSelect: 'Async Select',
+        formElement: 'Form Element',
         formItemLayout: 'Form Item Layout',
         formUtil: 'Form Util',
         inputClear: 'Input Clear',
