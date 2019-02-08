@@ -79,4 +79,12 @@ export default [
         text: 'ToolBar # 工具条', 
         path: '/example/antd/tool-bar',
     },
+    {
+        key: '/example/antd/user-avatar', 
+        parentKey: 'component', 
+        icon: 'deployment-unit',
+        local: 'userAvatar',
+        text: 'UserAvatar # 用户头像', 
+        path: '/example/antd/user-avatar',
+    },
 ];

@@ -12,13 +12,12 @@ const sessionStorage = window.sessionStorage;
  */
 export function setLoginUser(currentUser = {}) {
     // 将用户属性在这里展开，方便查看系统都用到了那些用户属性
-    const {id, name, token, menus, permissions} = currentUser;
+    const {id, name, avatar, token} = currentUser;
     const userStr = JSON.stringify({
         id,             // 用户id 必须
         name,           // 用户名 必须
+        avatar,         // 用头像 非必须
         token,          // 登录凭证 非必须 ajax请求有可能会用到，也许是cookie
-        menus,          // 用户菜单 非必须
-        permissions,    // 用户权限 非必须
     });
 
     sessionStorage.setItem(CURRENT_USER_KEY, userStr);

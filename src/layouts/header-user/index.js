@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {Menu, Dropdown, Avatar, Icon} from 'antd';
+import {Menu, Dropdown, Icon} from 'antd';
 import {Link} from 'react-router-dom';
-import avatar from './avatar.svg';
-import {toLogin, getLoginUser} from '../../commons';
-import {connect} from '../../models';
+import {toLogin, getLoginUser} from '@/commons';
+import {connect} from '@/models';
+import {UserAvatar} from '@/library/antd';
 import './style.less';
 
 const Item = Menu.Item;
@@ -23,6 +23,7 @@ export default class HeaderUser extends Component {
     render() {
         const user = getLoginUser() || {};
         const name = user.name;
+        const avatar = user.avatar;
 
         const {className, theme, local} = this.props;
 
@@ -37,7 +38,11 @@ export default class HeaderUser extends Component {
             <div styleName="user-menu" ref={node => this.userMenu = node}>
                 <Dropdown overlay={menu} getPopupContainer={() => (this.userMenu || document.body)}>
                     <span styleName="account" className={className}>
-                        <Avatar size="small" styleName="avatar" src={avatar}/>
+                        {avatar ? (
+                            <UserAvatar size="default" styleName="avatar" src={avatar}/>
+                        ) : (
+                            <UserAvatar size="default" styleName="avatar" name={name}/>
+                        )}
                         {name}
                         <Icon type="caret-down"/>
                     </span>

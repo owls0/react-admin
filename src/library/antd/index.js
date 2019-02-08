@@ -8,6 +8,7 @@ import _AsyncSelect from './components/async-select';
 import _DraggableTabsBar from './components/draggable-tabs-bar';
 import _Operator from "./components/operator";
 import _PopPrompt from "./components/pop-prompt";
+import _UserAvatar from './components/user-avatar';
 
 export const TableEditable = _TableEditable;
 export const FormElement = _FormElement;
@@ -19,3 +20,4 @@ export const AsyncSelect = _AsyncSelect;
 export const DraggableTabsBar = _DraggableTabsBar;
 export const Operator = _Operator;
 export const PopPrompt = _PopPrompt;
+export const UserAvatar = _UserAvatar;
