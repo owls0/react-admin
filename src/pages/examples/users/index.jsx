@@ -152,6 +152,7 @@ export default class UserCenter extends Component {
             collapsed,
             dataSource,
         } = this.state;
+        console.log('render users');
         return (
             <PageContent>
                 <QueryBar

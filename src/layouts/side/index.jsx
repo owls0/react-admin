@@ -35,24 +35,37 @@ export default class Side extends Component {
         layout: PAGE_FRAME_LAYOUT.SIDE_MENU, // top-menu side-menu
     };
 
-    componentDidUpdate() {
+    componentDidMount() {
+        this.scrollMenu();
+    }
+
+    componentDidUpdate(prevProps) {
+        this.scrollMenu(prevProps);
+    }
+
+    scrollMenu = (prevProps = {}) => {
         // 等待当前菜单选中
         setTimeout(() => {
-            const selectedMenu = this.inner.querySelector('.ant-menu-item-selected');
-            if (!selectedMenu) return;
+            const {selectedMenu} = this.props;
+            const {selectedMenu: prevSelectedMenu} = prevProps;
+            if (selectedMenu && prevSelectedMenu && selectedMenu.key === prevSelectedMenu.key) {
+                return;
+            }
+            const selectedMenuNode = this.inner.querySelector('.ant-menu-item-selected');
+            if (!selectedMenuNode) return;
 
             const innerHeight = this.inner.clientHeight;
             const innerScrollTop = this.inner.scrollTop;
-            const selectedMenuTop = selectedMenu.offsetTop;
-            const selectedMenuHeight = selectedMenu.offsetHeight;
+            const selectedMenuTop = selectedMenuNode.offsetTop;
+            const selectedMenuHeight = selectedMenuNode.offsetHeight;
 
             // 选中的菜单在非可视范围内，滚动到中间位置
             if (selectedMenuTop < innerScrollTop || (selectedMenuTop + selectedMenuHeight) > (innerScrollTop + innerHeight)) {
-                const newScrollTop = selectedMenuTop - selectedMenuHeight - (innerHeight - selectedMenuHeight) / 2;
-                this.inner.scrollTop = newScrollTop;
+                this.inner.scrollTop = selectedMenuTop - selectedMenuHeight - (innerHeight - selectedMenuHeight) / 2;
             }
-        }, 50);
-    }
+        }, 300);
+    };
+
 
     handleMenuOpenChange = (openKeys) => {
         const {sideCollapsed} = this.props;
