@@ -1,8 +1,8 @@
 import React from 'react';
 import AppRouter from './router/AppRouter';
 import {connect} from './models';
-import {getMenuTreeDataAndPermissions, getLoginUser} from './commons'
 import Local from './i18n/Local';
+import {getMenuTreeDataAndPermissions, getLoginUser} from './commons'
 
 @connect()
 export default class App extends React.Component {
@@ -14,9 +14,6 @@ export default class App extends React.Component {
         const {system, menu} = this.props.action;
         const loginUser = getLoginUser() || {};
 
-        // 设置当前登录的用户到model中
-        system.setLoginUser(loginUser);
-
         // 获取系统菜单 和 随菜单携带过来的权限
         this.state.loading = true;
         menu.getMenus({
@@ -24,6 +21,10 @@ export default class App extends React.Component {
             onResolve: (res) => {
                 let menus = res || [];
                 const {permissions} = getMenuTreeDataAndPermissions(menus);
+
+                // 设置当前登录的用户到model中
+                system.setLoginUser(loginUser);
+                // 保存用户权限到model中
                 system.setPermissions(permissions);
             },
             onComplete: () => {

@@ -63,11 +63,13 @@ $ yarn build
 key|是|需要唯一
 parentKey|否|用于关联父级
 path|是|菜单对应的路由地址
-url|否|菜单对应会打开url对应的iframe页面，如果配置了path，url将无效
+url|否|菜单对应会打开url对应的iframe页面，如果配置了url，path将无效
+target|否|配合url使用，菜单将为a标签 `<a href={url} target={target}>{text}</a>`
 local|否|国际化配置，系统在i18n.menu中获取对应的文案
 text|是|如果local对应的文案有效，将覆盖text，否则菜单默认使用text作为展示内容
 icon|否|菜单图标配置
 order|否|菜单排序，数值越大越靠前显示
+type|否|如果菜单数据中携带功能权限配置，type==='1' 为菜单，type==='2'为功能
 
 ## 样式
 使用less作为样式的编写：
@@ -276,6 +278,15 @@ TODO
 ## mock 数据
 TODO 
 
+## 权限控制
+
+- 菜单 & 权限
+- 角色
+- 用户
+- `@/components/permission`
+- model.system.permissions
+
+
 ## models(redux)
 对redux进行封装 [文档](./src/models/README.md);
 
@@ -389,7 +400,6 @@ const name = res?.data?.user?.name || '匿名';
     - [ ] 角色管理
     - [ ] 修改密码
     - [ ] 个人信息
-    
 - [ ] 设计
     - [ ] 登录页面
     - [ ] Logo
@@ -397,4 +407,6 @@ const name = res?.data?.user?.name || '匿名';
 - [ ] antd 组件整理
 - [ ] 相关文档整理
 - [ ] 左侧菜单自动滚动到可视范围之内
+- [ ] 是否启用国际化变量
+- [ ] gitBook编写文档
 

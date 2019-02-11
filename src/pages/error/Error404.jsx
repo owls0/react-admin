@@ -10,7 +10,6 @@ import './style.less';
     }),
 })
 export default class Error404 extends Component {
-
     state = {
         time: 9,
     };

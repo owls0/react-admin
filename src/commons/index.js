@@ -12,12 +12,13 @@ const sessionStorage = window.sessionStorage;
  */
 export function setLoginUser(currentUser = {}) {
     // 将用户属性在这里展开，方便查看系统都用到了那些用户属性
-    const {id, name, avatar, token} = currentUser;
+    const {id, name, avatar, token, permissions} = currentUser;
     const userStr = JSON.stringify({
         id,             // 用户id 必须
         name,           // 用户名 必须
         avatar,         // 用头像 非必须
         token,          // 登录凭证 非必须 ajax请求有可能会用到，也许是cookie
+        permissions,    // 用户权限
     });
 
     sessionStorage.setItem(CURRENT_USER_KEY, userStr);
@@ -122,19 +123,22 @@ export function getSelectedMenuByPath(path, menuTreeData) {
  * @param menus 扁平化菜单数据
  */
 export function getMenuTreeDataAndPermissions(menus) {
-    // 处理path： 只声明了url，没有声明path，为iframe页面
+    // 用户权限code，通过菜单携带过来的 1 => 菜单 2 => 功能
+    const permissions = menus.map(item => {
+        if (item.type === '1') return item.key;
+        if (item.type === '2') return item.code;
+        return null;
+    });
+
+    // 获取菜单，过滤掉功能码
+    menus = menus.filter(item => item.type !== '2');
+
+    // 处理path： 只声明了url，为iframe页面
     menus = menus.map(item => {
-        if (item.url && !item.path) {
+        if (item.url) {
             item.path = `/iframe_page_/${window.encodeURIComponent(item.url)}`;
         }
         return item;
-    });
-
-    // 用户权限code，通过菜单携带过来的
-    const permissions = menus.map(item => {
-        if (item.type === '0') return item.key;
-        if (item.type === '1') return item.code;
-        return null;
     });
 
     // 菜单根据order 排序
@@ -166,6 +170,7 @@ export function getMenuTreeDataAndPermissions(menus) {
         }
         return path;
     };
+
     orderedData.forEach(item => {
         if (!item.path) {
             item.path = findPath(item);

@@ -25,10 +25,14 @@ export default class HeaderMenu extends Component {
 
         if (dataSource && dataSource.length) {
             return renderNode(dataSource, (item, children) => {
-                const key = item.key;
-                const path = item.path;
-                const text = item.text;
-                const icon = item.icon;
+                const {
+                    key,
+                    path,
+                    text,
+                    icon,
+                    target,
+                    url,
+                } = item;
 
                 let title = <span><Icon type={icon}/><Icon type="home" style={{display: 'none'}}/><span>{text}</span></span>;
 
@@ -40,11 +44,21 @@ export default class HeaderMenu extends Component {
                     );
                 }
 
+
                 return (
                     <Menu.Item key={key}>
-                        <Link to={path}>
-                            {title}
-                        </Link>
+                        {target ? (
+                            <a href={url} target={target}>
+                                {title}
+                            </a>
+                        ) : (
+                            <Link to={{
+                                pathname: path,
+                                state: {from: 'menu'}
+                            }}>
+                                {title}
+                            </Link>
+                        )}
                     </Menu.Item>
                 );
             });
