@@ -223,28 +223,4 @@ export default class SXAjax {
     del(url, data, options) {
         return this.ajax(url, data, 'delete', options);
     }
-
-    singleGets = {};
-
-    /**
-     * 发送新的相同url的get请求，历史未结束相同url请求就会被打断，
-     * 同一个url请求，最终只会触发一次
-     * 防止相同url请求，最后一次被历史请求干扰
-     * 用于输入框，根据输入远程获取提示等场景
-     *
-     * @param {string} url 请求路径
-     * @param {object} [params] 传输给后端的数据
-     * @param {object} [options] axios 配置参数
-     * @returns {Promise}
-     */
-    singleGet(url, params, options) {
-        const oldAjax = this.singleGets[url];
-        if (oldAjax) {
-            oldAjax.cancel();
-        }
-        const singleAjax = this.ajax(url, params, 'get', options);
-        this.singleGets[url] = singleAjax;
-        return singleAjax;
-    }
-
 }

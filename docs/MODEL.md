@@ -1,5 +1,5 @@
 # models(redux) 封装
-> 基于redux进行封装，不改变redux源码，可以结合使用redux社区中其他解决方案
+基于[redux](https://redux.js.org/)进行封装，不改变redux源码，可以结合使用redux社区中其他解决方案。
 
 ## models用于管理数据，解决的问题：
 1. 命名空间（防止数据、方法命名冲突）：数据与方法，都归属于具体model，比如：state.userCenter.xxx，this.props.action.userCenter.xxx();
@@ -28,7 +28,7 @@
 ### 装饰器
 推荐使用装饰器方式
 
-```jsx harmony
+```jsx
 import {connect} from 'path/to/models';
 
 @connect(state => {
@@ -42,7 +42,7 @@ class Demo extends Component{
 ```
 
 ### 函数
-```jsx harmony
+```jsx
 import {connectComponent} from 'path/to/models';
 
 class Demo extends Component {
