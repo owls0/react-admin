@@ -30,6 +30,9 @@ export default class HeaderUser extends Component {
         const menu = (
             <Menu styleName="menu" theme={theme} selectedKeys={[]} onClick={this.handleMenuClick}>
                 <Item><Link to="/settings"><Icon type="setting"/>{local.menu.setting}</Link></Item>
+                {process.env.NODE_ENV === 'development' ? (
+                    <Item><Link to="/menu-permission"><Icon type="menu-unfold"/>{local.menu.menus}</Link></Item>
+                ) : null}
                 <Menu.Divider/>
                 <Item key="logout"><Icon type="logout"/>{local.menu.logout}</Item>
             </Menu>

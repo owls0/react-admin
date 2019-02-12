@@ -13,9 +13,9 @@ export default class ToolBar extends Component {
     };
 
     render() {
-        const {items} = this.props;
+        const {items, style} = this.props;
         return (
-            <div className="tool-bar-root">
+            <div className="tool-bar-root" style={style}>
                 {items.map((item, index) => {
                     const {
                         key,

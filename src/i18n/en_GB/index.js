@@ -14,6 +14,7 @@ export default {
         timeOut: 'Time out',
     },
     menu: {
+        menus: 'Menu & Permission',
         home: 'Home',
         page404: '404 Not Found',
         login: 'Log In',

@@ -80,3 +80,5 @@ mock请求：
 this.props.ajax.get('/mock/users').then(...);
 ```
 如果后端真实接口准备好之后，去掉url中的/mock即可
+
+注：mock功能只有开发模式下启用了，生产模式不会开启mock功能

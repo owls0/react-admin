@@ -14,6 +14,7 @@ export default {
         timeOut: '超时',
     },
     menu: {
+        menus: '菜单&权限',
         home: '首页',
         page404: '404页面不存在',
         login: '登录',
