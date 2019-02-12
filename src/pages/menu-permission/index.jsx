@@ -62,15 +62,16 @@ code|否|功能码，如果是type==='2'，会用到此字段
         {title: '排序', dataIndex: 'order', key: 'order', width: 60},
         {
             title: '操作', dataIndex: 'operator', key: 'operator', width: 150,
-
             render: (value, record) => {
+                const label = (label, icon) => <Tooltip placement="bottom" title={label}><Icon style={{fontSize: 16}} type={icon}/></Tooltip>;
+
                 const items = [
                     {
-                        label: <Tooltip placement="bottom" title="编辑"><Icon type="form"/></Tooltip>,
+                        label: label('编辑', 'form'),
                         onClick: () => this.handleEditNode(record),
                     },
                     {
-                        label: <Tooltip placement="bottom" title="删除"><Icon type="delete"/></Tooltip>,
+                        label: label('删除', 'delete'),
                         color: 'red',
                         confirm: {
                             title: '您请确定要删除此节点及其子节点吗？',
@@ -78,11 +79,11 @@ code|否|功能码，如果是type==='2'，会用到此字段
                         }
                     },
                     {
-                        label: <Tooltip placement="bottom" title="添加子菜单"><Icon type="folder-add"/></Tooltip>,
+                        label: label('添加子菜单', 'folder-add'),
                         onClick: () => this.handleAddSubMenu(record),
                     },
                     {
-                        label: <Tooltip placement="bottom" title="添加子功能"><Icon type="file-add"/></Tooltip>,
+                        label: label('添加子功能', 'file-add'),
                         onClick: () => this.handleAddSubFunction(record),
                     },
                 ];
