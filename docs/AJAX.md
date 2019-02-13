@@ -70,7 +70,9 @@
 ---|---
 url|请求地址
 params|请求传递给后端的参数
-options|请求配置，即axios的配置，扩展了两个：successTip errorTip，成功或失败提示
+options|请求配置，即axios的配置，扩展了三个个：successTip errorTip，成功或失败提示；noEmpty过滤掉 ''、null、undefined的参数，不提交给后端
+
+注：全局默认参数可以在src/commons/ajax.js中进行配置，默认baseURL='/api'、timeout=1000 * 60。
 
 ## 请求结果提示
 系统对ajax失败做了自动提示，开发人员可通过src/commons/handle-error.js进行配置；
@@ -79,7 +81,7 @@ options|请求配置，即axios的配置，扩展了两个：successTip errorTip
 
 成功提示在src/commons/handle-success.js中配置；
 ```js
-this.props.ajax.del('/user/1', null, {successTip: '删除成功！', errorTip: '删除失败！'});
+this.props.ajax.del('/user/1', null, {successTip: '删除成功！', errorTip: '删除失败！', noEmpty: true});
 ```
 
 ## loading处理
