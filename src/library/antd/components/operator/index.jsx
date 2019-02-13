@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Icon, Popconfirm, Dropdown, Menu} from 'antd';
+import {Icon, Popconfirm, Dropdown, Menu, Tooltip} from 'antd';
 import './index.less';
 
 /**
@@ -10,6 +10,7 @@ export default class Operator extends Component {
     static propTypes = {
         items: PropTypes.arrayOf(PropTypes.shape({
             label: PropTypes.isRequired,
+            icon: PropTypes.string,
             visible: PropTypes.bool,
             disabled: PropTypes.bool,
             color: PropTypes.string,
@@ -43,7 +44,7 @@ export default class Operator extends Component {
     label = {};
 
     getLabel = (options, i) => {
-        let {label, loading, color, disabled} = options;
+        let {label, icon, loading, color, disabled} = options;
 
         if (loading) {
             const labelWidth = this.label[i] ? this.label[i].offsetWidth : 'auto';
@@ -53,6 +54,10 @@ export default class Operator extends Component {
         const labelStyle = {};
 
         if (color) labelStyle.color = color;
+
+        if (icon) {
+            label = <Tooltip placement="bottom" title={label}><Icon style={{fontSize: 16}} type={icon}/></Tooltip>;
+        }
 
         return <a className={`operator-label ${disabled ? 'operator-label-disabled' : ''}`} style={labelStyle} ref={v => this.label[i] = v}>{label}</a>;
     };

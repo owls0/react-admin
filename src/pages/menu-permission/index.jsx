@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Table, Icon, Tooltip, Modal, Form, Row, Col} from 'antd';
+import {Table, Icon, Modal, Form, Row, Col} from 'antd';
 import config from '@/commons/config-hoc';
 import PageContent from '@/layouts/page-content';
 import localMenus from '../../menus';
@@ -54,15 +54,15 @@ export default class index extends Component {
         {
             title: '操作', dataIndex: 'operator', key: 'operator', width: 150,
             render: (value, record) => {
-                const label = (label, icon) => <Tooltip placement="bottom" title={label}><Icon style={{fontSize: 16}} type={icon}/></Tooltip>;
-
                 const items = [
                     {
-                        label: label('编辑', 'form'),
+                        label: '编辑',
+                        icon: 'form',
                         onClick: () => this.handleEditNode(record),
                     },
                     {
-                        label: label('删除', 'delete'),
+                        label: '删除',
+                        icon: 'delete',
                         color: 'red',
                         confirm: {
                             title: '您请确定要删除此节点及其子节点吗？',
@@ -70,11 +70,13 @@ export default class index extends Component {
                         }
                     },
                     {
-                        label: label('添加子菜单', 'folder-add'),
+                        label: '添加子菜单',
+                        icon: 'folder-add',
                         onClick: () => this.handleAddSubMenu(record),
                     },
                     {
-                        label: label('添加子功能', 'file-add'),
+                        label: '添加子功能',
+                        icon: 'file-add',
                         onClick: () => this.handleAddSubFunction(record),
                     },
                 ];
