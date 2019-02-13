@@ -15,6 +15,7 @@ import './style.less';
 @Form.create()
 export default class index extends Component {
     state = {
+        loading: false,
         menus: [],
         visible: false,
         record: {},
@@ -113,9 +114,7 @@ export default class index extends Component {
             .then(res => {
                 this.setState({menus: res});
             })
-            .finally(() => {
-                this.setState({loading: false});
-            });
+            .finally(() => this.setState({loading: false}));
         */
     }
 
@@ -129,6 +128,8 @@ export default class index extends Component {
 
         resetFields();
         const {
+            key,
+            parentKey,
             text,
             icon,
             path,
@@ -142,6 +143,8 @@ export default class index extends Component {
 
         setTimeout(() => {
             setFieldsValue({
+                key,
+                parentKey,
                 text,
                 icon,
                 path,
@@ -157,7 +160,13 @@ export default class index extends Component {
     };
 
     handleAddSubMenu = (record) => {
-        this.props.form.resetFields();
+        const {resetFields, setFieldsValue} = this.props.form;
+
+        resetFields();
+
+        const parentKey = record.key;
+        setTimeout(() => setFieldsValue({parentKey, type: '1'}));
+
         this.setState({visible: true, record});
     };
 
@@ -165,13 +174,23 @@ export default class index extends Component {
         const {resetFields, setFieldsValue} = this.props.form;
 
         resetFields();
-        setFieldsValue({type: '2'});
+        const parentKey = record.key;
+        setTimeout(() => setFieldsValue({parentKey, type: '2'}));
 
         this.setState({visible: true, record});
     };
 
     handleDeleteNode = (record) => {
-        console.log(record);
+        const {key} = record;
+
+        this.setState({loading: true});
+        this.props.ajax
+            .del(`/menus/${key}`)
+            .then(() => {
+                this.setState({visible: false});
+                this.fetchMenus();
+            })
+            .finally(() => this.setState({loading: false}));
     };
 
     handleSubmit = (e) => {
@@ -179,6 +198,18 @@ export default class index extends Component {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
+
+                // 如果key存在视为修改，其他为添加
+                const {key} = values;
+                const ajax = key ? this.props.ajax.post : this.props.ajax.put;
+
+                this.setState({loading: true});
+                ajax('/menus', values)
+                    .then(() => {
+                        this.setState({visible: false});
+                        this.fetchMenus();
+                    })
+                    .finally(() => this.setState({loading: false}));
             }
         });
     };
@@ -187,16 +218,17 @@ export default class index extends Component {
         const {
             menus,
             visible,
+            loading,
         } = this.state;
 
         const {form} = this.props;
-
         const labelWidth = 70;
 
         return (
             <PageContent styleName="root">
                 <ToolBar items={[{type: 'primary', text: '添加顶级', onClick: this.handleAddTopMenu}]}/>
                 <Table
+                    loading={loading}
                     columns={this.columns}
                     dataSource={menus}
                 />
@@ -208,6 +240,8 @@ export default class index extends Component {
                     onCancel={() => this.setState({visible: false})}
                 >
                     <Form onSubmit={this.handleSubmit}>
+                        <FormElement form={form} type="hidden" field="key"/>
+                        <FormElement form={form} type="hidden" field="parentKey"/>
                         <Row>
                             <Col span={12}>
                                 <FormElement
@@ -297,24 +331,30 @@ export default class index extends Component {
                             field="path"
                             placeholder="请输入path"
                         />
-                        <FormElement
-                            disabled={form.getFieldValue('type') === '2'}
-                            form={form}
-                            label="url"
-                            labelWidth={labelWidth}
-                            type="input"
-                            field="url"
-                            placeholder="请输入url"
-                        />
-                        <FormElement
-                            disabled={form.getFieldValue('type') === '2'}
-                            form={form}
-                            label="target"
-                            labelWidth={labelWidth}
-                            type="input"
-                            field="target"
-                            placeholder="请输入target"
-                        />
+                        <Row>
+                            <Col span={15}>
+                                <FormElement
+                                    disabled={form.getFieldValue('type') === '2'}
+                                    form={form}
+                                    label="url"
+                                    labelWidth={labelWidth}
+                                    type="input"
+                                    field="url"
+                                    placeholder="请输入url"
+                                />
+                            </Col>
+                            <Col span={9}>
+                                <FormElement
+                                    disabled={form.getFieldValue('type') === '2'}
+                                    form={form}
+                                    label="target"
+                                    labelWidth={labelWidth}
+                                    type="input"
+                                    field="target"
+                                    placeholder="请输入target"
+                                />
+                            </Col>
+                        </Row>
                     </Form>
                 </Modal>
             </PageContent>

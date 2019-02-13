@@ -119,6 +119,7 @@ export default class FormElement extends Component {
             decorator,
 
             children,
+            type,
             ...others
         } = this.props;
 
@@ -135,6 +136,7 @@ export default class FormElement extends Component {
 
         return (
             <div
+                style={{display: type === 'hidden' ? 'none' : 'block'}}
                 className="form-element-flex-root"
                 ref={node => this.container = node}
             >
@@ -150,7 +152,7 @@ export default class FormElement extends Component {
                     wrapperCol={wrapperCol}
                 >
                     {getFieldDecorator(field, decorator)(
-                        getElement({...others, style: elementStyle})
+                        getElement({type, ...others, style: elementStyle})
                     )}
                     {children}
                 </FormItem>
