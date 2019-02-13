@@ -7,12 +7,12 @@ import {
     QueryItem,
     Pagination,
     Operator,
+    ToolBar,
 } from "@/library/antd";
 import config from '@/commons/config-hoc';
 
 @config({
     path: '/example/users',
-    keepAlive: true,
 })
 export default class UserCenter extends Component {
     state = {
@@ -144,6 +144,10 @@ export default class UserCenter extends Component {
         return Promise.resolve({job: jobs, position: positions})
     };
 
+    handleAdd = () => {
+        // TODO
+    };
+
     render() {
         const {
             total,
@@ -167,6 +171,12 @@ export default class UserCenter extends Component {
                         onSubmit={params => this.setState({params}, this.handleSearch)}
                     />
                 </QueryBar>
+
+                <ToolBar
+                    items={[
+                        {type: 'primary', text: '添加用户', icon: 'user-add', onClick: this.handleAdd}
+                    ]}
+                />
 
                 <Table
                     columns={this.columns}

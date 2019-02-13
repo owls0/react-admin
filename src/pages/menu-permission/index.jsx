@@ -26,16 +26,15 @@ export default class index extends Component {
         // {title: 'key', dataIndex: 'key', key: 'key'},
         // {title: 'parentKey', dataIndex: 'parentKey', key: 'parentKey'},
         {
-            title: '名称', dataIndex: 'text', key: 'text', width: 160,
-            props: {
-                type: 'input',
-                placeholder: '请输入名称',
-                decorator: {
-                    rules: [{required: true, message: '请输入名称！'}],
-                },
-            },
+            title: '名称', dataIndex: 'text', key: 'text', width: 200,
+            render: (value, record) => {
+                const {icon} = record;
+
+                if (icon) return <span><Icon type={icon}/> {value}</span>;
+
+                return value;
+            }
         },
-        {title: '图标', dataIndex: 'icon', key: 'icon', width: 60, render: value => <Icon type={value}/>},
         {title: 'path', dataIndex: 'path', key: 'path', width: 100},
         {title: 'url', dataIndex: 'url', key: 'url'},
         {title: 'target', dataIndex: 'target', key: 'target', width: 60},
@@ -109,7 +108,7 @@ export default class index extends Component {
             this.setState({menus: menuTreeData});
         });
         /*
-        // 获取所有的菜单，不区分用户
+        // TODO 获取所有的菜单，不区分用户
         this.setState({loading: true});
         this.props.ajax
             .get('/menus')
@@ -185,6 +184,7 @@ export default class index extends Component {
     handleDeleteNode = (record) => {
         const {key} = record;
 
+        // TODO
         this.setState({loading: true});
         this.props.ajax
             .del(`/menus/${key}`)
@@ -205,6 +205,7 @@ export default class index extends Component {
                 const {key} = values;
                 const ajax = key ? this.props.ajax.post : this.props.ajax.put;
 
+                // TODO
                 this.setState({loading: true});
                 ajax('/menus', values)
                     .then(() => {

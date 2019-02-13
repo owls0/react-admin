@@ -34,7 +34,8 @@ export default class HeaderMenu extends Component {
                     url,
                 } = item;
 
-                let title = <span><Icon type={icon}/><Icon type="home" style={{display: 'none'}}/><span>{text}</span></span>;
+                let title = <span>{text}</span>;
+                if (icon) title = <span><Icon type={icon}/><Icon type="home" style={{display: 'none'}}/><span>{text}</span></span>;
 
                 if (children) {
                     return (
