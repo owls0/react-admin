@@ -234,6 +234,7 @@ export default class index extends Component {
                     loading={loading}
                     columns={this.columns}
                     dataSource={menus}
+                    pagination={false}
                 />
                 <Modal
                     id="menu-modal"
