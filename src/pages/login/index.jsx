@@ -28,11 +28,14 @@ export default class extends Component {
     };
 
     componentDidMount() {
-        // To disabled submit button at the beginning.
-        this.props.form.validateFields(() => void 0);
+        const {form: {validateFields, setFieldsValue}} = this.props;
+        // 一开始禁用提交按钮
+        validateFields(() => void 0);
 
-        // TODO 方便测试，填写表单
-        this.props.form.setFieldsValue({userName: 'admin', password: '111'});
+        // 开发时方便测试，填写表单
+        if (process.env.NODE_ENV === 'development') {
+            setFieldsValue({userName: 'admin', password: '111'});
+        }
     }
 
     handleSubmit = (e) => {
