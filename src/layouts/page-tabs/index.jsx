@@ -34,7 +34,13 @@ export default class PageTabs extends Component {
     };
 
     handleClick = (item) => {
-        this.props.history.push(item.path);
+        const separator = '/iframe_page_/';
+        let path = item.path;
+        if (path.indexOf(separator) !== -1) {
+            const url = window.encodeURIComponent(path.split(separator)[1]);
+            path = `${separator}${url}`;
+        }
+        this.props.history.push(path);
     };
 
 
