@@ -9,7 +9,7 @@ import './style.less';
 
 @config({
     path: '/menu-permission',
-    title: {local: 'menus', text: '菜单&权限'},
+    title: {local: 'menus', text: '菜单&权限', icon: 'lock'},
     ajax: true,
 })
 @Form.create()

@@ -1,7 +1,7 @@
 # Summary
 
 * [简介](README.md)
-* [开始](START.md)
+* [快速开始](START.md)
 * [菜单配置](MENU.md)
 * [页面开发](PAGE.md)
 * [系统路由](ROUTE.md)
@@ -13,4 +13,5 @@
 * [国际化](I18N.md)
 * [权限控制](PERMISSION.md)
 * [Nginx配置](NGINX.md)
+* [开发代理](PROXY.md)
 * [其他](OTHER.md)
