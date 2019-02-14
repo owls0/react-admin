@@ -175,6 +175,7 @@ function getConfigFromContent(content) {
             // 匹配到了
             if (match) {
                 result[key] = block[1];
+                break;
             }
         }
     });

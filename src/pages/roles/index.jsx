@@ -6,7 +6,7 @@ import config from '@/commons/config-hoc';
 import RoleEdit from './RoleEdit';
 
 @config({
-    path: '/example/roles',
+    path: '/roles',
 })
 export default class UserCenter extends Component {
     state = {

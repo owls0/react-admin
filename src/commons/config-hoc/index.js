@@ -63,9 +63,11 @@ export default (options) => {
                 this.initFrame();
 
                 const {pathname, search} = window.location;
-                const currentPath = `${pathname}${search}`;
+                const currentPath = window.decodeURIComponent(`${pathname}${search}`);
 
                 this.tabShowToken = PubSub.subscribe('tab-show', (msg, targetPath) => {
+                    targetPath = window.decodeURIComponent(targetPath);
+
                     if (currentPath === targetPath) {
                         // 框架级的数据可能被改了，重新显示之后，根据当前页面的设置，再改回来
                         this.initFrame();
@@ -75,6 +77,8 @@ export default (options) => {
                 });
 
                 this.tabHideToken = PubSub.subscribe('tab-hide', (msg, targetPath) => {
+                    targetPath = window.decodeURIComponent(targetPath);
+
                     if (currentPath === targetPath && this.onHide) {
                         this.onHide();
                     }
@@ -123,7 +127,7 @@ export default (options) => {
                     page.setBreadcrumbs(nextBreadcrumbs);
                 }
 
-                if (appendBreadcrumbs && appendBreadcrumbs.length) {
+                if (Array.isArray(appendBreadcrumbs) && appendBreadcrumbs.length) {
                     page.appendBreadcrumbs(appendBreadcrumbs);
                 }
 

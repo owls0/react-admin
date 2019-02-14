@@ -12,7 +12,7 @@ import {
 import config from '@/commons/config-hoc';
 
 @config({
-    path: '/example/users',
+    path: '/users',
 })
 export default class UserCenter extends Component {
     state = {
@@ -90,7 +90,7 @@ export default class UserCenter extends Component {
                 const items = [
                     {
                         label: '编辑',
-                        onClick: () => this.props.history.push(`/example/users/_/UserEdit/${id}?name=${name}`),
+                        onClick: () => this.props.history.push(`/users/_/UserEdit/${id}?name=${name}`),
                     },
                     {
                         label: '删除',
@@ -146,6 +146,7 @@ export default class UserCenter extends Component {
 
     handleAdd = () => {
         // TODO
+        this.props.history.push('/users/_/UserEdit/:id');
     };
 
     render() {

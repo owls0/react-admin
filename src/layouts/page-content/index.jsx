@@ -11,7 +11,7 @@ import {connect} from '../../models/index';
  * 1. 自动判断是否含有FixBottom，并为之腾出空间
  * 1. 是否含有公共footer
  */
-@connect(state => ({loading: state.page.loading}))
+@connect(state => ({pageLoading: state.page.loading}))
 export default class PageContent extends Component {
     static propTypes = {
         footer: PropTypes.bool,
@@ -26,7 +26,7 @@ export default class PageContent extends Component {
     }
 
     render() {
-        const {footer, loading, children, action, className, ...others} = this.props;
+        const {footer, loading, pageLoading, children, action, className, ...others} = this.props;
 
         let hasFixBottom = false;
         React.Children.map(children, item => {
@@ -40,7 +40,7 @@ export default class PageContent extends Component {
 
         return (
             <div style={rootStyle} styleName="page-content-root">
-                <div styleName="page-loading" style={{display: loading ? 'block' : 'none'}}>
+                <div styleName="page-loading" style={{display: loading || pageLoading ? 'block' : 'none'}}>
                     <Spin spinning size="large"/>
                 </div>
                 <div styleName="page-content" className={className} {...others} >{children}</div>

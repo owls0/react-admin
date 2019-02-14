@@ -23,8 +23,8 @@ export default function getMenus(userId) {
         {key: 'antDesign', local: 'antDesign', text: 'Ant Design 官网', icon: 'ant-design', url: 'https://ant-design.gitee.io', order: 2000},
         {key: 'baiDu', local: 'baiDu', text: '百度官网', icon: 'google', url: 'https://www.baidu.com', target: '_blank', order: 1200},
         {key: 'ajax', local: 'ajax', text: 'ajax请求', icon: 'api', path: '/example/ajax', order: 1000},
-        {key: 'user', local: 'users', text: '用户列表', icon: 'user', path: '/example/users', order: 900},
-        {key: 'role', local: 'roles', text: '角色列表 ', icon: 'team', path: '/example/roles', order: 800},
+        {key: 'user', local: 'users', text: '用户列表', icon: 'user', path: '/users', order: 900},
+        {key: 'role', local: 'roles', text: '角色列表 ', icon: 'team', path: '/roles', order: 800},
         {key: 'page404', local: 'page404', text: '404页面不存', icon: 'file-search', path: '/404', order: 700},
         {key: 'component', local: 'component', text: '组件', icon: 'ant-design', order: 700},
     ].concat(antdMenus));

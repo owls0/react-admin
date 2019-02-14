@@ -52,7 +52,7 @@ export default class KeepAuthRoute extends React.Component {
                     // 如果页面现实tabs，或者启用了keep page alive 需要对tabs进行操作
                     if (tabsShow || keepPage || keepAliveRoutes.length) {
                         const {pathname, search} = props.location;
-                        const currentPath = `${pathname}${search}`;
+                        const currentPath = window.decodeURIComponent(`${pathname}${search}`);
 
                         let currentTab = tabs.find(item => item.path === currentPath);
                         let nextActiveTab = tabs.find(item => item.nextActive);

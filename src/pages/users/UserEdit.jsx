@@ -1,23 +1,40 @@
 import React, {Component} from 'react';
-import {Form, Input, Button} from 'antd';
+import {Form, Button} from 'antd';
 import config from '@/commons/config-hoc';
+import {FormElement} from "@/library/antd";
 import PageContent from '@/layouts/page-content';
 
 @config({
-    path: '/example/users/_/UserEdit/:id',
+    path: '/users/_/UserEdit/:id',
     keepAlive: true,
     query: true,
+    ajax: true,
     title: (props) => {
-        const {query} = props;
-        return {text: `用户编辑-${query.name}`, icon: 'edit'};
+        const {query, match: {params}} = props;
+        if (params.id && params.id !== ':id') {
+            return {text: `用户编辑-${query.name}`, icon: 'edit'};
+        }
+
+        return {text: '添加用户', icon: 'user-add'};
+
     },
     breadcrumbs: (props) => {
         const {query, match: {params}} = props;
-        return [
-            {key: 0, local: 'userEdit', icon: 'user', text: '用户编辑'},
-            {key: 1, text: params.id},
-            {key: 2, text: query.name},
+        const breadcrumbs = [
+            {key: 'home', local: 'home', text: '首页', icon: 'home', path: '/'},
+            {key: 'users', local: 'users', text: '用户列表', icon: 'user', path: '/users'},
         ];
+
+        if (params.id && params.id !== ':id') {
+            return breadcrumbs.concat([
+                {key: 0, local: 'userEdit', icon: 'edit', text: '编辑用户'},
+                {key: 2, text: query.name},
+            ]);
+        }
+
+        return breadcrumbs.concat([
+            {key: 'userAdd', local: 'userAdd', icon: 'user-add', text: '添加用户'},
+        ]);
     },
 })
 @Form.create()
@@ -33,15 +50,47 @@ export default class UserEdit extends Component {
         });
     }
 
+    state = {
+        loading: false,
+        data: {},
+    };
+
     componentDidMount() {
         console.log('UserEdit.js componentDidMount');
+        this.fetchData();
     }
+
+    fetchData = () => {
+        const {match: {params: {id}}, query: {name}} = this.props;
+
+        if (id && id !== ':id') {
+            // 修改
+
+            // TODO 根据id获取用户
+
+            this.setState({loading: true});
+            setTimeout(() => {
+                this.setState({data: {id, name, age: 23}});
+
+                this.setState({loading: false});
+            }, 500);
+        }
+    };
 
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
+                const {id} = values;
+                const ajax = id ? this.props.ajax.put : this.props.ajax.post;
+
+                this.setState({loading: true});
+                ajax('/users', values)
+                    .then(() => {
+
+                    })
+                    .finally(() => this.setState({loading: false}))
             }
         });
     };
@@ -53,70 +102,54 @@ export default class UserEdit extends Component {
 
     render() {
         console.log('render UserEdit.jsx');
-        const {query, match: {params: {id}}} = this.props;
-        const {getFieldDecorator} = this.props.form;
+        const {
+            query,
+            form,
+        } = this.props;
 
-        const formItemLayout = {
-            labelCol: {
-                xs: {span: 24},
-                sm: {span: 4},
-            },
-            wrapperCol: {
-                xs: {span: 24},
-                sm: {span: 20},
-            },
-        };
+        const {loading, data} = this.state;
 
-        const tailFormItemLayout = {
-            wrapperCol: {
-                xs: {
-                    span: 24,
-                    offset: 0,
-                },
-                sm: {
-                    span: 20,
-                    offset: 4,
-                },
-            },
-        };
+        const labelWidth = 100;
 
         return (
-            <PageContent style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                <h2>UserEdit {query.name}</h2>
+            <PageContent loading={loading} style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                <h2>{data.id ? `编辑用户-${query.name}` : '添加用户'}</h2>
                 <Form style={{width: 300}} onSubmit={this.handleSubmit}>
-                    {id ? getFieldDecorator('id', {initialValue: id})(<Input type="hidden"/>) : null}
-                    <Form.Item
-                        {...formItemLayout}
+                    {data.id ? <FormElement form={form} type="hidden" field="id" decorator={{initialValue: data.id}}/> : null}
+                    <FormElement
+                        form={form}
                         label="姓名"
-                    >
-                        {getFieldDecorator('name', {
+                        labelWidth={labelWidth}
+                        placeholder="请输入姓名"
+                        type="input"
+                        field="name"
+                        decorator={{
+                            initialValue: data.name,
                             rules: [
-                                {
-                                    required: true, message: '请输入姓名！',
-                                },
+                                {required: true, message: '请输入姓名！'},
                             ],
-                        })(
-                            <Input/>
-                        )}
-                    </Form.Item>
-                    <Form.Item
-                        {...formItemLayout}
+                        }}
+                    />
+                    <FormElement
+                        form={form}
                         label="年龄"
-                    >
-                        {getFieldDecorator('age', {
+                        type="input"
+                        field="number"
+                        min={0}
+                        step={1}
+                        labelWidth={labelWidth}
+                        placeholder="请输入年龄"
+                        decorator={{
+                            initialValue: data.age,
                             rules: [
-                                {
-                                    required: true, message: '请输入年龄！',
-                                },
+                                {required: true, message: '请输入年龄！'},
                             ],
-                        })(
-                            <Input/>
-                        )}
-                    </Form.Item>
-                    <Form.Item {...tailFormItemLayout}>
+                        }}
+                    />
+                    <div style={{paddingLeft: labelWidth}}>
                         <Button type="primary" htmlType="submit">提交</Button>
                         <Button style={{marginLeft: 8}} onClick={this.handleReset}>重置</Button>
-                    </Form.Item>
+                    </div>
                 </Form>
             </PageContent>
         );

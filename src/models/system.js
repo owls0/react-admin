@@ -70,14 +70,21 @@ export default {
             if (tab.active) {
                 const removeTabPath = tab.path;
                 const currentIndex = tabs.findIndex(item => item.path === removeTabPath);
-                let nextActiveIndex = 0;
+                let nextActiveIndex = void 0;
 
-                if (currentIndex === tabs.length - 1) {
-                    // 当前标签已经是最后一个了，删除后选中上一个
-                    nextActiveIndex = currentIndex - 1;
-                } else {
-                    // 当前tab标签后面还有标签，删除后选中下一个标签
-                    nextActiveIndex = currentIndex + 1;
+                if (removeTabPath.indexOf('/_/') !== -1) {
+                    nextActiveIndex = tabs.findIndex(item => item.path === removeTabPath.split('/_/')[0]);
+                }
+
+                if (nextActiveIndex === void 0) {
+                    nextActiveIndex = 0;
+                    if (currentIndex === tabs.length - 1) {
+                        // 当前标签已经是最后一个了，删除后选中上一个
+                        nextActiveIndex = currentIndex - 1;
+                    } else {
+                        // 当前tab标签后面还有标签，删除后选中下一个标签
+                        nextActiveIndex = currentIndex + 1;
+                    }
                 }
 
                 if (tabs[nextActiveIndex]) {
