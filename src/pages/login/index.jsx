@@ -16,6 +16,7 @@ function hasErrors(fieldsError) {
     path: '/login',
     noFrame: true,
     noAuth: true,
+    keepAlive: false,
     connect(state) {
         return {local: state.system.i18n.login}
     },

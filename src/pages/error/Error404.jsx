@@ -5,6 +5,7 @@ import './style.less';
 
 @config({
     router: true,
+    keepAlive: false,
     connect: state => ({
         local: state.system.i18n,
     }),
