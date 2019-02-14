@@ -20,6 +20,7 @@ export default {
         users: 'User List',
         userEdit: 'User Edit',
         roles: 'Role List',
+        modifyPassword: 'Modify Password',
         setting: 'Setting',
         logout: 'LogOut',
         ajax: 'Ajax',

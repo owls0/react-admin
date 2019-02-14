@@ -49,14 +49,14 @@ export default class RoleEdit extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const {visible: prevVisible} = prevProps;
         const {visible, form: {resetFields}} = this.props;
 
         // 打开弹框
-        if (!prevVisible && visible) {
+        if (!prevProps.visible && visible) {
             // 重置表单，接下来填充新的数据
             resetFields();
 
+            // 重新获取数据
             this.fetchData();
         }
     }
@@ -125,7 +125,8 @@ export default class RoleEdit extends Component {
     }
 
     handleOk = () => {
-        const {selectedRowKeys, halfSelectedRowKeys} = this.state;
+        const {loading, selectedRowKeys, halfSelectedRowKeys} = this.state;
+        if (loading) return;
         const {onOk, form: {validateFieldsAndScroll}} = this.props;
 
         validateFieldsAndScroll((err, values) => {

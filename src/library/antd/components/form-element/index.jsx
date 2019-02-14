@@ -134,6 +134,14 @@ export default class FormElement extends Component {
             elementStyle = {...elementStyle, ...others.style};
         }
 
+        if (others.placeholder === void 0) {
+            if (isInputLikeElement(type)) {
+                others.placeholder = `请输入${label}`;
+            } else {
+                others.placeholder = `请选择${label}`;
+            }
+        }
+
         return (
             <div
                 style={{display: type === 'hidden' ? 'none' : 'block'}}

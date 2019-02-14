@@ -10,7 +10,7 @@ const primaryColor = getItem('primaryColor') || theme['@primary-color'];
 export default {
     initialState: {
         loading: false,             // 全局loading
-        loginUser: null,            // 当前登录用户
+        loginUser: void 0,          // 当前登录用户
         permissions: [],            // 当前登录用户权限
         local: defaultLang.local,   // 默认语言
         i18n: defaultLang.i18n,     // 默认语言集

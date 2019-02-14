@@ -20,6 +20,7 @@ export default {
         users: '用户列表',
         userEdit: '用户编辑',
         roles: '角色列表',
+        modifyPassword: '修改密码',
         setting: '设置',
         logout: '退出登录',
         ajax: 'ajax请求',

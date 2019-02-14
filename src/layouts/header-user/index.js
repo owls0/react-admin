@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import {toLogin, getLoginUser} from '@/commons';
 import {connect} from '@/models';
 import {UserAvatar} from '@/library/antd';
+import ModifyPassword from './ModifyPassword';
 import './style.less';
 
 const Item = Menu.Item;
@@ -13,10 +14,19 @@ export default class HeaderUser extends Component {
     static defaultProps = {
         theme: 'default',
     };
+
+    state = {
+        passwordVisible: false,
+    };
+
     handleMenuClick = ({key}) => {
         if (key === 'logout') {
             // TODO 发送请求退出登录
             toLogin();
+        }
+
+        if (key === 'modifyPassword') {
+            this.setState({passwordVisible: true});
         }
     };
 
@@ -29,6 +39,7 @@ export default class HeaderUser extends Component {
 
         const menu = (
             <Menu styleName="menu" theme={theme} selectedKeys={[]} onClick={this.handleMenuClick}>
+                <Item key="modifyPassword"><Icon type="edit"/>{local.menu.modifyPassword}</Item>
                 <Item><Link to="/settings"><Icon type="setting"/>{local.menu.setting}</Link></Item>
                 {process.env.NODE_ENV === 'development' ? (
                     <Item><Link to="/menu-permission"><Icon type="lock"/>{local.menu.menus}</Link></Item>
@@ -50,6 +61,12 @@ export default class HeaderUser extends Component {
                         <Icon type="caret-down"/>
                     </span>
                 </Dropdown>
+
+                <ModifyPassword
+                    visible={this.state.passwordVisible}
+                    onOk={() => this.setState({passwordVisible: false})}
+                    onCancel={() => this.setState({passwordVisible: false})}
+                />
             </div>
         );
     }
