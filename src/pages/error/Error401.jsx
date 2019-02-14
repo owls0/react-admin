@@ -41,15 +41,16 @@ export default class Error401 extends Component {
         const {history, local} = this.props;
         const {time} = this.state;
         return (
-            <div styleName="root">
-                <div styleName="header">
-                    <h1>401</h1>
-                    <h3>{local.errorPage.needLogin}</h3>
+            <div styleName="root error401">
+                <div styleName="container">
+                    <div styleName="header">
+                        <h3>{local.errorPage.needLogin}</h3>
+                    </div>
+                    <p styleName="intro">
+                        {local.errorPage.redirectTo}<Link to="/login"> {local.menu.login}({time}) </Link>
+                        {history.length >= 2 ? <span>{local.errorPage.orReturn} <a onClick={this.handleGoBack}>{local.errorPage.previousStep}</a></span> : null}
+                    </p>
                 </div>
-                <p styleName="intro">
-                    {local.errorPage.redirectTo}<Link to="/login"> {local.menu.login}({time}) </Link>
-                    {history.length >= 2 ? <span>{local.errorPage.orReturn} <a onClick={this.handleGoBack}>{local.errorPage.previousStep}</a></span> : null}
-                </p>
             </div>
         );
     }

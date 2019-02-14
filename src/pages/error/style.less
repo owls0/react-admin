@@ -8,19 +8,41 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background: #fff;
     z-index: 99999;
 }
 
-.header {
-    text-align: center;
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+    bottom: 50px;
 
-    h1 {
-        margin: 0;
-        font-size: 88px;
+    .header {
+        text-align: center;
+
+        h1 {
+            margin: 0;
+            font-size: 88px;
+        }
+    }
+
+    .intro {
+        margin-top: 16px;
     }
 }
 
-.intro {
-    margin-top: 16px;
+
+.error404 {
+    background: url("./404.jpg") no-repeat center #fff;
+    background-size: contain;
+}
+
+.error401 {
+    background: url("./401.jpg") no-repeat center #fff;
+    background-size: contain;
+
+    .container {
+        bottom: 100px;
+    }
 }

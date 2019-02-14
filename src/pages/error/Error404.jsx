@@ -38,15 +38,16 @@ export default class Error404 extends Component {
         const {history, local} = this.props;
         const {time} = this.state;
         return (
-            <div styleName="root">
-                <div styleName="header">
-                    <h1>404</h1>
-                    <h3>{local.errorPage.pageNotFound}</h3>
+            <div styleName="root error404">
+                <div styleName="container">
+                    <div styleName="header">
+                        <h3>{local.errorPage.pageNotFound}</h3>
+                    </div>
+                    <p styleName="intro">
+                        {local.errorPage.redirectTo}<Link to="/"> {local.menu.home} </Link>
+                        {history.length >= 2 ? <span>{local.errorPage.orReturn} <a onClick={this.handleGoBack}>{local.errorPage.previousStep}（{time}）</a></span> : null}
+                    </p>
                 </div>
-                <p styleName="intro">
-                    {local.errorPage.redirectTo}<Link to="/"> {local.menu.home} </Link>
-                    {history.length >= 2 ? <span>{local.errorPage.orReturn} <a onClick={this.handleGoBack}>{local.errorPage.previousStep}（{time}）</a></span> : null}
-                </p>
             </div>
         );
     }
