@@ -1,9 +1,6 @@
-import logo from './logo.svg';
-
 export default {
     application: {
-        name: '管理系统架构',
-        logo,
+        name: 'React Admin',
     },
     ajaxTip: {
         success: '成功',

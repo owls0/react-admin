@@ -87,7 +87,6 @@ export default class Header extends Component {
                     <Link to="/">
                         <Logo
                             min={sideCollapsed}
-                            logo={i18n?.application?.logo}
                             title={i18n?.application?.name}
                         />
                     </Link>
