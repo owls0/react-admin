@@ -25,6 +25,9 @@ export default class Error401 extends Component {
     };
 
     componentDidMount() {
+        this.bodyOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+
         this.sI = setInterval(() => {
             const time = this.state.time - 1;
 
@@ -36,6 +39,7 @@ export default class Error401 extends Component {
 
     componentWillUnmount() {
         clearInterval(this.sI);
+        document.body.style.overflow = this.bodyOverflow;
     }
 
     render() {
