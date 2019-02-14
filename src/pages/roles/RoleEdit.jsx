@@ -19,6 +19,31 @@ export default class RoleEdit extends Component {
         menuTreeData: [],
     };
 
+    columns = [
+        {
+            title: '名称', dataIndex: 'text', key: 'text',
+            render: (value, record) => {
+                const {icon} = record;
+
+                if (icon) return <span><Icon type={icon}/> {value}</span>;
+
+                return value;
+            }
+        },
+        {
+            title: '类型', dataIndex: 'type', key: 'type',
+            render: value => {
+                if (value === '1') return '菜单';
+                if (value === '2') return '功能';
+                // 默认都为菜单
+                return '菜单';
+            }
+        },
+        {title: 'path', dataIndex: 'path', key: 'path'},
+        {title: 'url', dataIndex: 'url', key: 'url'},
+        {title: 'target', dataIndex: 'target', key: 'target'},
+    ];
+
     componentDidMount() {
         this.fetchMenus();
     }
@@ -56,7 +81,7 @@ export default class RoleEdit extends Component {
                     permissions: ['ajax', 'user', 'component', '/example/antd/async-select'],
                 };
 
-                const selectedRowKeys = data.permissions
+                const selectedRowKeys = data.permissions;
 
                 this.setState({data, selectedRowKeys});
 
@@ -105,6 +130,7 @@ export default class RoleEdit extends Component {
 
         validateFieldsAndScroll((err, values) => {
             if (!err) {
+                // 半选、全选都要提交给后端保存
                 const keys = selectedRowKeys.concat(halfSelectedRowKeys);
                 const params = {...values, keys};
                 const {id} = values;
@@ -131,6 +157,7 @@ export default class RoleEdit extends Component {
         if (onCancel) onCancel();
     };
 
+    // 处理选中状态：区分全选、半选
     setSelectedRowKeys = (srk) => {
         let selectedRowKeys = [...srk];
         let halfSelectedRowKeys = [...this.state.halfSelectedRowKeys];
@@ -173,6 +200,37 @@ export default class RoleEdit extends Component {
         this.setState({halfSelectedRowKeys, selectedRowKeys});
     };
 
+    getCheckboxProps = (record) => {
+        const {halfSelectedRowKeys, selectedRowKeys} = this.state;
+        const {key} = record;
+
+        // 半选
+        if (halfSelectedRowKeys.includes(key)) return {checked: false, indeterminate: true};
+
+        // 全选
+        if (selectedRowKeys.includes(key)) return {checked: true, indeterminate: false};
+
+        return {};
+    };
+
+    onSelect = (record, selected) => {
+        const {key} = record;
+        let selectedRowKeys = [...this.state.selectedRowKeys];
+
+        // 选中、反选所有的子节点
+        const keys = getGenerationKeys(this.state.menuTreeData, key);
+        keys.push(key);
+
+        keys.forEach(k => {
+            if (selected) {
+                selectedRowKeys = arrayPush(selectedRowKeys, k);
+            } else {
+                selectedRowKeys = arrayRemove(selectedRowKeys, k);
+            }
+            this.setSelectedRowKeys(selectedRowKeys);
+        })
+    };
+
     render() {
         const {visible, form} = this.props;
         const {loading, data, menuTreeData, selectedRowKeys} = this.state;
@@ -183,7 +241,7 @@ export default class RoleEdit extends Component {
                 width="70%"
                 confirmLoading={loading}
                 visible={visible}
-                title="角色"
+                title={data.id ? '编辑角色' : '添加角色'}
                 onOk={this.handleOk}
                 onCancel={this.handleCancel}
             >
@@ -226,64 +284,12 @@ export default class RoleEdit extends Component {
                     <Table
                         size="small"
                         defaultExpandAllRows
-                        columns={[
-                            {
-                                title: '名称', dataIndex: 'text', key: 'text',
-                                render: (value, record) => {
-                                    const {icon} = record;
-
-                                    if (icon) return <span><Icon type={icon}/> {value}</span>;
-
-                                    return value;
-                                }
-                            },
-                            {
-                                title: '类型', dataIndex: 'type', key: 'type',
-                                render: value => {
-                                    if (value === '1') return '菜单';
-                                    if (value === '2') return '功能';
-                                    // 默认都为菜单
-                                    return '菜单';
-                                }
-                            },
-                            {title: 'path', dataIndex: 'path', key: 'path'},
-                            {title: 'url', dataIndex: 'url', key: 'url'},
-                            {title: 'target', dataIndex: 'target', key: 'target'},
-                        ]}
+                        columns={this.columns}
                         rowSelection={{
                             selectedRowKeys,
-                            onChange: (selectedRowKeys) => {
-                                this.setSelectedRowKeys(selectedRowKeys);
-                            },
-                            getCheckboxProps: (record) => {
-                                const {halfSelectedRowKeys, selectedRowKeys} = this.state;
-                                const {key} = record;
-
-                                // 半选
-                                if (halfSelectedRowKeys.includes(key)) return {checked: false, indeterminate: true};
-
-                                // 全选
-                                if (selectedRowKeys.includes(key)) return {checked: true, indeterminate: false};
-
-                                return {};
-                            },
-                            onSelect: (record, selected) => {
-                                const {key} = record;
-                                let selectedRowKeys = [...this.state.selectedRowKeys];
-
-                                // 选中、反选所有的子节点
-                                const keys = getGenerationKeys(this.state.menuTreeData, key);
-                                keys.push(key);
-
-                                keys.forEach(k => {
-                                    if (selected) {
-                                        selectedRowKeys = arrayPush(selectedRowKeys, k);
-                                    } else {
-                                        selectedRowKeys = arrayRemove(selectedRowKeys, k);
-                                    }
-                                    this.setSelectedRowKeys(selectedRowKeys);
-                                })
-                            },
+                            onChange: this.setSelectedRowKeys,
+                            getCheckboxProps: this.getCheckboxProps,
+                            onSelect: this.onSelect
                         }}
                         dataSource={menuTreeData}
                         pagination={false}
