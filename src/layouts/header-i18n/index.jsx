@@ -19,7 +19,7 @@ export default class HeaderUser extends Component {
     };
 
     render() {
-        const {className, theme, local} = this.props;
+        const {className, theme, local, style} = this.props;
         const menu = (
             <Menu
                 styleName="menu"
@@ -34,6 +34,7 @@ export default class HeaderUser extends Component {
             <div
                 styleName="i18n-select"
                 ref={node => this.root = node}
+                style={style}
             >
                 <Dropdown
                     overlay={menu}
