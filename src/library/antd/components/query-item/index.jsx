@@ -125,6 +125,7 @@ export default class QueryItem extends Component {
                                             <Button
                                                 type="primary"
                                                 htmlType="submit"
+                                                icon="search"
                                             >
                                                 {submitText}
                                             </Button>
@@ -132,6 +133,7 @@ export default class QueryItem extends Component {
                                         {showReset ? (
                                             <Button
                                                 type="ghost"
+                                                icon="rollback"
                                                 onClick={() => form.resetFields()}
                                             >
                                                 {resetText}

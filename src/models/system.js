@@ -70,13 +70,13 @@ export default {
             if (tab.active) {
                 const removeTabPath = tab.path;
                 const currentIndex = tabs.findIndex(item => item.path === removeTabPath);
-                let nextActiveIndex = void 0;
+                let nextActiveIndex = -1;
 
                 if (removeTabPath.indexOf('/_/') !== -1) {
                     nextActiveIndex = tabs.findIndex(item => item.path === removeTabPath.split('/_/')[0]);
                 }
 
-                if (nextActiveIndex === void 0) {
+                if (nextActiveIndex === -1) {
                     nextActiveIndex = 0;
                     if (currentIndex === tabs.length - 1) {
                         // 当前标签已经是最后一个了，删除后选中上一个
@@ -94,6 +94,7 @@ export default {
 
             tabs.splice(closeTabIndex, 1);
 
+            // 关闭的是最后一个，默认打开首页
             if (!tabs.length) return {tabs: [{path: '/', nextActive: true}]};
 
             return {tabs: [...tabs]};

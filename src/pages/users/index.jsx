@@ -170,7 +170,7 @@ export default class UserCenter extends Component {
                         loadOptions={this.fetchOptions}
                         items={this.queryItems}
                         onSubmit={params => this.setState({params}, this.handleSearch)}
-                        extra={<div><Button type="primary">如果你想把添加放到这里</Button></div>}
+                        extra={<Button type="primary" icon="user-add" onClick={this.handleAdd}>添加用户</Button>}
                     />
                 </QueryBar>
 
