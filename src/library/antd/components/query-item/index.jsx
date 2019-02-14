@@ -17,6 +17,7 @@ export default class QueryItem extends Component {
         showSubmit: PropTypes.bool,
         submitText: PropTypes.any,
         showReset: PropTypes.bool,
+        buttonContainerStyle: PropTypes.string,
         resetText: PropTypes.any,
         collapsed: PropTypes.bool,
         items: PropTypes.array,
@@ -77,6 +78,7 @@ export default class QueryItem extends Component {
             collapsed,
             form,
             extra,
+            buttonContainerStyle,
         } = this.props;
 
         return (
@@ -117,11 +119,10 @@ export default class QueryItem extends Component {
                                         </div>
                                     );
                                 })}
-                                {index === items.length - 1 && (showSubmit || showReset) ? (
-                                    <div className="query-item-button-container" style={{paddingTop: '4px'}}>
+                                {index === items.length - 1 && (showSubmit || showReset || extra) ? (
+                                    <div className="query-item-button-container" style={{...buttonContainerStyle, paddingTop: '4px'}}>
                                         {showSubmit ? (
                                             <Button
-                                                style={{marginRight: 8, marginBottom: 16}}
                                                 type="primary"
                                                 htmlType="submit"
                                             >
@@ -130,16 +131,15 @@ export default class QueryItem extends Component {
                                         ) : null}
                                         {showReset ? (
                                             <Button
-                                                style={{marginBottom: 16}}
                                                 type="ghost"
                                                 onClick={() => form.resetFields()}
                                             >
                                                 {resetText}
                                             </Button>
                                         ) : null}
+                                        {extra}
                                     </div>
                                 ) : null}
-                                {index === items.length - 1 && extra}
                             </div>
                         );
                     })
