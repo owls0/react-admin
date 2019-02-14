@@ -234,10 +234,32 @@ export function getNodeByKey(treeData, key) {
 }
 
 /**
+ * 根据key查找后代元素的key
+ * @param {Array} treeData 树状结构数据
+ * @param {String} key
+ * @returns {*[]} 根据key查找到的所有后代节点key
+ */
+export function getGenerationKeys(treeData, key) {
+    const node = getNodeByKey(treeData, key);
+    const keys = [];
+    const loop = (node) => {
+        const {key, children} = node;
+        if (children?.length) {
+            children.forEach(loop);
+        } else {
+            keys.push(key);
+        }
+    };
+    loop(node);
+
+    return keys.filter(item => item !== key);
+}
+
+/**
  * 根据key查找所有后代元素
  * @param {Array} treeData 树状结构数据
  * @param {String} key
- * * @returns {Array} 根据key查找到的所有后代节点
+ * @returns {Array} 根据key查找到的所有后代节点
  */
 export function getGenerationalNodesByKey(treeData, key) {
     const node = getNodeByKey(treeData, key);

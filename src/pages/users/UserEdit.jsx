@@ -84,7 +84,7 @@ export default class UserEdit extends Component {
             <PageContent style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <h2>UserEdit {query.name}</h2>
                 <Form style={{width: 300}} onSubmit={this.handleSubmit}>
-                    {getFieldDecorator('id', {initialValue: id})(<Input type="hidden"/>)}
+                    {id ? getFieldDecorator('id', {initialValue: id})(<Input type="hidden"/>) : null}
                     <Form.Item
                         {...formItemLayout}
                         label="姓名"

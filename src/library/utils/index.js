@@ -247,6 +247,21 @@ export function arrayRemoveAll(arr, items) {
 }
 
 /**
+ * 加入元素到数组中，如果已存在就不添加了
+ * @param array
+ * @param item
+ * @returns {...*[]}
+ */
+export function arrayPush(array, item) {
+    if (!array || !Array.isArray(array)) return array;
+
+    const arr = [...array];
+    if (!arr.includes(item)) arr.push(item);
+
+    return arr;
+}
+
+/**
  * 根据指定keyPath 添加元素
  * @param obj 要操作的数据
  * @param {string} keyPath 类似于：a.b.c，就会把value赋值给c

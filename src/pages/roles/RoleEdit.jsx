@@ -3,7 +3,8 @@ import {Modal, Form, Spin, Table, Icon, Row, Col} from 'antd';
 import config from '@/commons/config-hoc';
 import {FormElement} from '@/library/antd';
 import localMenus from "@/menus";
-import {convertToTree, getGenerationsByKey} from "@/library/utils/tree-utils";
+import {convertToTree, getGenerationKeys} from "@/library/utils/tree-utils";
+import {arrayRemove, arrayPush} from '@/library/utils';
 
 @config({
     ajax: true,
@@ -15,7 +16,6 @@ export default class RoleEdit extends Component {
         data: {},
         selectedRowKeys: [],
         halfSelectedRowKeys: [],
-        menus: [],
         menuTreeData: [],
     };
 
@@ -24,38 +24,47 @@ export default class RoleEdit extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const {roleId: prevRoleId} = prevProps;
-        const {roleId, form: {resetFields}} = this.props;
-        if (prevRoleId !== roleId) {
+        const {visible: prevVisible} = prevProps;
+        const {visible, form: {resetFields}} = this.props;
+
+        // 打开弹框
+        if (!prevVisible && visible) {
+            // 重置表单，接下来填充新的数据
             resetFields();
 
-            if (!roleId) {
-                // 添加操作
-                this.setState({data: {}, selectedRowKeys: []});
+            this.fetchData();
+        }
+    }
 
-            } else {
-                // 修改操作
-                // TODO 根据id获取数据
-                this.setState({loading: true});
-                setTimeout(() => {
-                    const data = {
-                        id: roleId,
-                        name: `角色名称${roleId}`,
-                        description: `角色描述${roleId}`,
-                        permissions: ['ajax', 'user', 'component', '/example/antd/async-select'],
-                    };
+    fetchData() {
+        const {roleId} = this.props;
 
-                    const selectedRowKeys = data.permissions;
+        if (!roleId) {
+            // 添加操作
+            this.setState({data: {}, selectedRowKeys: []});
 
-                    // TODO 如果不是所有的子级都选中，删除父级的key，父级为半选状态
+        } else {
+            // 修改操作
 
-                    this.setState({data, selectedRowKeys});
+            // TODO 根据id 发送ajax请求获取数据
+            this.setState({loading: true});
+            setTimeout(() => {
+                const data = {
+                    id: roleId,
+                    name: `角色名称${roleId}`,
+                    description: `角色描述${roleId}`,
+                    permissions: ['ajax', 'user', 'component', '/example/antd/async-select'],
+                };
 
-                    this.setSelectedRowKeys(selectedRowKeys);
+                const selectedRowKeys = data.permissions
 
-                    this.setState({loading: false});
-                }, 500);
-            }
+                this.setState({data, selectedRowKeys});
+
+                // 如果不是所有的子级都选中，删除父级的key，父级为半选状态
+                this.setSelectedRowKeys(selectedRowKeys);
+                this.setState({loading: false});
+
+            }, 500);
         }
     }
 
@@ -76,7 +85,7 @@ export default class RoleEdit extends Component {
 
             const menuTreeData = convertToTree(orderedData);
 
-            this.setState({menus: orderedData, menuTreeData});
+            this.setState({menuTreeData});
         });
         /*
         // TODO 获取所有的菜单，不区分用户
@@ -92,7 +101,7 @@ export default class RoleEdit extends Component {
 
     handleOk = () => {
         const {selectedRowKeys, halfSelectedRowKeys} = this.state;
-        const {onOk, form: {resetFields, validateFieldsAndScroll}} = this.props;
+        const {onOk, form: {validateFieldsAndScroll}} = this.props;
 
         validateFieldsAndScroll((err, values) => {
             if (!err) {
@@ -111,7 +120,6 @@ export default class RoleEdit extends Component {
                 ajax('/roles', params)
                     .then(() => {
                         if (onOk) onOk();
-                        resetFields();
                     })
                     .finally(() => this.setState({loading: false}));
             }
@@ -126,45 +134,41 @@ export default class RoleEdit extends Component {
     setSelectedRowKeys = (srk) => {
         let selectedRowKeys = [...srk];
         let halfSelectedRowKeys = [...this.state.halfSelectedRowKeys];
-
-        const {menuTreeData, menus} = this.state;
+        const {menuTreeData} = this.state;
 
         const loop = (dataSource) => {
             dataSource.forEach(item => {
                 const {children, key} = item;
-                if (children && children.length) {
-                    const unSelected = children.filter(it => !selectedRowKeys.find(sk => sk === it.key));
-                    if (unSelected.length) {
-                        if (!halfSelectedRowKeys.includes(key) && unSelected.length !== children.length) {
-                            halfSelectedRowKeys.push(key);
-                            halfSelectedRowKeys = halfSelectedRowKeys.concat(item.parentKeys);
-                        }
-                    } else {
-                        if (halfSelectedRowKeys.includes(key)) halfSelectedRowKeys = halfSelectedRowKeys.filter(k => k !== key);
-                        if (!selectedRowKeys.includes(key)) selectedRowKeys.push(key);
+                if (children?.length) {
+                    // 所有后代节点
+                    const keys = getGenerationKeys(dataSource, key);
+                    // 未选中节点
+                    const unSelectedKeys = keys.filter(it => !selectedRowKeys.find(sk => sk === it));
+
+                    // 一个也未选中
+                    if (unSelectedKeys.length && unSelectedKeys.length === keys.length) {
+                        halfSelectedRowKeys = arrayRemove(halfSelectedRowKeys, key);
+                        selectedRowKeys = arrayRemove(selectedRowKeys, key);
                     }
+
+                    // 部分选中
+                    if (unSelectedKeys.length && unSelectedKeys.length < keys.length) {
+                        halfSelectedRowKeys = arrayPush(halfSelectedRowKeys, key);
+                        selectedRowKeys = arrayRemove(selectedRowKeys, key);
+                    }
+
+                    // 全部选中了
+                    if (!unSelectedKeys.length && keys.length) {
+                        halfSelectedRowKeys = arrayRemove(halfSelectedRowKeys, key);
+                        selectedRowKeys = arrayPush(selectedRowKeys, key);
+                    }
+
                     loop(children);
                 }
             });
         };
 
         loop(menuTreeData);
-
-        selectedRowKeys = selectedRowKeys.filter(item => !halfSelectedRowKeys.includes(item));
-
-        menus.forEach(item => {
-            const {key} = item;
-            // 包含了自身和所有的后代
-            const nodes = getGenerationsByKey(menus, key);
-            if (nodes && nodes.length > 1) {
-                const keys = nodes.filter(it => it.key !== key).map(it => it.key);
-                const unSelected = keys.filter(it => !selectedRowKeys.includes(it));
-                if (!unSelected || !unSelected.length) {
-                    if (!selectedRowKeys.includes(key)) selectedRowKeys.push(key);
-                    if (halfSelectedRowKeys.includes(key)) halfSelectedRowKeys = halfSelectedRowKeys = halfSelectedRowKeys.filter(k => k !== key);
-                }
-            }
-        });
 
         this.setState({halfSelectedRowKeys, selectedRowKeys});
     };
@@ -175,6 +179,7 @@ export default class RoleEdit extends Component {
         const labelWidth = 100;
         return (
             <Modal
+                destroyOnClose
                 width="70%"
                 confirmLoading={loading}
                 visible={visible}
@@ -184,7 +189,7 @@ export default class RoleEdit extends Component {
             >
                 <Spin spinning={loading}>
                     <Form>
-                        <FormElement form={form} type="hidden" field="id" decorator={{initialValue: data.id}}/>
+                        {data.id ? (<FormElement form={form} type="hidden" field="id" decorator={{initialValue: data.id}}/>) : null}
                         <Row>
                             <Col span={10}>
                                 <FormElement
@@ -262,22 +267,22 @@ export default class RoleEdit extends Component {
 
                                 return {};
                             },
-                            onSelect: (record, selected, selectedRows) => {
+                            onSelect: (record, selected) => {
                                 const {key} = record;
                                 let selectedRowKeys = [...this.state.selectedRowKeys];
+
                                 // 选中、反选所有的子节点
-                                const nodes = getGenerationsByKey(this.state.menus, key);
-                                if (nodes && nodes.length) {
-                                    nodes.forEach(item => {
-                                        const {key} = item;
-                                        if (selected) {
-                                            if (!selectedRowKeys.includes(key)) selectedRowKeys.push(key);
-                                        } else {
-                                            if (selectedRowKeys.includes(key)) selectedRowKeys = selectedRowKeys.filter(it => it !== key);
-                                        }
-                                        this.setSelectedRowKeys(selectedRowKeys);
-                                    })
-                                }
+                                const keys = getGenerationKeys(this.state.menuTreeData, key);
+                                keys.push(key);
+
+                                keys.forEach(k => {
+                                    if (selected) {
+                                        selectedRowKeys = arrayPush(selectedRowKeys, k);
+                                    } else {
+                                        selectedRowKeys = arrayRemove(selectedRowKeys, k);
+                                    }
+                                    this.setSelectedRowKeys(selectedRowKeys);
+                                })
                             },
                         }}
                         dataSource={menuTreeData}
