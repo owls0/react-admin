@@ -10,7 +10,8 @@
 - 开发人员可以通过修改`src/models/settings.js`指定布局方式；
 
 ## 不需要导航
-有些页面可能不需要显示导航，可以通过如下方式进行设置：
+有些页面可能不需要显示导航，可以通过如下任意一种方式进行设置：
+
 - 页面配置高级组件
     ```js
     @config({
@@ -31,6 +32,7 @@
 1. tab标签右键操作；
 1. tab页操作API；
 1. tab标签拖拽排序；
+1. 关闭一个二级页面tab，尝试打开它的父级；
 
 ### Tab操作API
 system model（redux）中提供了如下操作tab页的方法：
@@ -62,7 +64,7 @@ export default class SomeComponent extends React.Component {
 ```
 
 
-说明：
+注：
 
 1. tab基于页面地址，每当使用`this.props.history.push('/some/path')`，就会选中或者新打开一个tab页（`/path` 与 `/path?name=Tom`属于不同url地址，会对应两个tab页）；
 1. 没有菜单对应的页面，需要单独设置title，否则tab标签将没有title;

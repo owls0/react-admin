@@ -76,7 +76,7 @@ mock请求：
 - url以/mock/开头的请求
 - /src/mock/url-config.js中配置的请求
 
-```
+```js
 this.props.ajax.get('/mock/users').then(...);
 ```
 如果后端真实接口准备好之后，去掉url中的/mock即可

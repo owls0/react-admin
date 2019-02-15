@@ -21,7 +21,7 @@ export default class RoleEdit extends Component {
 
     columns = [
         {
-            title: '名称', dataIndex: 'text', key: 'text',
+            title: '名称', dataIndex: 'text', key: 'text', width: 250,
             render: (value, record) => {
                 const {icon} = record;
 
@@ -31,7 +31,7 @@ export default class RoleEdit extends Component {
             }
         },
         {
-            title: '类型', dataIndex: 'type', key: 'type',
+            title: '类型', dataIndex: 'type', key: 'type', width: 80,
             render: value => {
                 if (value === '1') return '菜单';
                 if (value === '2') return '功能';
@@ -39,13 +39,14 @@ export default class RoleEdit extends Component {
                 return '菜单';
             }
         },
-        {title: 'path', dataIndex: 'path', key: 'path'},
+        {title: 'path', dataIndex: 'path', key: 'path', width: 150},
         {title: 'url', dataIndex: 'url', key: 'url'},
-        {title: 'target', dataIndex: 'target', key: 'target'},
+        {title: 'target', dataIndex: 'target', key: 'target', width: 100},
     ];
 
     componentDidMount() {
         this.fetchMenus();
+        this.windowHeight = document.body.clientHeight;
     }
 
     componentDidUpdate(prevProps) {
@@ -294,6 +295,7 @@ export default class RoleEdit extends Component {
                         }}
                         dataSource={menuTreeData}
                         pagination={false}
+                        scroll={{y: this.windowHeight ? this.windowHeight - 390 : 400}}
                     />
                 </Spin>
             </Modal>

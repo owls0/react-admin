@@ -53,53 +53,15 @@ export default {
         return {tabs};
     },
 
+    closeCurrentTab: (arg, state) => {
+        const tabs = [...state.tabs];
+        const tab = tabs.find(item => item.active);
+        return closeTabByPath(tab.path, tabs);
+    },
+
     closeTab: (targetPath, state) => {
         const tabs = [...state.tabs];
-        let closeTabIndex = 0;
-
-        const tab = tabs.find((item, index) => {
-            if (item.path === targetPath) {
-                closeTabIndex = index;
-                return true;
-            }
-            return false;
-        });
-
-        if (tab) {
-            // 关闭的是当前标签
-            if (tab.active) {
-                const removeTabPath = tab.path;
-                const currentIndex = tabs.findIndex(item => item.path === removeTabPath);
-                let nextActiveIndex = -1;
-
-                if (removeTabPath.indexOf('/_/') !== -1) {
-                    nextActiveIndex = tabs.findIndex(item => item.path === removeTabPath.split('/_/')[0]);
-                }
-
-                if (nextActiveIndex === -1) {
-                    nextActiveIndex = 0;
-                    if (currentIndex === tabs.length - 1) {
-                        // 当前标签已经是最后一个了，删除后选中上一个
-                        nextActiveIndex = currentIndex - 1;
-                    } else {
-                        // 当前tab标签后面还有标签，删除后选中下一个标签
-                        nextActiveIndex = currentIndex + 1;
-                    }
-                }
-
-                if (tabs[nextActiveIndex]) {
-                    tabs[nextActiveIndex].nextActive = true;
-                }
-            }
-
-            tabs.splice(closeTabIndex, 1);
-
-            // 关闭的是最后一个，默认打开首页
-            if (!tabs.length) return {tabs: [{path: '/', nextActive: true}]};
-
-            return {tabs: [...tabs]};
-        }
-
+        return closeTabByPath(targetPath, tabs);
     },
 
     closeOtherTabs: (targetPath, state) => {
@@ -203,4 +165,52 @@ export default {
      * @returns {{loading: boolean}}
      */
     hideLoading: () => ({loading: false}),
+}
+
+
+function closeTabByPath(targetPath, tabs) {
+    let closeTabIndex = 0;
+
+    const tab = tabs.find((item, index) => {
+        if (item.path === targetPath) {
+            closeTabIndex = index;
+            return true;
+        }
+        return false;
+    });
+
+    if (tab) {
+        // 关闭的是当前标签
+        if (tab.active) {
+            const removeTabPath = tab.path;
+            const currentIndex = tabs.findIndex(item => item.path === removeTabPath);
+            let nextActiveIndex = -1;
+
+            if (removeTabPath.indexOf('/_/') !== -1) {
+                nextActiveIndex = tabs.findIndex(item => item.path === removeTabPath.split('/_/')[0]);
+            }
+
+            if (nextActiveIndex === -1) {
+                nextActiveIndex = 0;
+                if (currentIndex === tabs.length - 1) {
+                    // 当前标签已经是最后一个了，删除后选中上一个
+                    nextActiveIndex = currentIndex - 1;
+                } else {
+                    // 当前tab标签后面还有标签，删除后选中下一个标签
+                    nextActiveIndex = currentIndex + 1;
+                }
+            }
+
+            if (tabs[nextActiveIndex]) {
+                tabs[nextActiveIndex].nextActive = true;
+            }
+        }
+
+        tabs.splice(closeTabIndex, 1);
+
+        // 关闭的是最后一个，默认打开首页
+        if (!tabs.length) return {tabs: [{path: '/', nextActive: true}]};
+
+        return {tabs: [...tabs]};
+    }
 }

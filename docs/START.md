@@ -20,7 +20,7 @@ $ yarn start
 注：会自动打开浏览器，开发构建完成之后，可能需要刷新一下浏览器才能显示页面
 
 ## 生产构建
-```
+```bash
 $ cd /path/to/react-admin
 $ yarn build
 ```

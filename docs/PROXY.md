@@ -1,7 +1,7 @@
 # 开发代理
 开发时，要与后端进行接口对接，可以通过代理与后端进行连接，开发代理配置在`src/setupProxy.js`中编写
 
-```
+```js
 const proxy = require('http-proxy-middleware');
 
 module.exports = function (app) {

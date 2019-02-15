@@ -20,10 +20,6 @@ export default class Error401 extends Component {
         this.props.history.goBack();
     };
 
-    handleToLogin = () => {
-        toLogin();
-    };
-
     componentDidMount() {
         this.bodyOverflow = document.body.style.overflow;
         document.body.style.overflow = 'hidden';
@@ -31,7 +27,7 @@ export default class Error401 extends Component {
         this.sI = setInterval(() => {
             const time = this.state.time - 1;
 
-            if (time === 0) this.handleToLogin();
+            if (time === 0) toLogin();
 
             this.setState({time});
         }, 1000);
@@ -52,7 +48,7 @@ export default class Error401 extends Component {
                         <h3>{local.errorPage.needLogin}</h3>
                     </div>
                     <p styleName="intro">
-                        {local.errorPage.redirectTo}<Link to="/login"> {local.menu.login}({time}) </Link>
+                        {local.errorPage.redirectTo}<a onClick={toLogin}> {local.menu.login}({time}) </a>
                         {history.length >= 2 ? <span>{local.errorPage.orReturn} <a onClick={this.handleGoBack}>{local.errorPage.previousStep}</a></span> : null}
                     </p>
                 </div>

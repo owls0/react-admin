@@ -100,12 +100,12 @@ export default class SomePage extends React.Component {
 显示loading，有两种方式。
 
 1. model方式
-    ```
+    ```js
     this.props.action.page.showLoading();
     this.props.action.page.hideLoading();
     ```
 1. props方式
-    ```
+    ```js
     const {loading} = this.state;
     
     <PageContent loading={loading}>
