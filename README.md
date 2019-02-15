@@ -7,8 +7,11 @@
 
 ## 项目截图
 
-<div style="display: flex">
-    <img src="http://zkboys.github.io/react-admin/imgs/login.jpg" alt="登录"/>
-    <img src="http://zkboys.github.io/react-admin/imgs/home.jpg" alt="首页"/>
-    <img src="http://zkboys.github.io/react-admin/imgs/users.jpg" alt="用户"/>
-</div>
+<table>
+    <tr>
+        <td><img src="http://zkboys.github.io/react-admin/imgs/login.jpg" alt="登录"/></td>
+        <td><img src="http://zkboys.github.io/react-admin/imgs/home.jpg" alt="首页"/></td>
+        <td><img src="http://zkboys.github.io/react-admin/imgs/users.jpg" alt="用户"/></td>
+    </tr>
+</table>
+
