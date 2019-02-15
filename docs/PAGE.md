@@ -81,3 +81,36 @@ export default class SomePage extends React.Component {
     ...
 }
 ```
+
+## 页面容器PageContent
+系统提供了页面的跟节点PageContent，有如下特性：
+
+- 添加了margin padding 样式；
+- 添加了footer；
+- 支持页面loading；
+- 自动判定是否有底部工具条FixBottom组件，为底部工具条腾出空间；
+
+是否显示footer，默认true
+```js
+<PageContent footer={false}>
+    ...
+</PageContent>
+```
+
+显示loading，有两种方式。
+
+1. model方式
+    ```
+    this.props.action.page.showLoading();
+    this.props.action.page.hideLoading();
+    ```
+1. props方式
+    ```
+    const {loading} = this.state;
+    
+    <PageContent loading={loading}>
+        ...
+    </PageContent>
+    ```
+        
+    

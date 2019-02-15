@@ -54,9 +54,12 @@
     @ajaxHoc()
     export default class SomePage extend Component {
         componentDidMount() {
-            sxAjax
-                .get(...)
-                .then(...)
+            sxAjax.post(...).then(...);
+        
+            // 组件卸载或者其他什么情况，需要打算ajax请求，可以用如下方式
+            const ajax = sxAjax.get(...);
+            ajax.then(...).finally(...);
+            ajax.cancel();
         }
         ...
     } 
@@ -91,9 +94,6 @@ this.setState({loading: true});
 this.props.ajax
     .get('/url')
     .then(...)
-    .finally(() => {
-        this.setState({loading: false});
-    });
-
-
+    .finally(() => this.setState({loading: false}));
 ```
+

@@ -14,6 +14,8 @@ import {connect} from '../../models/index';
 @connect(state => ({pageLoading: state.page.loading}))
 export default class PageContent extends Component {
     static propTypes = {
+        loading: PropTypes.bool,
+        pageLoading: PropTypes.bool,
         footer: PropTypes.bool,
     };
 
