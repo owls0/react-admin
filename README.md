@@ -8,14 +8,10 @@
 ## 项目截图
 
 登录：
-[!登录](http://zkboys.github.io/react-admin/imgs/login.jpg)
+![登录](http://zkboys.github.io/react-admin/imgs/login.jpg)
 
 首页：
-[!首页](http://zkboys.github.io/react-admin/imgs/home.jpg)
+![首页](http://zkboys.github.io/react-admin/imgs/home.jpg)
 
 用户：
-[!用户](http://zkboys.github.io/react-admin/imgs/users.jpg)
-
-
-
-
+![用户](http://zkboys.github.io/react-admin/imgs/users.jpg)
