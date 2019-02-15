@@ -13,6 +13,7 @@ export default {
     menu: {
         menus: '菜单&权限',
         home: '首页',
+        document: '文档',
         page404: '404页面不存在',
         login: '登录',
         example: '示例',
@@ -25,7 +26,7 @@ export default {
         logout: '退出登录',
         ajax: 'ajax请求',
         antDesign: 'Ant Design 官网',
-        baiDu: '百度官网',
+        google: '谷歌官网',
 
         component: '组件',
         asyncSelect: '异步下拉',

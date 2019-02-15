@@ -13,6 +13,7 @@ export default {
     menu: {
         menus: 'Menu & Permission',
         home: 'Home',
+        document: 'Document',
         page404: '404 Not Found',
         login: 'Log In',
         example: 'Example',
@@ -25,7 +26,7 @@ export default {
         logout: 'LogOut',
         ajax: 'Ajax',
         antDesign: 'Ant Design',
-        baiDu: 'Bai Du',
+        google: 'Google',
 
         component: 'Component',
         asyncSelect: 'Async Select',
