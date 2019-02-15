@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {Router, Route, Switch} from 'react-router-dom'
-import createBrowserHistory from 'history/createBrowserHistory'
+import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import ReactLoadable from 'react-loadable';
 import {isAuthenticated} from '@/commons';
 import PageFrame from '@/layouts/frame';
@@ -11,7 +10,11 @@ import KeepAuthRoute from './KeepAuthRoute';
 import KeepPage from './KeepPage';
 import routes, {noFrameRoutes, noAuthRoutes} from './routes';
 
-const history = createBrowserHistory();
+// 如果项目挂载到网站的子目录下，可以配置ROUTE_BASE_NAME
+export const ROUTE_BASE_NAME = '/react-admin';
+
+// 直接挂载到域名根目录
+// export const ROUTE_BASE_NAME = '';
 
 // 代码分割处理
 const allRoutes = routes.map(item => {
@@ -28,7 +31,7 @@ export default class AppRouter extends Component {
     render() {
         const {noFrame, noAuth} = this.props.query;
         return (
-            <Router history={history}>
+            <BrowserRouter basename={ROUTE_BASE_NAME}>
                 <div style={{display: 'flex', flexDirection: 'column', position: 'relative', minHeight: '100vh'}}>
                     <Route path="/" render={props => {
                         // 框架组件单独渲染，与其他页面成为兄弟节点，框架组件和具体页面组件渲染互不影响
@@ -77,7 +80,7 @@ export default class AppRouter extends Component {
                         <Route component={Error404}/>
                     </Switch>
                 </div>
-            </Router>
+            </BrowserRouter>
         );
     }
 }

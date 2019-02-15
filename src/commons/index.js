@@ -1,6 +1,7 @@
 import {session} from '@/library/utils/storage';
 import {getNodeByPropertyAndValue, convertToTree, renderNode} from '@/library/utils/tree-utils';
 import pathToRegexp from "path-to-regexp/index";
+import {ROUTE_BASE_NAME} from '@/router/AppRouter';
 
 const CURRENT_USER_KEY = 'current-user';
 
@@ -61,7 +62,7 @@ export function toLogin() {
     sessionStorage.setItem('last-href', window.location.pathname);
 
     // 强制跳转，让浏览器刷新，重置数据
-    window.location.href = loginPath;
+    window.location.href = `${ROUTE_BASE_NAME}${loginPath}`;
 
     return null;
 }
@@ -91,6 +92,7 @@ export function compose(funcs) {
  * @returns {*}
  */
 export function getSelectedMenuByPath(path, menuTreeData) {
+    path = path.replace(ROUTE_BASE_NAME, '');
     let selectedMenu;
     if (menuTreeData) {
         if (path.indexOf('/_') > -1) {

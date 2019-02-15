@@ -336,7 +336,7 @@
 <li>&#x547D;&#x540D;&#x7A7A;&#x95F4;&#xFF08;&#x9632;&#x6B62;&#x6570;&#x636E;&#x3001;&#x65B9;&#x6CD5;&#x547D;&#x540D;&#x51B2;&#x7A81;&#xFF09;&#xFF1A;&#x6570;&#x636E;&#x4E0E;&#x65B9;&#x6CD5;&#xFF0C;&#x90FD;&#x5F52;&#x5C5E;&#x4E8E;&#x5177;&#x4F53;model&#xFF0C;&#x6BD4;&#x5982;&#xFF1A;state.userCenter.xxx&#xFF0C;this.props.action.userCenter.xxx();</li>
 <li>&#x5982;&#x4F55;&#x65B9;&#x4FBF;&#x7684;&#x83B7;&#x53D6;&#x6570;&#x636E;&#xFF1A;connect&#x4E0E;&#x7EC4;&#x4EF6;&#x8FDE;&#x63A5;&#xFF1B;@connect(state =&gt; ({name: state.user.name}));</li>
 <li>&#x5982;&#x4F55;&#x65B9;&#x4FBF;&#x7684;&#x4FEE;&#x6539;&#x6570;&#x636E;&#xFF1A;this.props.action&#x4E2D;&#x65B9;&#x6CD5;&#xFF1B;</li>
-<li>&#x5BA2;&#x6237;&#x7AEF;&#x6570;&#x636E;&#x6301;&#x4E45;&#x5316;&#xFF08;&#x4FDD;&#x5B58;&#x5230;LocalStorage&#x4E2D;&#xFF09;&#xFF1A;syncState&#x914D;&#x7F6E;&#xFF1B;</li>
+<li>&#x5BA2;&#x6237;&#x7AEF;&#x6570;&#x636E;&#x6301;&#x4E45;&#x5316;&#xFF08;&#x4FDD;&#x5B58;&#x5230;LocalStorage&#x4E2D;&#xFF09;&#xFF1A;syncStorage&#x914D;&#x7F6E;&#xFF1B;</li>
 <li>&#x5F02;&#x6B65;&#x6570;&#x636E;&#x5904;&#x7406;&#xFF1A;&#x57FA;&#x4E8E;promise&#x5F02;&#x6B65;&#x5C01;&#x88C5;&#xFF1B;</li>
 <li>&#x8BF7;&#x6C42;&#x9519;&#x8BEF;&#x63D0;&#x793A;&#xFF1A;error&#x5904;&#x7406;&#x5C01;&#x88C5;&#xFF0C;errorTip&#x914D;&#x7F6E;&#xFF0C;&#x81EA;&#x52A8;&#x63D0;&#x793A;&#xFF1B;</li>
 <li>&#x8BF7;&#x6C42;&#x6210;&#x529F;&#x63D0;&#x793A;&#xFF1A;successTip&#x914D;&#x7F6E;&#xFF0C;&#x81EA;&#x52A8;&#x63D0;&#x793A;&#xFF1B;</li>
@@ -419,7 +419,9 @@
     initialState: {
         title: <span class="hljs-string">&apos;&apos;</span>,
         show: <span class="hljs-literal">true</span>,
-        user: {}, 
+        user: {},
+        users: [], 
+        job: {},
         total: <span class="hljs-number">0</span>,
         loading: <span class="hljs-literal">false</span>,
         ...
@@ -431,12 +433,14 @@
     <span class="hljs-comment">// &#x914D;&#x7F6E;&#x90E8;&#x5206;&#x5B58;&#x6570;&#x636E;&#x50A8;&#x5230;localStorage&#x4E2D; </span>
     syncStorage: { 
         titel: <span class="hljs-literal">true</span>,
-        user: {
+        user: { <span class="hljs-comment">// &#x652F;&#x6301;&#x5BF9;&#x8C61;&#x6307;&#x5B9A;&#x5B57;&#x6BB5;&#xFF0C;&#x4EFB;&#x610F;&#x5C42;&#x6B21;</span>
             name: <span class="hljs-literal">true</span>,
             address: {
                 city: <span class="hljs-literal">true</span>,
             },
         },
+        job: <span class="hljs-literal">true</span>,
+        users: [{name: <span class="hljs-literal">true</span>, age: <span class="hljs-literal">true</span>}], <span class="hljs-comment">// &#x652F;&#x6301;&#x6570;&#x7EC4;</span>
     },
 }
 </code></pre>
@@ -621,7 +625,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Model(Redux)","level":"1.10","depth":1,"next":{"title":"国际化","level":"1.11","depth":1,"path":"I18N.md","ref":"I18N.md","articles":[]},"previous":{"title":"导航布局","level":"1.9","depth":1,"path":"LAYOUT.md","ref":"LAYOUT.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"MODEL.md","mtime":"2019-02-11T09:11:44.076Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-14T01:55:42.232Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Model(Redux)","level":"1.10","depth":1,"next":{"title":"国际化","level":"1.11","depth":1,"path":"I18N.md","ref":"I18N.md","articles":[]},"previous":{"title":"导航布局","level":"1.9","depth":1,"path":"LAYOUT.md","ref":"LAYOUT.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"MODEL.md","mtime":"2019-02-15T03:37:20.555Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-15T06:30:07.756Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

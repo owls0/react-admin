@@ -7,6 +7,7 @@ import {ajaxHoc} from '@/commons/ajax';
 import pubSubHoc from '@/library/utils/pub-sub-hoc'
 import eventHoc from '@/library/utils/dom-event-hoc';
 import PubSub from 'pubsub-js'
+import {ROUTE_BASE_NAME} from '@/router/AppRouter';
 
 /**
  * 页面配置高阶组件，整合了多个高阶组件
@@ -63,7 +64,8 @@ export default (options) => {
                 this.initFrame();
 
                 const {pathname, search} = window.location;
-                const currentPath = window.decodeURIComponent(`${pathname}${search}`);
+                let currentPath = window.decodeURIComponent(`${pathname}${search}`);
+                currentPath = currentPath.replace(ROUTE_BASE_NAME, '');
 
                 this.tabShowToken = PubSub.subscribe('tab-show', (msg, targetPath) => {
                     targetPath = window.decodeURIComponent(targetPath);

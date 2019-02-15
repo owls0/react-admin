@@ -56,7 +56,7 @@ export default {
     closeCurrentTab: (arg, state) => {
         const tabs = [...state.tabs];
         const tab = tabs.find(item => item.active);
-        return closeTabByPath(tab.path, tabs);
+        if (tab) return closeTabByPath(tab.path, tabs);
     },
 
     closeTab: (targetPath, state) => {

@@ -5,7 +5,7 @@
 1. 命名空间（防止数据、方法命名冲突）：数据与方法，都归属于具体model，比如：state.userCenter.xxx，this.props.action.userCenter.xxx();
 1. 如何方便的获取数据：connect与组件连接；@connect(state => ({name: state.user.name}));
 1. 如何方便的修改数据：this.props.action中方法；
-1. 客户端数据持久化（保存到LocalStorage中）：syncState配置；
+1. 客户端数据持久化（保存到LocalStorage中）：syncStorage配置；
 1. 异步数据处理：基于promise异步封装；
 1. 请求错误提示：error处理封装，errorTip配置，自动提示；
 1. 请求成功提示：successTip配置，自动提示；
@@ -103,7 +103,9 @@ export default {
     initialState: {
         title: '',
         show: true,
-        user: {}, 
+        user: {},
+        users: [], 
+        job: {},
         total: 0,
         loading: false,
         ...
@@ -115,12 +117,14 @@ export default {
     // 配置部分存数据储到localStorage中 
     syncStorage: { 
         titel: true,
-        user: {
+        user: { // 支持对象指定字段，任意层次
             name: true,
             address: {
                 city: true,
             },
         },
+        job: true,
+        users: [{name: true, age: true}], // 支持数组
     },
 }
 ```

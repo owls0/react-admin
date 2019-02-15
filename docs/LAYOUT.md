@@ -42,6 +42,7 @@ API|说明
 setCurrentTabTitle(title)|设置当前激活的 tab 标题 title: stirng 或 {local, text, icon} local对应 i18n.menu中字段
 refreshTab(targetPath)|刷新targetPath指定的tab页内容（重新渲染）
 refreshAllTab()|刷新所有tab页内容（重新渲染）
+closeCurrentTab()|关闭当前tab页
 closeTab(targetPath)|关闭targetPath对应的tab页
 closeOtherTabs(targetPath)|关闭除了targetPath对应的tab页之外的所有tab页
 closeAllTabs()|关闭所有tab页，系统将跳转首页

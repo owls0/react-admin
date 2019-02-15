@@ -5,6 +5,7 @@ import {setLoginUser} from '@/commons';
 import config from '@/commons/config-hoc';
 import Local from '@/layouts/header-i18n';
 import Color from '@/layouts/header-color-picker';
+import {ROUTE_BASE_NAME} from '@/router/AppRouter';
 import './style.less'
 
 function hasErrors(fieldsError) {
@@ -58,7 +59,7 @@ export default class extends Component {
                         const lastHref = window.sessionStorage.getItem('last-href');
 
                         // 强制跳转 进入系统之后，需要一些初始化工作，需要所有的js重新加载
-                        window.location.href = lastHref || '/';
+                        window.location.href = lastHref || `${ROUTE_BASE_NAME}/`;
                         // this.props.history.push(lastHref || '/');
                     } else {
                         this.setState({message: '用户名或密码错误！'});

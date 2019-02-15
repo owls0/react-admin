@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom'
 import {toLogin} from "@/commons";
 import config from '@/commons/config-hoc';
 import './style.less';
