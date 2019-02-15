@@ -24,7 +24,6 @@
     </tr>
 </table>
 
-
 ## License
 
 React Admin is licensed under the [MIT License](https://github.com/marmelab/react-admin/blob/master/LICENSE.md)
